@@ -1,16 +1,16 @@
 ---
 layout: post
 title: '[EEG] subject variability'
-subtitle: Adversarial
+subtitle: Adversarial discriminative domain adaptation
 date: '2022-01-02'
 categories:
-    - study
+    - project
 tags:
-    - Adversarial
+    - adversarial dicriminative
 comments: true
 pusblished: true
 
 last_modified_at: '2022-01-02'
 ---
 
-# Adversarial 뭐시기
+# Adversarial discriminative domain adaptation
