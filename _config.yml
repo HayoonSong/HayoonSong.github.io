@@ -54,6 +54,8 @@ menu:
     url:               /proejct/
   - title:             Study
     url:               /study/
+  - title:             Solution
+    url:               /solution/          
   - title:             Examples
     url:               /example/
 
@@ -82,7 +84,7 @@ paginate_path:         /:num/
 # ---------------------------------------------------------------------------------------
 
 # theme: jekyll-theme-hydejack
-remote_theme: hydecorp/hydejack@v9.1.5
+remote_theme: hydecorp/hydejack@v9.0.5
 
 
 # Customizaton
@@ -136,11 +138,11 @@ defaults:
       layout:          plain
       sitemap:         false
 
-  # # You can use the following to enable comments on all posts.
-  # - scope:
-  #     type:            posts
-  #   values:
-  #     comments:        true
+  # You can use the following to enable comments on all posts.
+  - scope:
+     type:            posts
+    values:
+      comments:        true
 
   # `jekyll-seo-tag` will mark collection outputs as `BlogPosting`,
   # but we want them to be `WebPage`s:
