@@ -1,7 +1,7 @@
 ---
 layout: post
 title: '[Github Pages Error] The theme could not be found.'
-subtitle: Adversarial discriminative domain adaptation
+subtitle: Github Pages Error
 date: '2022-01-02'
 categories:
     - solution
