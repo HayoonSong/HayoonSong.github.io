@@ -13,7 +13,7 @@ pusblished: true
 last_modified_at: '2022-01-03'
 ---
 
-해당 논문은 unsupervised domain adaptation에 GAN loss function을 도입하였습니다.
+본 논문은 unsupervised domain adaptation에 GAN loss function을 도입하였습니다.
 
 
 ## Overview
