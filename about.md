@@ -9,9 +9,6 @@ redirect_from:
 
 # About
 
-<!--author-->
-
-
 <center>
 <span style=
 "font-size:170%;
