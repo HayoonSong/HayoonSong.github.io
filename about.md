@@ -11,7 +11,7 @@ redirect_from:
 
 <!--author-->
 
-* * *
+
 <center>
 <span style=
 "font-size:170%;
