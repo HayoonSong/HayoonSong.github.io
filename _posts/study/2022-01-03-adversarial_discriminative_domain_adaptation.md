@@ -31,9 +31,19 @@ last_modified_at: '2022-01-03'
 3.  Training 및 test domain의 분포 간 차이를 감소시켜 일반화 성능(generalization performance)을 향상시킬 수 있습니다.
 
 ### Adversarial Discriminative Domain Adaptation (ADDA)
+
+![framwork](https://user-images.githubusercontent.com/89344114/148022821-8ab571d2-3a75-4cc8-b77a-7a3780a9a9dc.png)
+
 *   Discriminative modeling
 *   Untied weights sharing
 *   GAN loss
+
+
+
+
+
+
+
 
 ## Introduction
 
@@ -51,14 +61,18 @@ Solution
     -   Adversarial adaptation: 도메인 판별자(domain discriminator)에 대한 적대적 목적함수(adversarial objective)를 통해 대략적인 도메인 불일치 거리를 최소화하는 방법입니다. GAN과 비슷한 방식으로써 domain adpation에서는 네트워크가 training과 test domain 예제의 분포를 구별할 수 없도록 하기 위해 사용되었습니다.
 
 Proposed method
-Adversarial Discriminative Domain Adaptation (ADDA)
+   
+**Adversarial Discriminative Domain Adaptation (ADDA)**
+![ADDA](https://user-images.githubusercontent.com/89344114/148008371-1c85f795-49c3-4518-924b-ebe3e4be295c.PNG)
+
 1.  Source domain의 label을 활용하여 discriminative representation을 학습합니다.
 2.  Domain-adversarial loss를 통해 학습된 비대칭 매핑(asymmetric ampping)을 활용하여 target data를 동일한 공간에 매핑하는 별도의 인코딩(a separate encoding)을 학습합니다.
 
 Contribution
-1.   MNIST, USPS 및 SVHN 숫자 데이텃에서 SOTA visual adaptation을 달성하였습니다.
-2.  RGB 컬러 이미지에서 깊이 관찰로 객체 분류기를 전송하여 인스턴스 제약 없이 훨씬 더 어려운 cross-modality shifts 사이의 격차를 메울 수 있는 가능성을 테스트하였습니다.
-3. 표준 Office adaptation 데이터셋을 평가하고 ADDA가 competing mehtod 특히 가장 어려운 domain shift에서 강력한 개선을 달성하였습니다.
+:
+*   MNIST, USPS 및 SVHN 숫자 데이텃에서 SOTA visual adaptation을 달성하였습니다.
+*  RGB 컬러 이미지에서 깊이 관찰로 객체 분류기를 전송하여 인스턴스 제약 없이 훨씬 더 어려운 cross-modality shifts 사이의 격차를 메울 수 있는 가능성을 테스트하였습니다.
+* 표준 Office adaptation 데이터셋을 평가하고 ADDA가 competing mehtod 특히 가장 어려운 domain shift에서 강력한 개선을 달성하였습니다.
 
 ## Related work
 
@@ -80,13 +94,57 @@ Labeled source datasets에서 labeled datat가 적거나 존재하지 않은 tar
 
 ***
 
+![image](https://user-images.githubusercontent.com/89344114/148024898-584c37d8-6013-48f6-a32f-11f12db2032e.png)
+
+1.  Pretraining
+    *   Souce classification model의 경우 기본적인 supervised loss를 활용하였습니다.
+    (수식)
+
+2.  Adversarial Adaptation
+    *   Discriminator, D는 데이터 포인트가 source domain에 속하는지 또는 target domain인지를 분류합니다. 따라서 D는 기본적인 supervised loss에 최적화하였습니다. 
+    (수식)
+    *   Source 및 target mappings은 constrained adversrial objective에 최적화되었습니다.
+
 ### Source and target mappings
 
+Source mapping Ms로 supervised learning을 수행할 경우, source recognition에 맞는 최상의 표현을 가져오다는 것은 분명합니다. 그러나, taget daomin의 label이 사용되지 않는다는 것을 가정하면 source와 target mapping 간의 거리를 최소화하는 최선의 방법은 여전히 미해결 문제입니다. 따라서 첫 번째 선택은 이러한 매핑의 특정 매개변수화입니다.
+
+숫자 분류의 경우 standard LeNet model이 될 수 있습니다.
+
+일반적으로 target mappling은 specific functional layer(architecture) 측면에서 source와 일치하지만 다른 방법은 다양한 정규화 기법을 제안했습니다. 이전의 다른 모든 방법들은 source를 사용하여 target mapping parameter를 초기화하였지만, 본 논문에서는 source과 target mapplings 간에 서로 다른 제약조건을 활용하였습니다. 
+
+Constraints의 목표
+: 각 mapping에서 source domain과 target domain 사이의 거리를 최소화하는 동시에 범주를 구분하는 target mapping을 결정적으로 유지하도록 target mapping이 설정되었는지 확인하는 것입니다.
+
+이전의 adversarial daptation methods의 경우 모든 layer들은 constrained되어 정확한 source 및 target mapping 일관성을 적용합니다. 대칭변환(symmetric transformation)을 학습하면 모델의 parameters 수가 줄어듭니다. 그러나 동일한 네트워크가 두 개의 개별 도메인에서 이미지르 처리해야 하므로 최적화 조건이 좋지 않을 수 있습니다.
+
+다른 접근 방식은 대신 제한된 레이어의 하위 집합만을 사용하여 비대칭 변환을 학습하여 부분 정렬을 적용하는 것입니다. 일부 최근 방법은 모델일 각 도메인에 대한 매개변수를 개별적으로 학습할 수 있도록 두 도메인 간에 가중치를 (완전히 또는 부분적으로) 고정하는 것을 선호했습니다.
+
+
 ### Adversarial losses
+
+모든 adversial loss는 표준 classification loss, LadvD를 사용하여 adversarial discriminator를 학습하였습니다.
+
 
 ## Adversarial discriminative domain adaptation
 
 ***
+
+![framwork](https://user-images.githubusercontent.com/89344114/148022821-8ab571d2-3a75-4cc8-b77a-7a3780a9a9dc.png)
+
+### Discriminative modeling
+가정: 확실한 도메인 내 샘플을 생성하는 데 필요한 많은 매개변수가 판별 적응 작업과 관련이 없다.
+=> discriminative base model 선택 및 discriminative space에서 최적화
+=> CoGANs의 한계
+
+![MNIST_USPS](https://user-images.githubusercontent.com/89344114/148022565-b5406602-b6f8-40d2-bd65-783195991744.png)
+
+: MNIST 및 USPS와 같이 source 및 target domain이 매우 유사한 환경에서만 우위를 보였고  더 큰 분포 이동에서는 수렴하는데 어려움을 보였습니다.
+
+### Untied weights sharing
+가중치를 고정하여 독립적인 source 및 target mappings을 수행하였습니다. 더 많은 도메인 특정 기능 추출을 학습할 수 있도록 하므로 더 유연한 학습 패러다임입니다. 가중치를 전이시키지 않음으로써 빨리 학습할 수 있었습니다. 따라서 사전학습된 source model을 target representation space의 초기화로 사용하고 adversarial training 동안 source model을 고정하였습니다.
+
+### GAN loss
 
 ## Experiments
 
@@ -97,6 +155,7 @@ Three digits datasets
 SVHN과 MNIST 사이의 domain adaptation을 다른 연구와 비교하기 위해 전체 훈련 세트를 사용합니다. 모든 실험은 대상 도메인의 레이블을 사용하지 않는 설정에서 수행되며 MNIST->, USPS, USPS-> MNIST 및 SVHN->MNIST의 세 가지 방향의 domain adaptation을 고려합니다.
 
 LeNet 구조를 활용
-Adversarial discriminator는 3개의 fully connected layers로 구성되어 있으며, 2 layers는 500개의 hidden units으로 이루어져 있습니다.
+
+Adversarial discriminator는 3개의 fully connected layers로 구성되어 있으며, 2 layers는 500개의 hidden units으로 이루어져 있습니다. 각 500-unit layers는 ReLU 활성함수를 사용하였습니다. Optimization은 Adam optimizer를 사용하였습니다.
 
 ### Modality adaptation
