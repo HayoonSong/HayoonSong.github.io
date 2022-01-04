@@ -36,11 +36,16 @@ B.S.
 
 ## Research Interests
 * Brain signal processing
-  - Motor imagery
-  - Attention
+  - Motor imagery classification
+  - Attention level measurement
 
 * Machine Learning / Deep Learning
   - Transfer learning
+  - Representation learning
+
+* Psycholgy
+  - Clinical psychology
+  - Cognitive therapy
 
 ## Skills
 ---
