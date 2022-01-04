@@ -35,6 +35,7 @@ Dept of English Language and Literature
 B.S.   
 
 ## Research Interests
+---
 * Brain signal processing
   - Motor imagery classification
   - Attention level measurement
