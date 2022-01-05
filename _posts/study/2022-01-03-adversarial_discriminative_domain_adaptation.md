@@ -20,29 +20,59 @@ last_modified_at: '2022-01-03'
 
 ***
 
+![02_generalized_architecture_adversarial_DA](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2021-01-03-ADDA/02_generalized_architecture_adversarial_DA.PNG)
+
+*   Discriminative modeling
+*   Untied weights sharing
+*   GAN loss
+
+## Background
+
+***
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Abstract
 
 ***
 
 ### Adversarial learning method
 
-1.  다양한 도메인에서 complex samples을 생성할 수 있습니다.
-2.  도메인 이동(doamin shift) 또는 데이터셋 편향(dataset bias)에도 불구하고 인식 성능을 향상시킬 수 있습니다.
-3.  Training 및 test domain의 분포 간 차이를 감소시켜 일반화 성능(generalization performance)을 향상시킬 수 있습니다.
+*   다양한 도메인에서 complex samples을 생성할 수 있습니다.
+*   도메인 이동(doamin shift) 또는 데이터셋 편향(dataset bias)에도 불구하고 인식 성능을 향상시킬 수 있습니다.
+*   Training 및 test domain의 분포 간 차이를 감소시켜 일반화 성능(generalization performance)을 향상시킬 수 있습니다.
 
 ### Adversarial Discriminative Domain Adaptation (ADDA)
-
-![framwork](https://user-images.githubusercontent.com/89344114/148022821-8ab571d2-3a75-4cc8-b77a-7a3780a9a9dc.png)
-
 *   Discriminative modeling
 *   Untied weights sharing
 *   GAN loss
-
-
-
-
-
-
 
 
 ## Introduction
