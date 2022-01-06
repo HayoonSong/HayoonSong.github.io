@@ -20,7 +20,7 @@ last_modified_at: '2022-01-03'
 
 ***
 
-![02_generalized_architecture_adversarial_DA](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2021-01-03-ADDA/02_generalized_architecture_adversarial_DA.PNG)
+![01_overview_of_ADDA](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2021-01-03-ADDA/01_overview_of_ADDA.PNG?raw=true)
 
 *   Discriminative modeling
 *   Untied weights sharing
@@ -30,14 +30,16 @@ last_modified_at: '2022-01-03'
 
 ***
 
+![02_generalized_architecture_adversarial_DA](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2021-01-03-ADDA/02_generalized_architecture_adversarial_DA.PNG?raw=true)
+
+## Method
+
+***
+
+### Pre-training
 
 
-
-
-
-
-
-
+*   Source domain의 label을 활용하여 discriminative representation을 학습합니다.
 
 
 
@@ -86,8 +88,8 @@ Problem
 
 Solution
 : 
-*   Fine-tune: 네트워크를 task-specific dataset에서 추가로 미세조정하는 방법으로, 충분한 labeled data를 얻기에 어렵고 비용이 크다는 단점이 있습니다.
-*   Doamin adaption: 두 도메인을 공통된 특징 공간(feature space)으로 mapping하는 deep neural transformations을 학습합니다. 일반적으로 최대 평균 불일치(maximum mean discrepancy) 또는 상관 거리(correlation distances)와 같은 일부 측정(measure)을 최소화하기 위해 표현을 최적화함으로써 달성됩니다. 대안은 소스 표현(source representation)에서 대상 도메인(target domain)을 재구성하는 것입니다.
+*   `Fine-tune`: 네트워크를 task-specific dataset에서 추가로 미세조정하는 방법으로, 충분한 labeled data를 얻기에 어렵고 비용이 크다는 단점이 있습니다.
+*   `Doamin adaption`: 두 도메인을 공통된 특징 공간(feature space)으로 mapping하는 deep neural transformations을 학습합니다. 일반적으로 최대 평균 불일치(maximum mean discrepancy) 또는 상관 거리(correlation distances)와 같은 일부 측정(measure)을 최소화하기 위해 표현을 최적화함으로써 달성됩니다. 대안은 소스 표현(source representation)에서 대상 도메인(target domain)을 재구성하는 것입니다.
     -   Adversarial adaptation: 도메인 판별자(domain discriminator)에 대한 적대적 목적함수(adversarial objective)를 통해 대략적인 도메인 불일치 거리를 최소화하는 방법입니다. GAN과 비슷한 방식으로써 domain adpation에서는 네트워크가 training과 test domain 예제의 분포를 구별할 수 없도록 하기 위해 사용되었습니다.
 
 Proposed method
@@ -179,6 +181,7 @@ Constraints의 목표
 ## Experiments
 
 ***
+
 Three digits datasets
 
 ### MNIST, UPSP, and SVHN digits datasets
