@@ -40,9 +40,12 @@ last_modified_at: '2022-01-03'
 
 
 *   Source domain의 label을 활용하여 discriminative representation을 학습합니다.
+*   Source classification model은 stardard supervised loss를 활용하여 학습합니다.
 
 
+### Adversarial adapation
 
+*   Differenct constraints between the source and target mappings 
 
 
 
@@ -141,9 +144,17 @@ Labeled source datasets에서 labeled datat가 적거나 존재하지 않은 tar
 
 Source mapping Ms로 supervised learning을 수행할 경우, source recognition에 맞는 최상의 표현을 가져오다는 것은 분명합니다. 그러나, taget daomin의 label이 사용되지 않는다는 것을 가정하면 source와 target mapping 간의 거리를 최소화하는 최선의 방법은 여전히 미해결 문제입니다. 따라서 첫 번째 선택은 이러한 매핑의 특정 매개변수화입니다.
 
+`Pretraining`
+
 숫자 분류의 경우 standard LeNet model이 될 수 있습니다.
 
-일반적으로 target mappling은 specific functional layer(architecture) 측면에서 source와 일치하지만 다른 방법은 다양한 정규화 기법을 제안했습니다. 이전의 다른 모든 방법들은 source를 사용하여 target mapping parameter를 초기화하였지만, 본 논문에서는 source과 target mapplings 간에 서로 다른 제약조건을 활용하였습니다. 
+`Adversarial adaptation`
+
+일반적으로 target mapping은 
+1)specific functional layer(architecture) 측면에서 source와 일치시키는 방법
+2) 다양한 정규화 기법
+
+이전의 다른 모든 방법들은 source를 사용하여 target mapping parameter를 초기화하였지만, 본 논문에서는 **source과 target mapplings 간에 서로 다른 제약조건**을 활용하였습니다. 
 
 Constraints의 목표
 : 각 mapping에서 source domain과 target domain 사이의 거리를 최소화하는 동시에 범주를 구분하는 target mapping을 결정적으로 유지하도록 target mapping이 설정되었는지 확인하는 것입니다.
