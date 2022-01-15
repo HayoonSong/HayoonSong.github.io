@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '[EEG] 뇌파의 원리'
+title: '[EEG] 뇌파의 이해'
 subtitle: EEG
 date: '2021-01-05'
 categories:
@@ -17,34 +17,43 @@ last_modified_at: '2021-01-05'
 
 ## 뇌파(EEG: Electroencephalogram, 뇌전도)
 
+***
+
 뇌파는 뇌 신경세포들의 전기적 활동을 두피에서 비침습적으로 측정한 생체전기신호로 **`뇌의 활성도를 측정`**하는 지표입니다.
 
-![01_sketch_of_EEG](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/%EB%87%8C%ED%8C%8C%EC%9D%98_%EC%9B%90%EB%A6%AC/01_sketch_of_EEG.png?raw=true)
+![01_sketch_of_EEG](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/01_sketch_of_EEG.png?raw=true)
 
 ### 뇌파의 생성 원리
+
+***
 
 두피에서 기록된 전기적 활성도는 각 기록 전극 근처의 수천 개의 피라미드 세포(pyramidal cell)로부터의 억제성 또는 흥분성 시냅스후 전위(postynaptic potentals)의 합계를 나타냅니다.
 
 EEG 신호의 세기는 부분적으로 전극 아래에 있는 뉴런들이 얼마나 동시적인 활동을 하는가에 크게 달려있습니다. 일단의 세포들이 동시에 흥분되면, 미약한 신호들이 합쳐져서 하나의 커다란 신호를 일으킵니다. 그러나 각각의 세포가 같은 세기의 흥분을 하지만 시간상 흩어져있을 경우 합쳐진 신호는 미약하고 불규칙적입니다.
 
-![02_synapse](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/%EB%87%8C%ED%8C%8C%EC%9D%98_%EC%9B%90%EB%A6%AC/02_synapse.png?raw=true)
+![02_synapse](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/02_synapse.png?raw=true)
 
 
 ### 뇌파의 구성
 
-뇌파는 다음의 지표를 통하여 이해할 수 있습니다.
+***
 
-![03_frequency_amplitude](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/%EB%87%8C%ED%8C%8C%EC%9D%98_%EC%9B%90%EB%A6%AC/03_frequency_amplitude.png?raw=true)
+뇌파는 주파수 및 진폭을 통하여 이해할 수 있습니다.
+
+![03_frequency_amplitude](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/03_frequency_amplitude.PNG?raw=true)
 
 *   주파수(freuqnecy)와 주기(period): 주파수는 1초 동안 반복되는 진동 횟수이며 Hz로 표시합니다. 뇌의 전압변화에 따른 1개의 파(wave)에서 산(crest)과 산, 골(trough)과 골을 연결하여 그 간격에 이르는 시간적 길이(wavelength)를 주기라고 하며 ms로 표기합니다. 주파수와 주기는 역수관계에 있는데 1초를 주기로 나누면 주파수가 구해집니다.
 *   진폭(amplitude): 진동의 중심으로부터 극점까지 움직인 거리를 말하며, 뇌파는 약  10~200uV의 진폭을 보입니다.
 
 
 ### 뇌파의 율동성
+
+***
+
 뇌파의 율동(rhythm)은 유사한 모양과 기간을 가진 파형이 규칙적으로 나타나는 것이다. 율동성은 각성상태, 집중상태나 행동상태와 연관이 있다.
 리듬들은 주파수 범위에 따라 구분되고, 각 범위는 그리스 문자로 이름지어진다. 
 
-![04_bandpower](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/%EB%87%8C%ED%8C%8C%EC%9D%98_%EC%9B%90%EB%A6%AC/04_bandpower.jpg?raw=true)
+![04_bandpower](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/04_bandpower.jpg?raw=true)
 
 
 *   베타 리듬은 14Hz 이상으로서 가장 빠르고, 활성화된 피질을 나타낸다. 
@@ -59,6 +68,8 @@ EEG 신호의 세기는 부분적으로 전극 아래에 있는 뉴런들이 얼
 
 
 ### 뇌파계
+
+***
 
 뇌파는 두피 전극을 통하여 1) 두피 표면의 전위차를 검출하고 2) 측정된 전기적 신호(μV)를 증폭하며 3) 아날로그 신호를 컴퓨터에 저장하여 분석할 수 있도록(sampling)을 수행하며 이렇게 수정된 신호를 디지털 신호로 변환하는 과정이 이루어진다. 
 
