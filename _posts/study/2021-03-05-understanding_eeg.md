@@ -19,9 +19,10 @@ last_modified_at: '2021-01-05'
 
 ***
 
-뇌파는 두뇌를 구성하는 신경세포들의 전기적 활동을 두피에서 전극을 통해 간접적으로 측정할 수 있는 생체전기신호로 **`뇌의 활성도를 측정`**하는 지표입니다.
+뇌파는 두뇌를 구성하는 신경세포들의 전기적 활동을 두피에서 전극을 통해 간접적으로 측정할 수 있는 생체전기신호로 **`뇌의 활성도를 측정`**하는 지표입니다.    
 
-![01_sketch_of_EEG](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/01_sketch_of_EEG.png?raw=true)
+<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/sketch_of_EEG.png?raw=true" alt="Sketch of EEG" width="600" height="600"></center>
+
 
 ### 뇌파의 생성 원리
 
@@ -31,7 +32,8 @@ last_modified_at: '2021-01-05'
 *   동기화: 세포들이 동시에 흥분되면, 미약한 신호들이 합쳐져서 하나의 커다란 신호를 일으킵니다. 
 *   불규칙적: 각각의 세포가 같은 세기의 흥분을 하지만 시간상 흩어져있을 경우 합쳐진 신호는 미약합니다.
 
-![02_synapse](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/02_synapse.png?raw=true)
+<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/synapse.png?raw=true" alt="synapse"></center>
+
 
 ### 뇌파의 측정
 
@@ -52,26 +54,20 @@ last_modified_at: '2021-01-05'
 
 뇌파는 주파수 및 진폭을 통하여 이해할 수 있습니다.
 
-![03_frequency_amplitude](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/03_frequency_amplitude.PNG?raw=true)
+<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/frequency_amplitude.PNG?raw=true" alt="frequency"></center>
 
-*   `**주파수(freuqnecy)**`와 주기(period): 주파수는 1초 동안 반복되는 진동 횟수이며 Hz로 표시합니다. 뇌의 전압변화에 따른 1개의 파(wave)에서 산(crest)과 산, 골(trough)과 골을 연결하여 그 간격에 이르는 시간적 길이(wavelength)를 주기라고 하며 ms로 표기합니다. 주파수와 주기는 역수관계에 있는데 1초를 주기로 나누면 주파수가 구해집니다.
-*   `**진폭(amplitude)**`: 진동의 중심으로부터 극점까지 움직인 거리를 말하며, 뇌파는 약  10~200uV의 진폭을 보입니다.
+
+*   **주파수(freuqnecy)**와 주기(period): 주파수는 1초 동안 반복되는 진동 횟수이며 Hz로 표시합니다. 뇌의 전압변화에 따른 1개의 파(wave)에서 산(crest)과 산, 골(trough)과 골을 연결하여 그 간격에 이르는 시간적 길이(wavelength)를 주기라고 하며 ms로 표기합니다. 주파수와 주기는 역수관계에 있는데 1초를 주기로 나누면 주파수가 구해집니다.
+*   **진폭(amplitude)**: 진동의 중심으로부터 극점까지 움직인 거리를 말하며, 뇌파는 약  10~200uV의 진폭을 보입니다.
 
 
 ### 뇌파의 양상
 
 ***
 
-뇌파의 분류방법으로 신호의 진동수(주파수)에 따라 분류하는 **파워 스펙트럼 분류**를 가장 많이 사용합니다. 파워 스펙트럼은 측정되는 뇌파신호를 특정한 주파수별 단순 신호들의 선형적 합산으로 보고, 이 신호를 각각의 주파수 성분별로 분해하
-여 그 크기(전력치)를 표시한 것입니다.
+뇌파의 분류방법으로 신호의 진동수(주파수)에 따라 분류하는 **파워 스펙트럼 분류**를 가장 많이 사용합니다. 파워 스펙트럼은 측정되는 뇌파신호를 특정한 주파수별 단순 신호들의 선형적 합산으로 보고, 이 신호를 각각의 주파수 성분별로 분해하여 그 크기(전력치)를 표시한 것입니다.
 
-![04_bandpower](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/04_bandpower.jpg?raw=true)
-
-*   감마(Gamma)파는 31 Hz 이상으로서 피질과 피질하 영역들간의 정보 교환을 나타내며, 의시적 각성 상태와 REM 수면시 꿈에서 관찰됩니다.
-*   베타(Beta)파는 14~30 Hz로 각성 상태 및 집중적 뇌 활동과 연관되며, 병리적 형상 및 약물효과와 관련이 있습니다.
-*   알파(Alpha)파는 대략 8~13 Hz로 휴식 상태의 후두엽에서 주로 발생하며 수면 상태에서는 약해집니다. 
-*   세타(Theta)파는 4~7 Hz로 기억을 회상하거나 명상 등 조용한 집중 상태에서 관찰됩니다.
-*   델타(Delta)파은 4 Hz 미만으로 진폭이 크고 깊은 수면 또는 혼수 상태에서 나타납니다.
+<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/bandpower.jpg?raw=true" alt="bandpower"></center>
 
 
 ### 참고 문헌
@@ -85,7 +81,6 @@ last_modified_at: '2021-01-05'
 
 김도영, 이재호, 박문호, 최윤호, & 박윤옥. (2017). 뇌파신호 및 응용 기술 동향. [ETRI] 전자통신동향분석, 32(2), 0-0.
 [Online]. Available at: https://www.koreascience.or.kr/article/JAKO201752055796148.pdf [Accessed 16 Jan. 2022]
-
 
 한국보건산업진흥원(2017), 뇌 기능 향상 기술. 
 [Online]. Available at: https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=20&no1=790&linkId=218521&refMenuId=MENU01524&menuId=MENU01521&maxIndex=00002187499998&minIndex=00002093419998&schType=0&schText=&boardStyle=&categoryId=&continent=&country= [Accessed 07 Jan. 2022].
