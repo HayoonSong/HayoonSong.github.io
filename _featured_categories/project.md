@@ -5,7 +5,7 @@ slug: project
 menu: true
 order: 2
 description: >
-  모든 프로젝트
+  EEG 연구, 게임 기획
   
 sitemap: false
 ---
