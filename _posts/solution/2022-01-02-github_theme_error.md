@@ -10,7 +10,7 @@ tags:
 comments: true
 pusblished: true
 
-last_modified_at: '2022-01-09'
+last_modified_at: '2022-01-20'
 ---
 
 Jekyll 테마 적용 에러에 대해서 살펴봅시다.
@@ -63,7 +63,7 @@ github-pages 223 | Error:  The jekyll-theme-hydejack theme could not be found.
 
 ---
 
-* **깃헙의 배포 환경**과 **로컬 환경**이 완전히 **동일하지 않기** 때문임
+* **깃헙의 배포 환경**과 **로컬 환경**이 완전히 **동일하지 않기** 때문임 (참고: [Github Pages와 jekyll, 로컬 환경 이슈](https://fuzzysound.github.io/github-and-jekyll))
   - 로컬 환경의 경우 _config.yml의 theme 옵션을 통해 프로젝트에 설치된 gem으로부터 jekyll 테마를 불러올 수 있음
   - Github Pages의 경우 사용 가능한 theme 옵션 값은 이 페이지에 있는 것으로 한정되며, 이외의 값은 page build warning 메일을 받게 됨 
   - 이를 보완하기 위해 깃헙은 **remote_theme** 옵션을 제공하며, 다른 사람의 깃헙 저장소에 올라와 있는 테마를 사용할 수 있게 함
