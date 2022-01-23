@@ -24,11 +24,11 @@ last_modified_at: '2022-01-17'
 <center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/sketch_of_EEG.png?raw=true" alt="Sketch of EEG" width="600" height="600"></center>
 
 
-### 뇌파의 생성 원리
+### 뇌파의 생성
 
 ***
 
-두피에서 기록된 전기적 활성도는 각 기록 전극 근처의 수천 개의 피라미드 세포(pyramidal cell)에서 발생하는 억제성 또는 흥분성 시냅스후 전위(postynaptic potentals)의 합계를 나타냅니다. EEG 신호의 세기는 부분적으로 전극 아래에 있는 뉴런들이 얼마나 동시적인 활동을 하는가에 크게 달려있습니다. 
+두피에서 기록된 전기적 활성도는 각 기록 전극 근처의 수천 개의 피라미드 세포(pyramidal cell)에서 발생하는 억제성 또는 흥분성 **시냅스후 전위(postynaptic potentals)의 합계**를 나타냅니다. EEG 신호의 세기는 부분적으로 전극 아래에 있는 뉴런들이 얼마나 동시적인 활동을 하는가에 크게 달려있습니다. 
 *   동기화: 세포들이 동시에 흥분되면, 미약한 신호들이 합쳐져서 하나의 커다란 신호를 일으킵니다. 
 *   불규칙적: 각각의 세포가 같은 세기의 흥분을 하지만 시간상 흩어져있을 경우 합쳐진 신호는 미약합니다.
 
@@ -39,14 +39,19 @@ last_modified_at: '2022-01-17'
 
 ***
 
-뇌파는 신경전류의 흐름이 두피에 만드는 전위차를 측정하는 것이므로 뇌파의 측정을 위해서는 최소 2개의 전극이 필요합니다. 하나의 전극을 기준 전극(reference electrode) 으로 지정하고 기준 전극과 다른 전극들 사이의 전위차를 측정하는 단극(unipolar) 측정 방식에서는 평균 기준 전극 방식을 이용하면 절대 전위를 근사할 수 있지만, 머리가 완전 구형이며 매우 고밀도로 전극이 되어 있어야 한다는 가정이 필요하기 때문에, 실제로는 절대 전위와 어느 정도 차이가 있습니다. 그럼에도 불구하고 평균 기준을 적용한 전위 데이터는 기준 전극 위치에 독립적인 두피 전위 지도를 그리거나 신호원 영상을 하기 위해 자주 사용됩니다.
+뇌파는 신경전류의 흐름이 두피에 만드는 전위차를 측정하는 것이므로 뇌파의 측정을 위해서는 최소 2개의 전극이 필요합니다. 하나의 전극을 기준 전극(reference electrode)으로 지정하고 기준 전극과 다른 전극들 사이의 전위차를 측정합니다.
 
-*   측정 전극(signal eletrode)
+*   측정 전극(active eletrode, A)
 : 실제로 신경 활성이 일어난다고 추측되는 곳 근처에 붙이는 전극입니다.
-*   기준 전극(reference eletrode)
-: 이상적인 기준 전극은 측정하고자 한느 전극 위치에 대해 비활성화된, 즉 측정하고자 하는 전극 위치의 전기적 필드에 전혀 영향을 받지 않는 위치입니다.
-*   접지 전극(ground electrode)
+*   기준 전극(reference eletrode, R)
+: 어떠한 뇌의 활동 시그널도 감지하지 않는 위치에 붙이는 전극입니다.
+*   접지 전극(ground electrode, G)
 : 모든 전위에 대하여 기준이 되는 전압을 의미하여, 측정 전극과 기준 전극 간의 정확한 전위차를 구하기 위해 필요합니다.
+
+최종 출력은 **(A-G) – (R-G)** 이며, A 및 R에 공통적인 모든 노이즈가 제거됩니다. 일반적으로 전극은 국제적 10-20 뇌파 체계에 따라 배치해야 합니다.
+
+<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/01_understanding_eeg/International_10-20_system.jpg?raw=true" alt="10-20 system" width="500" height="500"></center>
+
 
 ### 뇌파의 구성
 
