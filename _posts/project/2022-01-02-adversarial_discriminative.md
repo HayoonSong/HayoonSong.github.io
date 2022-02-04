@@ -1,16 +1,22 @@
 ---
 layout: post
-title: 'domain adaptation'
-subtitle: Adversarial discriminative domain adaptation
-date: '2022-01-02'
+title: '[EEG] Contrastive learning'
+subtitle: SeqCLR
+date: '2022-02-03'
 categories:
     - project
 tags:
     - adversarial dicriminative
 comments: true
-pusblished: true
+pusblished: false
 
-last_modified_at: '2022-01-02'
+last_modified_at: '2022-02-03'
 ---
 
-# [EEG] Domain adaptation
+# Overview
+
+* Augmenter
+* Encoder
+    - EEGNet
+* Projector
+* Contrastive loss function
