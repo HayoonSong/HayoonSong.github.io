@@ -13,7 +13,7 @@ pusblished: true
 last_modified_at: '2022-02-07'
 ---
 
-# 
+## Temporal 
 
 시간 이동(time shift)
 continuous time : x(t) → x(t-t0)
