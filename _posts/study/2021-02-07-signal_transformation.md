@@ -13,6 +13,8 @@ pusblished: true
 last_modified_at: '2022-02-07'
 ---
 
+eeg
+
 ## Temporal 
 
 시간 이동(time shift)
