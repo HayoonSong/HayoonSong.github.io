@@ -20,7 +20,7 @@ url:                   https://hayoonsong.github.io
 lang:                  ko-KR, en-US
 
 # The title of your blog. Used in the sidebar and the browser tab.
-title:                 Hayoon Blog
+title:                 Encanto
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
@@ -28,7 +28,7 @@ description:           >
   모든 기록
 
 # A shorter description for the sidebar.
-tagline:               인공지능을 공부하는 대학원생
+tagline:               Dreams Come True
 
 # A list of keywords for your blog
 keywords:              [AI, data science, psychology]
