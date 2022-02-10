@@ -85,10 +85,6 @@ Left here for reference, feel free to delete.
 </script>
 
 <!-- mathjax -->
-<script type="text/javascript">
-  if (window.MathJax) {
-    MathJax.Hub.Queue(
-      ["Typeset",MathJax.Hub]
-    );
-  }
-  </script>
+{% if page.use_math %}
+  {% include mathjax_support.html %}
+{% endif %}
