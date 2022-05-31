@@ -10,7 +10,7 @@ tags:
 comments: true
 pusblished: true
 
-last_modified_at: '2022-29-17'
+last_modified_at: '2022-03-29'
 ---
 
 ## MI-BCIs의 한계
