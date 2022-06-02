@@ -8,7 +8,7 @@ categories:
 tags:
     - eeg
 comments: true
-pusblished: true
+published: true
 
 last_modified_at: '2022-01-17'
 ---

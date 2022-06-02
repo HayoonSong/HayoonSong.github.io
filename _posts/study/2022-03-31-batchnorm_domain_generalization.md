@@ -8,7 +8,7 @@ categories:
 tags:
     - batch normalization, domain generalization, domain-specific normalization statistics
 comments: true
-pusblished: true
+published: true
 
 last_modified_at: '2022-03-31'
 ---

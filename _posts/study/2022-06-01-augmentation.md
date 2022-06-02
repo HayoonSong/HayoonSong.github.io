@@ -8,7 +8,7 @@ categories:
 tags:
     - signal, eeg, audio
 comments: true
-pusblished: false
+published: false
 
 last_modified_at: '2022-06-02'
 ---
@@ -19,8 +19,7 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 {:toc .large-only}
 
 ## Data augmentation
-데이터 증강(data augmentation)은 데이터의 양을 늘리거나    
-다양한 데이터에 강건한 모델을 만들고자 사용됩니다.
+데이터 증강(data augmentation)은 데이터의 양을 늘리거나 다양한 데이터에 강건한 모델을 만들고자 사용됩니다.
 
 예제로는 시계열 데이터인 EEG data를 사용하겠습니다.   
 

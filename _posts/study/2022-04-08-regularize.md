@@ -8,7 +8,7 @@ categories:
 tags:
     - dropout
 comments: true
-pusblished: true
+published: true
 
 last_modified_at: '2022-04-08'
 ---

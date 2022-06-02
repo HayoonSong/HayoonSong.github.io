@@ -8,7 +8,7 @@ categories:
 tags:
     - contrastive learning
 comments: true
-pusblished: true
+published: true
 
 last_modified_at: '2022-03-15'
 ---

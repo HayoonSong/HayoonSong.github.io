@@ -8,7 +8,7 @@ categories:
 tags:
     - Github Pages
 comments: true
-pusblished: true
+published: true
 
 last_modified_at: '2022-01-20'
 ---

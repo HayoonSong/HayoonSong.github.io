@@ -8,7 +8,7 @@ categories:
 tags:
     - domain_adaptation
 comments: true
-pusblished: false
+published: false
 
 last_modified_at: '2022-01-03'
 ---
