@@ -53,8 +53,8 @@ import tensorflow as tf
 
 // 시간 단위가 아닌 sample 단위로 계산하였습니다.
 // 예제 데이터는 sampling rate 250 Hz로 4초간 측정되었기에, SAMPLES = 1000 입니다.
-// num_plces_to_shift는 t0과 동일하며, 어느 시점(sample)에서 신호를 굴릴 것인지
-// 즉 신호가 이동되는 시작점을 나타냅니다.
+// num_plces_to_shift는 t와 동일하며, 얼만큼 신호를 굴릴 것인지
+// 즉 신호가 이동되는 시간 또는 샘플을 나타냅니다.
 def time_shift(signal, num_places_to_shift):
   assert abs(num_places_to_shift) <= signal.shape[-1]
 
@@ -145,6 +145,8 @@ def gaussian_noise(signal, sigma):
 Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 하며, 특정한 주파수 대역만을 차단하는 역할을 합니다.
 ![Band-stop filter](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter.png?raw=true){:.aligncenter}
 
+이전 포스팅에 `scipy` 모듈을 활용하여 Band-pass filter를 구현하였지만, Tensorflow dataset에 적용하고자 했을 때 
+
 ~~~js
 def band_stop_filter(signal, sfreq, lowcut, highcut):
   SAMPLES = signal.shape[-1]
@@ -202,6 +204,8 @@ def crop_and_upsample(signal, crop_samples):
   upsampled_signal = tf.gather(upsampled_signal, np.arange(DELAY, upsampled_signal.shape[-1]), axis=-1)
   return upsampled_signal
 ~~~
+
+[[tf.tile]](#)
 
 DELAY는 [[tfio.audio.resample]](#https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 resampling할 경우    
 데이터의 앞부분을 제대로 resampling 하지 못하기에 추가하였습니다.
