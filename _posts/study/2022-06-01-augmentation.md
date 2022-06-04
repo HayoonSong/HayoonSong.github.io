@@ -24,7 +24,7 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 예제로는 시계열 데이터인 EEG data를 사용하겠습니다.   
 
 ![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw_signal.jpg?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:70%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
+<center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
 
 22 channels EEG 데이터는 4초간 측정되었으며, 250 Hz의 sampling rate가 사용되었습니다.   
 데이터 차원은 [22 x 1000]이지만 자세한 설명을 위하여 
