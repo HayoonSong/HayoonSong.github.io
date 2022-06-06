@@ -35,7 +35,7 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 진폭 스케일(amplitude sclae)은 신호에 상수를 곱하여 **진폭의 크기를 조정**하는 기법입니다.
 ![Amplitude scale](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/amplitude_scale.png?raw=true){:.aligncenter}
 
-~~~js
+~~~python
 def amplitude_scale(signal, num_scale):
   signal = num_scale * signal
   return signal
@@ -48,13 +48,13 @@ Temporal roll이라고 불리기도 하며, 원래의 시간축에서 오른쪽 
 시간 지연(temporal delay)도 포함됩니다.   
 ![Time shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/time_shift.png?raw=true){: width="70%" height="70%"}{:.aligncenter}  
 
-~~~js
+~~~python
 import tensorflow as tf
 
-// 시간 단위가 아닌 sample 단위로 계산하였습니다.
-// 예제 데이터는 sampling rate 250 Hz로 4초간 측정되었기에, SAMPLES = 1000 입니다.
-// num_plces_to_shift는 t와 동일하며, 얼만큼 신호를 굴릴 것인지
-// 즉 신호가 이동되는 시간 또는 샘플을 나타냅니다.
+# 시간 단위가 아닌 sample 단위로 계산하였습니다.
+# 예제 데이터는 sampling rate 250 Hz로 4초간 측정되었기에, SAMPLES = 1000 입니다.
+# num_plces_to_shift는 t와 동일하며, 얼만큼 신호를 굴릴 것인지
+# 즉 신호가 이동되는 시간 또는 샘플을 나타냅니다.
 def time_shift(signal, num_places_to_shift):
   assert abs(num_places_to_shift) <= signal.shape[-1]
 
@@ -70,7 +70,7 @@ num_places_to_shift가 음수일 경우 앞으로 양수일 경우 뒤로 이동
 DC 이동(DC shift)는 신호에 상수를 더하여 **진폭(amplitude)을 이동**하는 방법입니다.
 ![DC shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
 
-~~~js
+~~~python
 def dc_shift(signal, num_amplitude_to_shift):
   signal = num_amplitude_to_shift + signal
   return signal
@@ -81,7 +81,7 @@ def dc_shift(signal, num_amplitude_to_shift):
 Temporal cutout은 시계열 신호의 특정 구간을 0으로 만들며 zero-masking이라고도 합니다.
 ![Temporal cutout](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/temporal_cutout.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
 
-~~~js
+~~~python
 import numpy as np
 
 def temporal_cutout(signal, t0, t):
@@ -90,21 +90,21 @@ def temporal_cutout(signal, t0, t):
   indices[t0: t0+t] = -1
   mask = tf.one_hot(indices, depth=SAMPLES, dtype=tf.float64)
   
-  // 1차원 시계열 데이터는 행렬벡터 곱연산
+  # 1차원 시계열 데이터는 행렬벡터 곱연산
   if tf.rank(signal) == 1:
     return tf.linalg.matvec(mask, signal)
   
-  // 2차원 시계열 데이터는 행렬 곱연산
+  # 2차원 시계열 데이터는 행렬 곱연산
   return tf.linalg.matmul(signal, mask)
 ~~~
 
 [[tf.one_hot]](#https://www.tensorflow.org/api_docs/python/tf/one_hot)은 one-hot 인코딩하는 함수입니다.
 기본적으로는 아래와 같이 사용됩니다.
 
-~~~js
+~~~python
 tf.one_hot(indices=[0, 1, 2], depth=3)
 
-// output: [3 x 3]
+# output: [3 x 3]
 [[1., 0., 0.],
  [0., 1., 0.],
  [0., 0., 1.]]
@@ -112,11 +112,11 @@ tf.one_hot(indices=[0, 1, 2], depth=3)
 
 tf.one_hot을 통해 단위행렬(identity matrix)에서 cutout할 구간의 인덱스를 -1로 만들어줍니다.
 
-~~~js
+~~~python
 np.arange(5) # output: [0, 1, 2, 3, 4]
 tf.one_hot(indices=[0, -1, -1, 3, 4], depth=5)
 
-// output: [5 x 5]
+# output: [5 x 5]
 [[1., 0., 0., 0., 0.],
  [0., 0., 0., 0., 0.],
  [0., 0., 0., 0., 0.],
@@ -132,9 +132,9 @@ cutout할 특정 구간을 0으로 변환시킬 수 있습니다.
 기존 데이터에 가우시안 잡음(Gaussian noise)를 추가하여 데이터를 변형시킬 수 있습니다.
 ![Gaussian noise](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/gaussian_noise.png?raw=true){:.aligncenter}
 
-~~~js
+~~~python
 def gaussian_noise(signal, sigma):
-  // Adding Gaussian noise
+  # Adding Gaussian noise
   noise = tf.random.normal(shape=tf.shape(signal), stddev=sigma, dtype=signal.dtype)
   signal = tf.add(signal, noise)
   return signal
@@ -147,7 +147,7 @@ Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 �
 
 이전 포스팅에 `scipy` 모듈을 활용하여 Band-pass filter를 구현하였지만, Tensorflow dataset에 적용하고자 했을 때 
 
-~~~js
+~~~python
 def band_stop_filter(signal, sfreq, lowcut, highcut):
   SAMPLES = signal.shape[-1]
   signal = tf.cast(signal, dtype=tf.complex64)
@@ -160,10 +160,10 @@ def band_stop_filter(signal, sfreq, lowcut, highcut):
   mask[bandstop_frequency] = -1
   mask = tf.one_hot(mask, SAMPLES, dtype=tf.complex64)
 
-  // 1차원 시계열 데이터는 행렬벡터 곱연산
+  # 1차원 시계열 데이터는 행렬벡터 곱연산
   if tf.rank(signal) == 1:
     filtered = tf.linalg.matvec(mask, fft_signal)
-  // 2차원 시계열 데이터는 행렬 곱연산
+  # 2차원 시계열 데이터는 행렬 곱연산
   else:
     filtered = tf.linalg.matmul(fft_signal, mask)
 
@@ -185,7 +185,7 @@ Crop and upsample은 데이터를 특정 부분 자르고 업샘플링하여 타
 
 Original data의 0~2초가 crop and upsampling을 통해 4초로 늘어난 것을 확인할 수 있습니다.
 
-~~~js
+~~~python
 def crop_and_upsample(signal, crop_samples):
   SAMPLES = signal.shape[-1]
   DELAY = int(0.1 * crop_samples)
