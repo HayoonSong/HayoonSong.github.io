@@ -13,6 +13,8 @@ published: true
 last_modified_at: '2022-04-11'
 ---
 
+EEG connectivity에 대해서 알아보고자 합니다.
+
 ## EEG connectivity
 ‘Connectivity’ in EEG (hereafter referred to as ‘EEG-connectivity’) involves the
 consideration of the relationship between two or more EEG signals (Cohen, 2014; Michel,
