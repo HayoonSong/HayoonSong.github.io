@@ -8,7 +8,7 @@ categories:
 tags:
     - signal, eeg, audio
 comments: true
-published: true
+published: false
 
 last_modified_at: '2022-06-07'
 ---
@@ -27,14 +27,6 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 예제로는 시계열 데이터인 EEG data를 사용하겠습니다.   
 
 ![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw_signal.jpg?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
-<br>
-
-![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw1.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
-<br>
-
-![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw2.png?raw=true){:.aligncenter}
 <center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
 <br>
 
@@ -64,7 +56,7 @@ def amplitude_scale(signal, num_scale):
 Temporal roll이라고 불리기도 하며, 원래의 시간축에서 오른쪽 방향으로만 이동하는   
 시간 지연(temporal delay)도 포함됩니다. 
 
-![Time shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/time_shift.png?raw=true){: width="70%" height="70%"}{:.aligncenter}  
+![Time shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/time_shift.png?raw=true){:.aligncenter}  
 
 ~~~python
 import tensorflow as tf
@@ -89,7 +81,7 @@ num_places_to_shift가 음수일 경우 앞으로 양수일 경우 뒤로 이동
 
 DC 이동(DC shift)는 신호에 상수를 더하여 **진폭(amplitude)을 이동**하는 방법입니다.
 
-![DC shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
+![DC shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true){:.aligncenter}  
 
 ~~~python
 def dc_shift(signal, num_amplitude_to_shift):
@@ -103,7 +95,7 @@ def dc_shift(signal, num_amplitude_to_shift):
 
 Temporal cutout은 시계열 신호의 특정 구간을 0으로 만들어 zero-masking이라고도 합니다.
 
-![Temporal cutout](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/temporal_cutout.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
+![Temporal cutout](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/temporal_cutout.png?raw=true){:.aligncenter}  
 
 ~~~python
 import numpy as np
