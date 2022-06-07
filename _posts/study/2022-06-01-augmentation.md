@@ -10,7 +10,7 @@ tags:
 comments: true
 published: false
 
-last_modified_at: '2022-06-02'
+last_modified_at: '2022-06-07'
 ---
 
 Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 알아보겠습니다.
@@ -25,20 +25,22 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 
 ![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw_signal.jpg?raw=true){:.aligncenter}
 <center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
+<br>
 
-22 channels EEG 데이터는 4초간 측정되었으며, 250 Hz의 sampling rate가 사용되었습니다.   
+22 channels EEG 데이터는 4초간 측정되었으며, 250 Hz의 sampling frequency가 사용되었습니다.   
 데이터 차원은 [22 x 1000]이지만 자세한 설명을 위하여 
 4초 중에서 1초만 확대하고 하나의 채널(single-channel)만 시각화 하겠습니다.
 
 ### Amplitude scale
 
 진폭 스케일(amplitude sclae)은 신호에 상수를 곱하여 **진폭의 크기를 조정**하는 기법입니다.
+
 ![Amplitude scale](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/amplitude_scale.png?raw=true){:.aligncenter}
 
 ~~~python
-def amplitude_scale(signal, num_scale):
-  signal = num_scale * signal
-  return signal
+  def amplitude_scale(signal, num_scale):
+    signal = num_scale * signal
+    return signal
 ~~~
 
 ### Time shift (Temporal delay, Temporal roll)
