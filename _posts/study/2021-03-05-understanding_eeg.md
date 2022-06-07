@@ -94,3 +94,9 @@ last_modified_at: '2022-06-05'
 
 *   파낙토스 [[Online]](#https://www.panaxtos.com/m_page.php?ps_pname=pro_eeg) [Accessed 09 Jan. 2022].
 
+<br>
+<br>
+
+***
+
+<center>오류나 틀린 부분이 있을 경우 언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.</center>

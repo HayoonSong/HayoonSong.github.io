@@ -250,12 +250,9 @@ Upsampling 단계에서는 신호의 앞부분을 제대로 복원하지 못하�
 [2] Mohsenvand, Mostafa Neo, Mohammad Rasool Izadi, and Pattie Maes. "Contrastive representation learning for electroencephalogram classification." Machine Learning for Health. PMLR, 2020. [[Paper]](#http://proceedings.mlr.press/v136/mohsenvand20a.html)   
 [3] Han, Jinpei, Xiao Gu, and Benny Lo. "Semi-Supervised Contrastive Learning for Generalizable Motor Imagery EEG Classification." 2021 IEEE 17th International Conference on Wearable and Implantable Body Sensor Networks (BSN). IEEE, 2021. [[Paper]](#https://ieeexplore.ieee.org/abstract/document/9507038)
 
-
-
+<br>
+<br>
 
 ***
 
-<br>
-
-개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우   
-언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.
+<center>오류나 틀린 부분이 있을 경우 언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.</center>
