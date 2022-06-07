@@ -38,16 +38,17 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 ![Amplitude scale](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/amplitude_scale.png?raw=true){:.aligncenter}
 
 ~~~python
-  def amplitude_scale(signal, num_scale):
-    signal = num_scale * signal
-    return signal
+def amplitude_scale(signal, num_scale):
+  signal = num_scale * signal
+  return signal
 ~~~
 
-### Time shift (Temporal delay, Temporal roll)
+### Time shift
 
 시간 이동(time shift)은 말 그대로 **시간 축으로 이동**한다는 것입니다.   
 Temporal roll이라고 불리기도 하며, 원래의 시간축에서 오른쪽 방향으로만 이동하는   
-시간 지연(temporal delay)도 포함됩니다.   
+시간 지연(temporal delay)도 포함됩니다. 
+
 ![Time shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/time_shift.png?raw=true){: width="70%" height="70%"}{:.aligncenter}  
 
 ~~~python
@@ -55,8 +56,8 @@ import tensorflow as tf
 
 # 시간 단위가 아닌 sample 단위로 계산하였습니다.
 # 예제 데이터는 sampling rate 250 Hz로 4초간 측정되었기에, SAMPLES = 1000 입니다.
-# num_plces_to_shift는 t와 동일하며, 얼만큼 신호를 굴릴 것인지
-# 즉 신호가 이동되는 시간 또는 샘플을 나타냅니다.
+# num_plces_to_shift는 t0와 동일하며, 어디 시점에서 신호를 굴릴 것인지
+# 즉 신호가 이동되는 시작점을 나타냅니다.
 def time_shift(signal, num_places_to_shift):
   assert abs(num_places_to_shift) <= signal.shape[-1]
 
@@ -70,6 +71,7 @@ num_places_to_shift가 음수일 경우 앞으로 양수일 경우 뒤로 이동
 ### DC shift
 
 DC 이동(DC shift)는 신호에 상수를 더하여 **진폭(amplitude)을 이동**하는 방법입니다.
+
 ![DC shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
 
 ~~~python
@@ -80,7 +82,8 @@ def dc_shift(signal, num_amplitude_to_shift):
 
 ### Temporal cutout
 
-Temporal cutout은 시계열 신호의 특정 구간을 0으로 만들며 zero-masking이라고도 합니다.
+Temporal cutout은 시계열 신호의 특정 구간을 0으로 만들어 zero-masking이라고도 합니다.
+
 ![Temporal cutout](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/temporal_cutout.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
 
 ~~~python
@@ -90,7 +93,7 @@ def temporal_cutout(signal, t0, t):
   SAMPLES = signal.shape[-1]
   indices = np.arange(SAMPLES)
   indices[t0: t0+t] = -1
-  mask = tf.one_hot(indices, depth=SAMPLES, dtype=tf.float64)
+  mask = tf.one_hot(indices, depth=SAMPLES, dtype=signal.dtype)
   
   # 1차원 시계열 데이터는 행렬벡터 곱연산
   if tf.rank(signal) == 1:
@@ -100,7 +103,7 @@ def temporal_cutout(signal, t0, t):
   return tf.linalg.matmul(signal, mask)
 ~~~
 
-[[tf.one_hot]](#https://www.tensorflow.org/api_docs/python/tf/one_hot)은 one-hot 인코딩하는 함수입니다.
+[tf.one_hot](#https://www.tensorflow.org/api_docs/python/tf/one_hot)은 one-hot 인코딩하는 tensorflow 내장 함수입니다.
 기본적으로는 아래와 같이 사용됩니다.
 
 ~~~python
@@ -127,11 +130,12 @@ tf.one_hot(indices=[0, -1, -1, 3, 4], depth=5)
 ~~~
 
 1차원 시계열 데이터는 벡터 행렬곱을 통해서, 2차원 시계열 데이터는 행렬곱을 통해서
-cutout할 특정 구간을 0으로 변환시킬 수 있습니다.
+cutout할 특정 구간을 0으로 만들 수 있습니다.
 
 ### Gaussian noise
 
 기존 데이터에 가우시안 잡음(Gaussian noise)를 추가하여 데이터를 변형시킬 수 있습니다.
+
 ![Gaussian noise](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/gaussian_noise.png?raw=true){:.aligncenter}
 
 ~~~python
@@ -145,14 +149,24 @@ def gaussian_noise(signal, sigma):
 ### Band-stop filter
 
 Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 하며, 특정한 주파수 대역만을 차단하는 역할을 합니다.
+
+이전 포스팅에서 `scipy` 모듈을 활용하여 FFT 변환 과정을 살펴보고 Band-pass filter를 구현하였습니다.
+
 ![Band-stop filter](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter.png?raw=true){:.aligncenter}
 
-이전 포스팅에 `scipy` 모듈을 활용하여 Band-pass filter를 구현하였지만, Tensorflow dataset에 적용하고자 했을 때 
+
+
+그러나, tensorflow의 경우 tf.Tensor를 numpy로 계산하고자 할 때 다음과 같은 에러가 났습니다.
+
+"NotImplementedError: Cannot convert a symbolic tf.Tensor (args_2:0) to a numpy array. 
+This error may indicate that you're trying to pass a Tensor to a NumPy call, which is not supported."
+
+최대한 tensorflow의 내장 함수를 이용하여 band-stop filter를 구현하였지만, butterworth 함수가 없기에 부드러운 필터링을 하지 못하고 이상적 대역저지 필터(Ideal Band-stop Filter)를 만들 수 밖에 없었습니다. 혹시 tensorflow 내장 함수를 사용하여 butterworth band-pass filter를 구현한 코드를 발견하신다면 말씀 부탁드립니다.
 
 ~~~python
 from scipy import fft
 
-  def band_stop_filter(signal, sfreq, lowcut, highcut):
+  def bandstop_filter(signal, sfreq, lowcut, highcut):
     SAMPLES = signal.shape[-1]
     signal = tf.cast(signal, dtype=tf.complex64)
     fft_signal = tf.signal.fft(signal) / SAMPLES
@@ -175,7 +189,6 @@ from scipy import fft
     filtered_signal = tf.cast(filtered_signal, dtype='float64')
     return filtered_signal
 ~~~
-
 
 ### Crop and upsample
 
@@ -236,3 +249,13 @@ Upsampling 단계에서는 신호의 앞부분을 제대로 복원하지 못하�
 [1] Cheng, Joseph Y., et al. "Subject-aware contrastive learning for biosignals." arXiv preprint arXiv:2007.04871 (2020). [[Paper]](#https://arxiv.org/abs/2007.04871)   
 [2] Mohsenvand, Mostafa Neo, Mohammad Rasool Izadi, and Pattie Maes. "Contrastive representation learning for electroencephalogram classification." Machine Learning for Health. PMLR, 2020. [[Paper]](#http://proceedings.mlr.press/v136/mohsenvand20a.html)   
 [3] Han, Jinpei, Xiao Gu, and Benny Lo. "Semi-Supervised Contrastive Learning for Generalizable Motor Imagery EEG Classification." 2021 IEEE 17th International Conference on Wearable and Implantable Body Sensor Networks (BSN). IEEE, 2021. [[Paper]](#https://ieeexplore.ieee.org/abstract/document/9507038)
+
+
+
+
+***
+
+<br>
+
+개인 공부 기록용 블로그입니다. 오류나 틀린 부분이 있을 경우   
+언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.
