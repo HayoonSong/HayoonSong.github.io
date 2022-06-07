@@ -148,28 +148,30 @@ Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 �
 이전 포스팅에 `scipy` 모듈을 활용하여 Band-pass filter를 구현하였지만, Tensorflow dataset에 적용하고자 했을 때 
 
 ~~~python
-def band_stop_filter(signal, sfreq, lowcut, highcut):
-  SAMPLES = signal.shape[-1]
-  signal = tf.cast(signal, dtype=tf.complex64)
-  fft_signal = tf.signal.fft(signal)
-  freqs = fftfreq(SAMPLES, d=1/sfreq)
+from scipy import fft
 
-  mask = np.arange(SAMPLES)
-  bandstop_frequency = np.intersect1d(np.where(lowcut <= abs(freqs)),
-                                      np.where(abs(freqs) <= highcut))
-  mask[bandstop_frequency] = -1
-  mask = tf.one_hot(mask, SAMPLES, dtype=tf.complex64)
+  def band_stop_filter(signal, sfreq, lowcut, highcut):
+    SAMPLES = signal.shape[-1]
+    signal = tf.cast(signal, dtype=tf.complex64)
+    fft_signal = tf.signal.fft(signal) / SAMPLES
+    freqs = fft.fftfreq(SAMPLES, d=1/sfreq)
 
-  # 1차원 시계열 데이터는 행렬벡터 곱연산
-  if tf.rank(signal) == 1:
-    filtered = tf.linalg.matvec(mask, fft_signal)
-  # 2차원 시계열 데이터는 행렬 곱연산
-  else:
-    filtered = tf.linalg.matmul(fft_signal, mask)
+    mask = np.arange(SAMPLES)
+    bandstop_frequency = np.intersect1d(np.where(lowcut <= abs(freqs)),
+                                        np.where(abs(freqs) <= highcut))
+    mask[bandstop_frequency] = -1
+    mask = tf.one_hot(mask, SAMPLES, dtype=tf.complex64)
 
-  filtered_signal = tf.signal.ifft(filtered)
-  filtered_signal = tf.cast(filtered_signal, dtype='float64')
-  return filtered_signal
+    # 1차원 시계열 데이터는 행렬벡터 곱연산
+    if tf.rank(signal) == 1:
+      filtered = tf.linalg.matvec(mask, fft_signal)
+    # 2차원 시계열 데이터는 행렬 곱연산
+    else:
+      filtered = tf.linalg.matmul(fft_signal, mask)
+
+    filtered_signal = tf.signal.ifft(filtered) * SAMPLES
+    filtered_signal = tf.cast(filtered_signal, dtype='float64')
+    return filtered_signal
 ~~~
 
 
