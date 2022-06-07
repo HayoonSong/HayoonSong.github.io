@@ -8,7 +8,7 @@ categories:
 tags:
     - signal, eeg, audio
 comments: true
-published: false
+published: true
 
 last_modified_at: '2022-06-07'
 ---
@@ -19,6 +19,9 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 {:toc .large-only}
 
 ## Data augmentation
+
+***
+
 데이터 증강(data augmentation)은 데이터의 양을 늘리거나 다양한 데이터에 강건한 모델을 만들고자 사용됩니다.
 
 예제로는 시계열 데이터인 EEG data를 사용하겠습니다.   
@@ -27,11 +30,21 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 <center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
 <br>
 
+![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw1.png?raw=true){:.aligncenter}
+<center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
+<br>
+
+![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw2.png?raw=true){:.aligncenter}
+<center><span style="color:gray; font-size:80%">좌: 전체 데이터 우: 1초 확대한 데이터</span></center>   
+<br>
+
 22 channels EEG 데이터는 4초간 측정되었으며, 250 Hz의 sampling frequency가 사용되었습니다.   
 데이터 차원은 [22 x 1000]이지만 자세한 설명을 위하여 
 4초 중에서 1초만 확대하고 하나의 채널(single-channel)만 시각화 하겠습니다.
 
 ### Amplitude scale
+
+***
 
 진폭 스케일(amplitude sclae)은 신호에 상수를 곱하여 **진폭의 크기를 조정**하는 기법입니다.
 
@@ -44,6 +57,8 @@ def amplitude_scale(signal, num_scale):
 ~~~
 
 ### Time shift
+
+***
 
 시간 이동(time shift)은 말 그대로 **시간 축으로 이동**한다는 것입니다.   
 Temporal roll이라고 불리기도 하며, 원래의 시간축에서 오른쪽 방향으로만 이동하는   
@@ -70,6 +85,8 @@ num_places_to_shift가 음수일 경우 앞으로 양수일 경우 뒤로 이동
 
 ### DC shift
 
+***
+
 DC 이동(DC shift)는 신호에 상수를 더하여 **진폭(amplitude)을 이동**하는 방법입니다.
 
 ![DC shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true){: width="50%" height="50%"}{:.aligncenter}  
@@ -81,6 +98,8 @@ def dc_shift(signal, num_amplitude_to_shift):
 ~~~
 
 ### Temporal cutout
+
+***
 
 Temporal cutout은 시계열 신호의 특정 구간을 0으로 만들어 zero-masking이라고도 합니다.
 
@@ -134,6 +153,8 @@ cutout할 특정 구간을 0으로 만들 수 있습니다.
 
 ### Gaussian noise
 
+***
+
 기존 데이터에 가우시안 잡음(Gaussian noise)를 추가하여 데이터를 변형시킬 수 있습니다.
 
 ![Gaussian noise](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/gaussian_noise.png?raw=true){:.aligncenter}
@@ -148,20 +169,25 @@ def gaussian_noise(signal, sigma):
 
 ### Band-stop filter
 
+***
+
 Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 하며, 특정한 주파수 대역만을 차단하는 역할을 합니다.
 
 이전 포스팅에서 `scipy` 모듈을 활용하여 FFT 변환 과정을 살펴보고 Band-pass filter를 구현하였습니다.
 
-![Band-stop filter](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter.png?raw=true){:.aligncenter}
-
-
-
-그러나, tensorflow의 경우 tf.Tensor를 numpy로 계산하고자 할 때 다음과 같은 에러가 났습니다.
+그러나, scipy를 사용하여 tensorflow의 tensor를 필터링하고자 할 때 tf.Tensor가 numpy로 계산되어 다음과 같은 에러가 났습니다.
 
 "NotImplementedError: Cannot convert a symbolic tf.Tensor (args_2:0) to a numpy array. 
 This error may indicate that you're trying to pass a Tensor to a NumPy call, which is not supported."
 
-최대한 tensorflow의 내장 함수를 이용하여 band-stop filter를 구현하였지만, butterworth 함수가 없기에 부드러운 필터링을 하지 못하고 이상적 대역저지 필터(Ideal Band-stop Filter)를 만들 수 밖에 없었습니다. 혹시 tensorflow 내장 함수를 사용하여 butterworth band-pass filter를 구현한 코드를 발견하신다면 말씀 부탁드립니다.
+`.numpy()` 또는 `.eval()` 등 tf.Tensor를 numpy로 변경할 수 있는 몇 가지 방법이 있었지만 제 텐서는 변하지 않았습니다...
+
+따라서 최대한 tensorflow의 내장 함수를 이용하여 band-stop filter를 구현하였습니다.
+그러나 tensorflow에는 butterworth 함수가 없기에 부드러운 필터링을 하지 못하였고 이상적 대역저지 필터(Ideal Band-stop Filter)를 만들 수 밖에 없었습니다. 
+혹시 tensorflow 내장 함수를 사용하여 butterworth band-pass filter를 구현한 코드를 발견하신다면 댓글 또는 메일 부탁드립니다.
+
+저는 tensorflow 내에서 band-stop filter가 반드시 필요하여 scipy와 최대한 비슷한 신호가 나오게 구현하도록 노력했지만,
+scipy를 대체하지 못하기에 하단의 코드를 추천드리지는 않습니다...
 
 ~~~python
 from scipy import fft
@@ -191,6 +217,8 @@ from scipy import fft
 ~~~
 
 ### Crop and upsample
+
+***
 
 Crop and upsample은 데이터를 특정 부분 자르고 업샘플링하여 타임스탬프의 빈도를 늘리는 방법입니다.
 
