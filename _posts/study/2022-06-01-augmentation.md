@@ -118,10 +118,9 @@ def temporal_cutout(signal, t0, t):
   return tf.linalg.matmul(signal, mask)
 ~~~
 
-tf.one_hot은 one-hot 인코딩하는 tensorflow 함수로 자세한 설명은 [이전 포스팅](#)을 참고해주시길 바랍니다.
+tf.one_hot은 one-hot 인코딩하는 tensorflow 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고해주시길 바랍니다.
 
-1차원 시계열 데이터는 벡터 행렬곱을 통해서, 2차원 시계열 데이터는 행렬곱을 통해서
-cutout할 특정 구간을 0으로 만들 수 있습니다.
+1차원 시계열 데이터는 벡터 행렬곱을 통해서, 2차원 시계열 데이터는 행렬곱을 통해서 cutout할 특정 구간을 0으로 만들 수 있습니다.
 
 ### Gaussian noise
 
@@ -209,9 +208,6 @@ from scipy import fft
 
 마지막으로 Crop and upsample은 데이터를 특정 부분 자르고 업샘플링하여 타임스탬프의 빈도를 늘리는 방법입니다.
 
-![Crop and upsample](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample.png?raw=true){:.aligncenter}
-<br>
-
 ![Crop and upsample compairson](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_compairson.png?raw=true){:.aligncenter}
 <center><span style="color:gray; font-size:80%">상: Original signal 하: Crop and upsample을 적용한 transformed signal </span></center>
 <br>
@@ -244,16 +240,26 @@ def crop_and_upsample(signal, crop_samples):
   return upsampled_signal
 ~~~
 
-[[tf.tile]](#https://www.tensorflow.org/api_docs/python/tf/tile)은 tensor를 복사하여 붙여넣는 함수로 자세한 설명은 이전 포스팅을 참고해주시
+`tf.tile`은 tensor를 복사하여 붙여넣는 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고해주시길 바랍니다. Crop하는 시작점 즉 t0이 신호의 끝 쪽에 있어서 원하는 samples만큼 자르지 못할 때 신호를 복붙하여 늘려줍니다.
 
-DELAY는 [[tfio.audio.resample]](#https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 resampling할 경우    
+DELAY는 [tfio.audio.resample](#https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 resampling할 경우    
 데이터의 앞부분을 제대로 resampling 하지 못하기에 추가하였습니다.
 DELAY를 사용하지 않게 되면 신호는 다음과 같이 변환됩니다.
 
-![Delay](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_delay/delay.png?raw=true){:.aligncenter}
 ![Transformed](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_delay/delay_transformed.png?raw=true){:.aligncenter}
 
-데이터의 앞부분을 제대로 복원하기 위해 자르고 싶은 샘플 개수의 0.1배 만큼을 더 남겨둡니다.   
+0 ~ 0.25초 정도까지는 제대로 예측하지 못하는 것을 확인할 수 있습니다.
+
+![Delay](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_delay/delay.png?raw=true){:.aligncenter}
+<center><span style="color:gray; font-size:80%"></span></center>
+<br>
+
+DELAY를 사용하지 않고 crop & resample한 신호를 original signal과 1초만 확대해서 비교해보면 신호를 제대로 복원하지 못한 것을 확연히 알 수 있습니다.
+
+따라서 데이터의 앞부분을 제대로 복원하기 위해 자르고 싶은 샘플 개수의 0.1배 만큼을 더 남겨두었습니다.
+
+`DELAY = int(0.1 * crop_samples)`
+
 ![Original](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_delay/delay_original.png?raw=true){:.aligncenter}   
 e.g.) TIME = 4, SAMPLING_RATE= 250 → SAMPLES = 1000     
       만약 자르고 싶은 부분이 2초라면 → crop_samples = 500, DELAY = 50    
@@ -265,8 +271,15 @@ Upsampling 단계에서는 신호의 앞부분을 제대로 복원하지 못하�
 
 결과적으로 앞에 제대로 복원하지 못한 DEALY는 자르고 남은 데이터를 사용하였습니다.
 
+![Crop and upsample](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample.png?raw=true){:.aligncenter}
+<br>
+
+이로써, Tensorflow를 사용하여 데이터를 증강하는 7가지의 기법에 대해 알아보았습니다.
+
 
 ## References
+
+***
 
 [1] Cheng, Joseph Y., et al. "Subject-aware contrastive learning for biosignals." arXiv preprint arXiv:2007.04871 (2020). [[Paper]](#https://arxiv.org/abs/2007.04871)   
 [2] Mohsenvand, Mostafa Neo, Mohammad Rasool Izadi, and Pattie Maes. "Contrastive representation learning for electroencephalogram classification." Machine Learning for Health. PMLR, 2020. [[Paper]](#http://proceedings.mlr.press/v136/mohsenvand20a.html)   
