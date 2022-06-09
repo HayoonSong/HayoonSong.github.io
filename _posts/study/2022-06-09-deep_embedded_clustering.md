@@ -98,7 +98,7 @@ Deep embedded clustering(DEC) 및 cluster centroids를 초기화(initialization)
 
 ***
 
-1개의 text dataset과 2개의 image datasets에 대하여 DEC의 성능을 평가하였습니다. 
+1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 DEC의 성능을 평가하였습니다. 
 
 
 
