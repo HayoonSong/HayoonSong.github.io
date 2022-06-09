@@ -8,7 +8,7 @@ categories:
 tags:
     - signal, eeg, audio
 comments: true
-published: true
+published: false
 
 last_modified_at: '2022-06-08'
 ---
