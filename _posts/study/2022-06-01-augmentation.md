@@ -10,7 +10,7 @@ tags:
 comments: true
 published: false
 
-last_modified_at: '2022-06-08'
+last_modified_at: '2022-06-12'
 ---
 
 Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 알아보겠습니다.
@@ -118,7 +118,7 @@ def temporal_cutout(signal, t0, t):
   return tf.linalg.matmul(signal, mask)
 ~~~
 
-tf.one_hot은 one-hot 인코딩하는 tensorflow 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고해주시길 바랍니다.
+tf.one_hot은 one-hot 인코딩하는 tensorflow 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고하시길 바랍니다.
 
 1차원 시계열 데이터는 벡터 행렬곱을 통해서, 2차원 시계열 데이터는 행렬곱을 통해서 cutout할 특정 구간을 0으로 만들 수 있습니다.
 
@@ -240,7 +240,7 @@ def crop_and_upsample(signal, crop_samples):
   return upsampled_signal
 ~~~
 
-`tf.tile`은 tensor를 복사하여 붙여넣는 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고해주시길 바랍니다. Crop하는 시작점 즉 t0이 신호의 끝 쪽에 있어서 원하는 samples만큼 자르지 못할 때 신호를 복붙하여 늘려줍니다.
+`tf.tile`은 tensor를 복사하여 붙여넣는 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고하시길 바랍니다. Crop하는 시작점 즉 t0이 신호의 끝 쪽에 있어서 원하는 samples만큼 자르지 못할 때 신호를 복붙하여 늘려줍니다.
 
 DELAY는 [tfio.audio.resample](#https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 resampling할 경우    
 데이터의 앞부분을 제대로 resampling 하지 못하기에 추가하였습니다.
