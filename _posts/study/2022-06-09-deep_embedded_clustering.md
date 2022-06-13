@@ -96,7 +96,18 @@ Alpha 값은 t 분포(Student's t-distribution)의 degree of freedom을 나타�
 
 ***
 
-다음으로 저자들은 보조 타켓 분포(auxiliary target distribution)을 사용하여 높은 신뢰도(high confidence)로 clusters를 재정의하였습니다. 특히 soft assignment를 target distribution과 매칭하여 학습하였습니다. 따라서 soft assignment $q_i$와 auxiliary distribution $p_i$ 간의 KL divergence loss를 목적함수로 정의하였습니다.
+다음으로 저자들은 보조 타겟 분포(auxiliary target distribution)을 사용하여 높은 신뢰도(high confidence)로 clusters를 재정의하였습니다. 기존의 clustering은 unsupervised learning으로 사용되었지만, 본 논문에서는 보조 타겟 분포를 label로 사용하여 마치 supervised learning 처럼 학습하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.
+
+
+
+
+
+
+
+
+
+
+따라서 soft assignment $q_i$와 auxiliary distribution $p_i$ 간의 KL divergence loss를 목적함수로 정의하였습니다.
 
 ![KL Divergence](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/kl_divergence.PNG?raw=true){:.aligncenter} 
 <br>
