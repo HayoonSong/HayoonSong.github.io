@@ -7,14 +7,10 @@ categories:
     - study
 tags:
     - signal, eeg, audio
-
 related_posts:
   - study/_posts/2022-05-31-filter.md
-  - study/_posts/2022-06-09-deep_embedded_clustering.md
-
 comments: true
 published: false
-
 last_modified_at: '2022-06-13'
 ---
 

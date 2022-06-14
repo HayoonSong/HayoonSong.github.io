@@ -9,7 +9,6 @@ tags:
     - domain_adaptation
 comments: true
 published: false
-
 last_modified_at: '2022-01-03'
 ---
 
@@ -203,3 +202,12 @@ LeNet 구조를 활용
 Adversarial discriminator는 3개의 fully connected layers로 구성되어 있으며, 2 layers는 500개의 hidden units으로 이루어져 있습니다. 각 500-unit layers는 ReLU 활성함수를 사용하였습니다. Optimization은 Adam optimizer를 사용하였습니다.
 
 ### Modality adaptation
+
+
+
+<br>
+<br>
+
+***
+
+<center>오류나 틀린 부분이 있을 경우 언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.</center>
