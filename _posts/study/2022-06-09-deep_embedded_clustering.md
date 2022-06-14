@@ -1,6 +1,8 @@
 ---
 layout: post
 title: '[Paper Review] Unsupervised Deep Embedding for Clustering Analysis'
+description: >
+  거꾸로 읽는 self-supervised learning의 첫 번째 논문
 subtitle: Deep Enbedded Clustering
 date: '2022-06-09'
 categories:
