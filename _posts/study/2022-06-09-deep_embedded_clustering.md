@@ -74,7 +74,7 @@ $$
   y = g_2(W_2\tilde{h} + b_2) \\[0.5em]
 $$
 
-Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습시는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](#https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
+Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습시는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
 {:.message}
 
 <br>
@@ -157,7 +157,7 @@ KL divergence(Kullback-Leibler divergence, KLD)는 **두 확률분포의 차이�
 
 $$D_{KL}(P||Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
-텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](#https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](#https://melonicedlatte.com/machinelearning/2019/12/20/204900.html#:~:text=1.%20Entropy,%EB%82%AE%EB%8B%A4%EB%8A%94%20%EA%B2%83%EC%9D%84%20%EC%9D%98%EB%AF%B8%ED%95%A9%EB%8B%88%EB%8B%A4.)를 참고하시길 바랍니다.
+텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](https://melonicedlatte.com/machinelearning/2019/12/20/204900.html#:~:text=1.%20Entropy,%EB%82%AE%EB%8B%A4%EB%8A%94%20%EA%B2%83%EC%9D%84%20%EC%9D%98%EB%AF%B8%ED%95%A9%EB%8B%88%EB%8B%A4.)를 참고하시길 바랍니다.
 
 $$
 \begin{aligned}
@@ -240,8 +240,8 @@ $$
 
 ***
 
-[1] Xie, Junyuan, Ross Girshick, and Ali Farhadi. "Unsupervised deep embedding for clustering analysis." International conference on machine learning. PMLR, 2016. [[Paper]](#http://proceedings.mlr.press/v48/xieb16.html)   
-[2] 슈퍼짱짱, "[논문] DEC 리뷰: Unsupervised Deep Embedding for Clustering Analysis" [[Online]](#https://leedakyeong.tistory.com/entry/%EB%85%BC%EB%AC%B8Unsupervised-Deep-Embedding-for-Clustering-AnalysisDEC)    
+[1] Xie, Junyuan, Ross Girshick, and Ali Farhadi. "Unsupervised deep embedding for clustering analysis." International conference on machine learning. PMLR, 2016. [[Paper]](http://proceedings.mlr.press/v48/xieb16.html)   
+[2] 슈퍼짱짱, "[논문] DEC 리뷰: Unsupervised Deep Embedding for Clustering Analysis" [[Online]](https://leedakyeong.tistory.com/entry/%EB%85%BC%EB%AC%B8Unsupervised-Deep-Embedding-for-Clustering-AnalysisDEC)    
 
 <br>
 <br>
