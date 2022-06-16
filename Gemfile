@@ -26,11 +26,6 @@ gem "jekyll-theme-hydejack", "~> 9.1"
 # If you're using the MathJax math engine instead, free to remove the line below:
 gem "kramdown-math-katex"
 
-# gem "katex"
-
-# gem "therubyracer"
-# gem "therubyrhino"
-
 # A JavaScript runtime for ruby that helps with running the katex gem above.
 gem "duktape"
 
