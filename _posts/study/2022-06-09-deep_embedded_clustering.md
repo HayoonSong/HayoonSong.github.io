@@ -140,9 +140,9 @@ $$
 
 ***
 
-다음으로 저자들은 보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하면서 clusters를 재정의하였습니다. 
+다음으로 저자들은 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습**하면서 clusters를 재정의하였습니다. 
 
-기존의 clustering은 unsupervised learning으로 사용되었지만, 본 논문에서는 보조 타겟 분포를 label로 사용하여 마치 supervised learning 처럼 학습하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.{:.message}
+기존의 clustering은 unsupervised learning으로 사용되었지만, 본 논문에서는 **보조 타겟 분포를 label로 사용하여 마치 supervised learning 처럼 학습**하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.{:.message}
 
 구체적으로는 DEC는 soft assignments를 target distribution에 매칭하면서 학습합니다. 끝으로, soft assignments $q_{ij}$와 target distribution $p_{ij}$ 간의 KL divergence loss가 목적함수로 정의되었습니다.
 
