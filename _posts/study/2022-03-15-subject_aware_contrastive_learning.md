@@ -40,6 +40,8 @@ For example, the power in certain EEG frequency bands has been shown to be highl
 Thus, we use **frequency-based perturbations** to augment the signal.
 * Integrate subject awareness into the self-supervised learning framework
 
+Temporal specific transformations(cutout, delay)가 representation을 학습하는 데 가장 효과적이었으며, 그 뒤로는 signal mixing, sensor perturvations (dropout and cutout), 그리고 bandstop filtering이었습니다.
+
 
 ## 3. Methods
 

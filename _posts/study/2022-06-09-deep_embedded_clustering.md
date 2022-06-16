@@ -30,8 +30,7 @@ last_modified_at: '2022-06-12'
 
 또한, feature space를 선택하는 것도 중요합니다. 가장 간단한 이미지 데이터셋을 제외하고는, raw pixels에서 Euclidian distance를 사용하는 것은 비효율적입니다.
 
-결국 저자들은 다음과 같은 의문에 도달하였습니다.   
-: 데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수 없을까?
+결국 저자들은 다음과 같은 의문에 도달하였습니다. ""데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수 없을까?""
 
 본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 클러스터링뿐만 아니라 feautre representation도 개선시켰습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였다고 합니다. 게다가 DEC는 hyperparameters 선택에 있어써도 훨씬 덜 민감했습니다.
 
@@ -153,11 +152,11 @@ $$
 
 
 ##### (참고) KL DIVERGENCE에 대한 설명
-KL divergence(Kullback-Leibler divergence)는 두 확률분포의 차이를 계산하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 $P$, $Q$가 있을 때, 두 분포의 KL divergence는 다음과 같이 정의할 수 있습니다.
+KL divergence(Kullback-Leibler divergence)는 **두 확률분포의 차이를 계산**하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 $P$, $Q$가 있을 때, 두 분포의 KL divergence는 다음과 같이 정의할 수 있습니다.
 
 $$D_{KL}(P||Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
-즉, KL divergence는 어떠한 확률분포 $P$가 있을 때, 그 분포를 근사적으로 표현하는 확률분포 $Q$를 $P$ 대신 사용하는 경우의 엔트로피 변화를 의미합니다. 다른 말로, $P$의 분포를 사용하고 싶은데 모를 때, $Q$ 분포로 추정하기 위해서 사용하는 것입니다. KL divergence에 대한 자세한 설명은 슈퍼짱짱님의 [KL divergence(Kullback-Leibler)](#https://leedakyeong.tistory.com/3?category=799282)를 참고하시길 바랍니다.
+텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KL-Divergence는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KL-Divergence는 값이 낮을수록 두 분포가 유사하다고 해석**합니다. 정보이론에서 흔히 볼 수 있는 엔트로피(entropy) 또한, 값이 낮을수록 랜덤성이 낮다고 해석하는 것과 비슷합니다. KL-Divergence에 대한 자세한 설명은 대학원생이 쉽게 설명해보기님의 [KL-Divergence Loss 간단 설명](#https://hwiyong.tistory.com/408)를 참고하시길 바랍니다.
 
 $$
 \begin{aligned}
