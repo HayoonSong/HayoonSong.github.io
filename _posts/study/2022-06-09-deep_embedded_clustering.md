@@ -153,11 +153,11 @@ $$
 
 
 ##### (참고) KL DIVERGENCE에 대한 설명
-KL divergence(Kullback-Leibler divergence)는 **두 확률분포의 차이를 계산**하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 $P$, $Q$가 있을 때, 두 분포의 KL divergence는 다음과 같이 정의할 수 있습니다.
+KL divergence(Kullback-Leibler divergence, KLD)는 **두 확률분포의 차이를 계산**하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 $P$, $Q$가 있을 때, 두 분포의 KLD는 다음과 같이 정의할 수 있습니다.
 
 $$D_{KL}(P||Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
-텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KL-Divergence는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KL-Divergence는 값이 낮을수록 두 분포가 유사하다고 해석**합니다. 정보이론에서 흔히 볼 수 있는 엔트로피(entropy) 또한, 값이 낮을수록 랜덤성이 낮다고 해석하는 것과 비슷합니다. KL-Divergence에 대한 자세한 설명은 대학원생이 쉽게 설명해보기님의 [KL-Divergence Loss 간단 설명](#https://hwiyong.tistory.com/408)를 참고하시길 바랍니다.
+텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KL-Divergence는 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기님의 [KL-Divergence Loss 간단 설명](#https://hwiyong.tistory.com/408)를 참고하시길 바랍니다.
 
 $$
 \begin{aligned}
