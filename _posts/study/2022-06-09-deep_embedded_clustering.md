@@ -63,9 +63,9 @@ Deep embedded clustering (DEC)는 두 단계로 이루어져 있습니다.
 
 ***
 
-DNN parameters $θ$와 cluster centroids {$μ_j$}를 초기화하는(initialize) 방법을 알아보겠습니다.
+DNN parameters $$θ$$와 cluster centroids {$$μ_j$$}를 초기화하는(initialize) 방법을 알아보겠습니다.
 
-DEC network의 $θ$를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
+DEC network의 $$θ$$를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
 
 $$
   \tilde{x} \sim Dropout(x) \\[0.5em]
