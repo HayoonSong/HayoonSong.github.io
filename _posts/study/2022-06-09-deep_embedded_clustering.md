@@ -79,12 +79,12 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 
 <br>
 
-학습은 least squares loss $$||x-y||^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, 다음 layer를 학습하기 위해 output $h$를 input으로 사용합니다. 이러한 greedy lyaer-wise training 이후, reverse layer-wise training 순서로 모든 decoder layers 뒤에 모든 encoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
+학습은 least squares loss $$\vert\vert x-y \vert\vert^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, 다음 layer를 학습하기 위해 output $h$를 input으로 사용합니다. 이러한 greedy lyaer-wise training 이후, reverse layer-wise training 순서로 모든 decoder layers 뒤에 모든 encoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
 <br>
 
-다음으로 상단의 그림과 같이 decoder layer를 버리고 econdoer layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 $k$개의 initial centroids $\lbraceμ_j\rbrace_{j=1}^k$를 얻습니다.
+다음으로 상단의 그림과 같이 decoder layer를 버리고 econdoer layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbraceμ_j\rbrace_{j=1}^k$$를 얻습니다.
 
 ### Parameter optimization
 
@@ -101,8 +101,8 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 **Step 1.** X → Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
 ⇒ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
 
-**Step 2.** Deep mapping $f_θ$을 업데이트하고 보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의합니다.    
-⇒ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.{:.message}
+**Step 2.** Deep mapping $$f_θ$$을 업데이트하고 보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의합니다.    
+⇒ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
 
 이 절차를 수렴 기준에 충족될 때까지 반복합니다.
 
@@ -110,15 +110,15 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 
 ***
 
-Embedded points $z_i$와 cluster centroids $μ_j$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
+Embedded points $$z_i$$와 cluster centroids $$μ_j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
 $$
   q_{ij} = \frac{(1+||z_i - μ_j||^2 / α)^- \frac{α+1}{2}}{\sum_{j'}(1+||z_i - μ_j||^2 / α)^- \frac{α+1}{2}}
 $$
 
-α는 t-분포의 자유도(degree of freedom)를 나타내며, **$q_{ij}$는 sample $i$가 cluster $j$에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
+α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
 
-<$q_{ij}$는 어떻게 도출되었을까?>
+##### (참고) $$q_{ij}$$는 어떻게 도출되었을까?
 
 t-분포의 공식은 다음과 같습니다.
 
@@ -135,7 +135,6 @@ $$
          &= \frac{(1+\frac{||z_i - μ_j||^2}{α})^{-\frac{α+1}{2}}}{\sum_{j'}(1+\frac{||z_i - μ_j||^2}{α})^{-\frac{α+1}{2}}} \\[2em]
 \end{aligned}
 $$
-{:.message}
 
 #### KL DIVERGENCE MINIMIZATION
 
@@ -152,12 +151,13 @@ $$
 $$
 
 
-<KL DIVERGENCE에 대한 설명>   
+##### (참고) KL DIVERGENCE에 대한 설명   
+
 KL divergence(Kullback-Leibler divergence, KLD)는 **두 확률분포의 차이를 계산**하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 $P$, $Q$가 있을 때, 두 분포의 KLD는 다음과 같이 정의할 수 있습니다.
 
 $$D_{KL}(P||Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
-텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](https://melonicedlatte.com/machinelearning/2019/12/20/204900.html#:~:text=1.%20Entropy,%EB%82%AE%EB%8B%A4%EB%8A%94%20%EA%B2%83%EC%9D%84%20%EC%9D%98%EB%AF%B8%ED%95%A9%EB%8B%88%EB%8B%A4.)를 참고하시길 바랍니다.
+텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](https://melonicedlatte.com/machinelearning/2019/12/20/204900)를 참고하시길 바랍니다.
 
 $$
 \begin{aligned}
@@ -184,7 +184,7 @@ $$
   p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}}
 $$
 
-$f_j = \sum_i q_{ij}$로, sample i가 cluster j에 속할 확률의 합을 나타냅니다. 
+$$f_j = \sum_i q_{ij}$$로, sample i가 cluster j에 속할 확률의 합을 나타냅니다. 
 나눠주어 normalization 합니다.
 
 #### OPIMIZATION
