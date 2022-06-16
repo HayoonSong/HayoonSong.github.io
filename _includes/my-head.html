@@ -163,3 +163,8 @@ Left here for reference, feel free to delete.
     document.querySelectorAll('.gumroad-button').forEach(el => io.observe(el));
   });
 </script>
+
+<!-- Mathjax -->
+{% if page.use_math %}
+  {% include mathjax_support.html %}
+{% endif %}
