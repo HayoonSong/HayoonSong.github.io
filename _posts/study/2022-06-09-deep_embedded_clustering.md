@@ -9,6 +9,7 @@ categories:
     - study
 tags:
     - DEC
+use_math: true
 comments: true
 published: true
 last_modified_at: '2022-06-12'
