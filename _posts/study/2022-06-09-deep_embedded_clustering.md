@@ -31,7 +31,7 @@ last_modified_at: '2022-06-12'
 
 또한, feature space를 선택하는 것도 중요합니다. 가장 간단한 이미지 데이터셋을 제외하고는, raw pixels에서 Euclidian distance를 사용하는 것은 비효율적입니다.
 
-결국 저자들은 다음과 같은 의문에 도달하였습니다. ""데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수 없을까?""
+결국 저자들은 다음과 같은 의문에 도달하였습니다. "데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수 없을까?"
 
 본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 클러스터링뿐만 아니라 feautre representation도 개선시켰습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였다고 합니다. 게다가 DEC는 hyperparameters 선택에 있어써도 훨씬 덜 민감했습니다.
 
