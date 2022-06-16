@@ -49,7 +49,7 @@ last_modified_at: '2022-06-12'
 
 ***
 
-클러스터링을 data space X에서 바로 하는 것 대신에, 본 논문은 먼저 non-linear mapping $f_θ$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$μ_j \in Z$}$_{j=1}^k$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
+클러스터링을 data space X에서 바로 하는 것 대신에, 본 논문은 먼저 non-linear mapping $$f_θ$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$μ_j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
 
 Deep embedded clustering (DEC)는 두 단계로 이루어져 있습니다.    
 1. Parameter initialization with a deep autoencoder   
@@ -79,7 +79,7 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 
 <br>
 
-학습은 least squares loss $||x-y||^2$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, 다음 layer를 학습하기 위해 output $h$를 input으로 사용합니다. 이러한 greedy lyaer-wise training 이후, reverse layer-wise training 순서로 모든 decoder layers 뒤에 모든 encoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
+학습은 least squares loss $$||x-y||^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, 다음 layer를 학습하기 위해 output $h$를 input으로 사용합니다. 이러한 greedy lyaer-wise training 이후, reverse layer-wise training 순서로 모든 decoder layers 뒤에 모든 encoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
 <br>
@@ -90,7 +90,7 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 
 ***
 
-Non-linear mapping $f_θ$과 cluster centroids {$μ_j$}$_{j=1}^k$의 초기값을 추정하였으므로, 비지도 알고리즘을 사용하여 clustering을 개선하는 방법을 살펴보겠습니다.
+Non-linear mapping $$f_θ$$과 cluster centroids {$$μ_j$$}$$_{j=1}^k$$의 초기값을 추정하였으므로, 비지도 알고리즘을 사용하여 clustering을 개선하는 방법을 살펴보겠습니다.
 
 #### Clustering with KL divergence
 
