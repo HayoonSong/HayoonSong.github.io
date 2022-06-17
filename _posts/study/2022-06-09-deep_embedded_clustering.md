@@ -128,10 +128,10 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 
 ***
 
-Embedded points $$z_i$$와 cluster centroids $$\mu_j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
+Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
 $$
-  q_{ij} = \frac{(1+\Vert z_i - \mu_j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}{\sum_{j'}(1+\Vert z_i - \mu_{j'}\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}
+  q_{ij} = \frac{(1+\Vert z_i - \mu _j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}{\sum_{j'}(1+\Vert z_i - \mu _{j'}\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}
 $$
 
 α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
@@ -145,20 +145,20 @@ $$
 $$
 
 
-t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이의 거리 $$\Vert z_i - \mu_j\Vert$$가 되며 식은 다음과 같이 정리됩니다.   
+t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이의 거리 $$\Vert z_i - \mu _j\Vert$$가 되며 식은 다음과 같이 정리됩니다.   
 
 $$
 \begin{aligned}
-  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu_{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu_{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
 \end{aligned}
 $$
 
 또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
 
 $$
-  q_{ij} = \frac{{(1+\Vert z_i - \mu_j \Vert^2)}^{-1}}{\sum_{j'}({1+\Vert z_i - \mu_{j'} \Vert^2)}^{-1}}
+  q_{ij} = \frac{{(1+\Vert z_i - \mu_j \Vert^2)}^{-1}}{\sum_{j'}({1+\Vert z_i - \mu _{j'} \Vert^2)}^{-1}}
 $$
 
 분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
