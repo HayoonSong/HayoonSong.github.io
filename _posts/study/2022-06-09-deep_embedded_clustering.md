@@ -67,7 +67,7 @@ last_modified_at: '2022-06-17'
 
 ***
 
-클러스터링을 data space X에서 바로 하는 것 대신에, 본 연구에서는 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu_j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
+클러스터링을 data space X에서 바로 하는 것 대신에, 본 연구에서는 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu _j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
 
 Deep embedded clustering (DEC)는 두 단계로 이루어져 있습니다.    
 1. Parameter initialization with a deep autoencoder   
@@ -81,7 +81,7 @@ Deep embedded clustering (DEC)는 두 단계로 이루어져 있습니다.
 
 ***
 
-DNN parameters θ와 cluster centroids {$$\mu_j$$}를 초기화하는(initialize) 방법을 알아보겠습니다.
+DNN parameters θ와 cluster centroids {$$\mu _j$$}를 초기화하는(initialize) 방법을 알아보겠습니다.
 
 DEC network의 θ를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
 
@@ -102,13 +102,13 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
 <br>
 
-다음으로 상단의 그림과 같이 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu_j\rbrace_{j=1}^k$$를 얻습니다.
+다음으로 상단의 그림과 같이 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
 
 ### Parameter optimization
 
 ***
 
-Non-linear mapping $$f_\theta$$과 cluster centroids {$$\mu_j$$}$$_{j=1}^k$$의 초기값을 추정하였으므로, 비지도 알고리즘을 사용하여 clustering을 개선하는 방법을 살펴보겠습니다.
+Non-linear mapping $$f_\theta$$과 cluster centroids {$$\mu _j$$}$$_{j=1}^k$$의 초기값을 추정하였으므로, 비지도 알고리즘을 사용하여 clustering을 개선하는 방법을 살펴보겠습니다.
 
 #### Clustering with KL divergence
 
@@ -149,22 +149,22 @@ t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이
 
 $$
 \begin{aligned}
-  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu _j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{(1+\frac{\Vert z_i - \mu _j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
 \end{aligned}
 $$
 
 또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
 
 $$
-  q_{ij} = \frac{{(1+\Vert z_i - \mu_j \Vert^2)}^{-1}}{\sum_{j'}({1+\Vert z_i - \mu _{j'} \Vert^2)}^{-1}}
+  q_{ij} = \frac{{(1+\Vert z_i - \mu _j \Vert^2)}^{-1}}{\sum_{j'}({1+\Vert z_i - \mu _{j'} \Vert^2)}^{-1}}
 $$
 
 분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
 
 따라서, $$q_{ij}$$는 sample i가 cluster j에 속할 확률이 되는 것입니다.   
-예를 들어 $$\Vert z_i - \mu_j \Vert^2$$가 0.1일 때는 sample과 cluster centroid가 가까울 것이고, 10일 때는 비교적 멀 것입니다. 이 때의 cluster의 속할 확률 $$q_{ij}$$는 약 0.92, 0.01이 되겠지요.
+예를 들어 $$\Vert z_i - \mu _j \Vert^2$$가 0.1일 때는 sample과 cluster centroid가 가까울 것이고, 10일 때는 비교적 멀 것입니다. 이 때의 cluster의 속할 확률 $$q_{ij}$$는 약 0.92, 0.01이 되겠지요.
 
 #### KL DIVERGENCE MINIMIZATION
 
