@@ -8,7 +8,7 @@ categories:
 tags:
     - signal, eeg, audio
 related_posts:
-  - study/_posts/2022-05-31-filter.md
+  - _posts/study/2022-05-31-filter.md
 comments: true
 published: false
 last_modified_at: '2022-06-17'
@@ -212,8 +212,8 @@ from scipy import fft
 
 Crop and upsample은 데이터를 특정 부분 자르고 업샘플링(upsampling)하여 타임스탬프(timestamp)의 빈도를 늘리는 방법입니다.
 
-원래는 잘라낼 부분을 랜덤으로 정하지만, 시각화를 위하여 t0 = 0으로 설정하고 전체 4초 데이터 중에서 앞에 2초를 잘라내고 업샘플링하였습니다.
-Original signal의 0 ~ 4 초(500 samples)가 crop and upsampling을 통해 1000 samples로 늘어난 것을 확인하실 수 있습니다.
+원래는 잘라내는 시작점을 랜덤으로 정하지만, 시각화를 위하여 t0 = 0으로 설정하고 전체 4초 데이터 중에서 앞에 2초를 잘라내고 업샘플링하였습니다.
+Original signal의 0 ~ 2 초(500 samples)가 crop and upsampling을 통해 1000 samples로 늘어난 것을 확인하실 수 있습니다.
 
 ![Crop and upsample compairson all](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_comparison_all.png?raw=true){:.aligncenter}
 <center><span style="color:gray; font-size:80%">상: Original signal 0 ~ 4s 중: Original signal 0 ~ 2s 하: Crop and upsample을 적용한 transformed signal 0 ~ 4s </span></center>
@@ -222,30 +222,28 @@ Original signal의 0 ~ 4 초(500 samples)가 crop and upsampling을 통해 1000 
 ~~~python
 def crop_and_upsample(signal, crop_time, sfreq):
   SAMPLES = signal.shape[-1]
-  remain_samples = SAMPLES - crop_samples
-  t0 = np.random.randint(0, SAMPLES)
-  # 1차원 시계열 데이터(single-channel EEG)
-  if tf.rank(signal) == 1:
-   signal = tf.tile(signal, multiples=[2])
-  # 2차원 시계열 데이터(multi-channels EEG)
-  else:
-    signal = tf.tile(signal, multiples=[1, 2])
-  cropped_signal = tf.gather(signal,
-                             indices=tf.range(t0+crop_samples, t0+crop_samples+remain_samples),
-                             axis=-1)
+  t0 = np.random.randint(0, SAMPLES - crop_samples)
+  DELAY = int(0.13 * crop_samples)
 
-  DELAY = int(0.1 * crop_samples)
+  cropped_signal = tf.gather(signal,
+                             indices=tf.range(t0, t0+crop_samples+DELAY),
+                             axis=-1)
   cropped_signal = tf.cast(tf.transpose(cropped_signal), dtype=tf.float32)
   upsampled_signal = tfio.audio.resample(cropped_signal,
-                                         remain_samples,
-                                         SAMPLES+DELAY)
+                                         crop_samples+DELAY,
+                                         SAMPLES+2*DELAY)
   upsampled_signal = tf.cast(tf.transpose(upsampled_signal), dtype=tf.float64)
-  cropped_upsampled_signal = tf.gather(upsampled_signal,
-                                       indices=tf.range(DELAY, DELAY+SAMPLES),
-                                       axis=-1)
-  return cropped_upsampled_signal
+  final_signal = tf.gather(upsampled_signal,
+                           indices=tf.range(DELAY, DELAY+SAMPLES),
+                           axis=-1)
+  return final_signal
 ~~~
 <br>
+
+신호를 잘라내는 시작점 t0은 0과 SMPLES - crop_samples 사이에서 랜덤으로 정해집니다.
+(ex. SAMPLES = 1000, crop_samples = 450 일 때 시작점 t0 이 550 이상이 되면 crop_samples 만큼 자를 수 없기 때문입니다.)
+
+[tf.gather](https://www.tensorflow.org/api_docs/python/tf/gather)은 tf.Tensor를 슬라이싱(slicing)할 수 있는 함수입니다. tf.Tensor도 리스트처럼 슬라이싱할 수 있으나 1차원 및 2차원 데이터 모두에 적용할 수 있는 함수로 만들기 위해 tf.gather을 사용하였습니다. tf.gather을 통해 t0에서부터 `crop_samples`만큼 신호를 잘라낼 수 있습니다.
 
 신호 데이터의 업샘플링(upsampling) 또는 오버샘플링(oversampling)은 기존 샘플을 이용한 보간법(interpolation) 알고리즘을 통해 데이터 샘플의 개수를 늘리는 것입니다.
 
@@ -253,21 +251,16 @@ def crop_and_upsample(signal, crop_time, sfreq):
 <center><span style="color:gray; font-size:80%">출처: https://kr.mathworks.com/help/signal/ref/interp.html</span></center>
 <br>
 
-`tf.tile`은 tensor를 복사하여 붙여넣는 함수로 자세한 설명은 [이전 포스팅](#https://hayoonsong.github.io/study/2022-02-11-tf/)을 참고하시길 바랍니다. Crop하는 시작점 즉 t0이 신호의 끝 쪽에 있어서 원하는 samples만큼 자르지 못할 수 있으므로 신호를 복붙하여 늘려줍니다.
+[tfio.audio.resample](https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 원래 신호만큼의 samples이 나오도록 resampling할 수 있습니다. `tfio.audio.resample`은 float64를 지원하지 않으므로 upsampling하기 전에 데이터 타입을 float32로 변경하였습니다.  
 
-[tf.gather](#https://www.tensorflow.org/api_docs/python/tf/gather)은 tf.Tensor를 슬라이싱(slicing)할 수 있는 함수입니다. tf.Tensor도 리스트처럼 슬라이싱할 수 있으나 1차원 및 2차원 데이터 모두에 적용할 수 있는 함수로 만들기 위해 tf.gather을 사용하였습니다. tf.gather을 통해 t0에서부터 `crop_samples`만큼 신호를 잘라낼 수 있습니다.
+여기에서 `tfio.audio.resample`의 중요한 특징 중 하나로는 **return 값이 지연된 신호**라는 점입니다. 또한, 신호를 resample하는 과정에서 **아티팩트가 발생**할 수 있으므로, **DELAY 만큼 신호를 더 많이 복원하고 아티팩트를 제거**해주어야 깨끗한 신호를 얻을 수 있습니다. DELAY를 추가하지 않을 경우 신호를 제대로 복원하지 못할 수 있습니다.
 
-다음으로 [tfio.audio.resample](#https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 원래 신호만큼의 samples이 나오도록 업샘플링하였습니다. `tfio.audio.resample`은 float64를 지원하지 않으므로 upsampling하기 전에 데이터 타입을 float32로 변경하였습니다.  
-
-신호를 resample하는 과정에서 아티팩트가 발생할 수 있으므로, DELAY 만큼 신호를 더 많이 복원하고 아티팩트를 제거해주어야 깨끗한 신호를 얻을 수 있습니다. DELAY를 추가하지 않을 경우 아래의 그림과 같이 신호를 제대로 복원하지 못할 수 있습니다.
-
-![Delay](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/original_crop_delay.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">상: Original signal 중: Transformed signal with DELAY 하: Transformed siganl without DELAY </span></center>
+![tfio.audio.resample](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/tfio_resample.png?raw=true){:.aligncenter}
 <br>
 
-0 ~ 0.25초 정도까지는 제대로 예측하지 못한 것을 확인할 수 있습니다. 이러한 아티팩트가 발생하는 이유는 resample이 신호 경계를 벗어난 지점의 신호를 0이라고 가정하기 때문입니다. 자세한 설명은 Matlab의 [끝점 영향 제거하기](#https://kr.mathworks.com/help/signal/ug/resampling-nonuniformly-sampled-signals.html)를 참고해주시길 바랍니다.
+상단의 그림은 Raw signal을 `tfio.audio.resample`만을 사용하여 2배로 업샘플링한 결과를 시각화한 것입니다. 0 ~ 0.13초 정도까지는 0으로 반환된 것을 확인하실 수 있습니다. 이러한 아티팩트가 발생하는 이유는 resample이 신호 경계를 벗어난 지점의 신호를 0이라고 가정하기 때문입니다. 자세한 설명은 Matlab의 [끝점 영향 제거하기](https://kr.mathworks.com/help/signal/ug/resampling-nonuniformly-sampled-signals.html)를 참고해주시길 바랍니다.
 
-따라서 DELAY 만큼 신호를 더 많이 업샘플링하고 마지막에 더 많이 업샘플링한 신호를 잘랐습니다. DELAY는 샘플 개수의 10 %로 설정하였으며, 이는 실험적으로 10 %로 설정하였을 때 아티팩트가 없는 신호를 얻을 수 있었기 때문입니다.
+따라서 DELAY 만큼 신호를 더 많이 업샘플링하고 마지막에 `tf.gather`을 사용하여 더 많이 업샘플링한 신호를 잘랐습니다. DELAY는 샘플 개수의 13 %로 설정하였으며, 이는 실험적으로 13 %로 설정하였을 때 아티팩트가 없는 신호를 얻을 수 있었기 때문입니다.
 
 Upsampling 단계에서는 신호의 앞부분을 제대로 복원하지 못하는 것을 감안하여 DELAY만큼 더 많이 upsamling 합니다. 
 
