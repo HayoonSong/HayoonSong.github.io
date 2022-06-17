@@ -9,10 +9,9 @@ categories:
     - study
 tags:
     - DEC
-use_math: true
 comments: true
 published: true
-last_modified_at: '2022-06-12'
+last_modified_at: '2022-06-17'
 ---
 
 본 논문은 2016년 PMLR에 실렸으며 feature representations과 cluster assignment를 동시에 학습하는 Deep Embedded Clustering(DEC)을 제안하였습니다. 설명에 앞서 슈퍼짱짱님의 블로그를 참고하였음을 밝힙니다.
@@ -20,20 +19,37 @@ last_modified_at: '2022-06-12'
 - Table of Contents
 {:toc .large-only}
 
+## Overview
+
+***
+
+![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
+<br>
+
+* Pretrain
+Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
+Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder 연결해서 재구성(reconstruction)
+Loss: 
+
+* Finetune
+Model: SAE의 encoder
+Task: Data space에서 feature space로 Mapping + Clustering
+Loss:
+
 
 ## Introduction
 
 ***
 
-클러스터링(Clustering)은 데이터 분석 및 시각화(visualization)에서 핵심적인 기법으로, 각기 다른 관점에서 unsupervised machine learning으로 널리 연구되어 왔습니다.
+클러스터링(clustering)은 데이터 분석 및 시각화(visualization)에서 핵심적인 기법으로, 각기 다른 관점에서 unsupervised machine learning으로 널리 연구되어 왔습니다.
 
-클러스터링 알고리즘에서 distance(또는 dissimilarity)는 중요하다고 하는데요. Distance는 feature space에서 데이터를 표현하는데 중요한 역할을 하기 때문이라고 이를 설명하였습니다. 예를 들어, k-means 클러스터링 알고리즘에서는 feature space에서 points 사이의 Euclidean distance를 사용하였습니다.
+클러스터링 알고리즘에서 distance(또는 dissimilarity)는 feature space에서 데이터를 표현하는데 중요한 역할을 합니다. 예를 들어, k-means 클러스터링 알고리즘에서는 feature space에서 points 사이의 Euclidean distance를 사용하였습니다.
 
 또한, feature space를 선택하는 것도 중요합니다. 가장 간단한 이미지 데이터셋을 제외하고는, raw pixels에서 Euclidian distance를 사용하는 것은 비효율적입니다.
 
-결국 저자들은 다음과 같은 의문에 도달하였습니다. "데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수 없을까?"
+결국 저자들은 다음과 같은 의문에 도달하였습니다. "데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수는 없을까?"
 
-본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 클러스터링뿐만 아니라 feautre representation도 개선시켰습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였다고 합니다. 게다가 DEC는 hyperparameters 선택에 있어써도 훨씬 덜 민감했습니다.
+본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 **clustering와 더불어 feautre representation도 개선**시켰습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였습니다. 또한 DEC는 hyperparameters 선택에 있어써도 훨씬 덜 민감했습니다.
 
 
 ### Contributions
@@ -49,7 +65,7 @@ last_modified_at: '2022-06-12'
 
 ***
 
-클러스터링을 data space X에서 바로 하는 것 대신에, 본 논문은 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu_j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
+클러스터링을 data space X에서 바로 하는 것 대신에, 본 연구에서는 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu_j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
 
 Deep embedded clustering (DEC)는 두 단계로 이루어져 있습니다.    
 1. Parameter initialization with a deep autoencoder   
@@ -79,12 +95,12 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 
 <br>
 
-학습은 least squares loss $$\vert\vert x-y \vert\vert^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, 다음 layer를 학습하기 위해 output h를 input으로 사용합니다. 이러한 greedy lyaer-wise training 이후, reverse layer-wise training 순서로 모든 decoder layers 뒤에 모든 encoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
+학습은 least squares loss $$\Vert x-y \Vert^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, output h를 input으로 사용하여 다음 layer를 학습합니다. 이러한 greedy layer-wise training 이후, reverse layer-wise training 순서로 encoder layers와 decoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
 <br>
 
-다음으로 상단의 그림과 같이 decoder layer를 버리고 econdoer layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu_j\rbrace_{j=1}^k$$를 얻습니다.
+다음으로 상단의 그림과 같이 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu_j\rbrace_{j=1}^k$$를 얻습니다.
 
 ### Parameter optimization
 
@@ -113,7 +129,7 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 Embedded points $$z_i$$와 cluster centroids $$\mu_j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
 $$
-  q_{ij} = \frac{(1+\vert\vert z_i - \mu_j\vert\vert^2 / \alpha)^- \frac{\alpha+1}{2}}{\sum_{j'}(1+\vert\vertz_i - \mu_j\vert\vert^2 / \alpha)^- \frac{\alpha+1}{2}}
+  q_{ij} = \frac{(1+\Vert z_i - \mu_j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}{\sum_{j'}(1+\Vert z_i - \mu_j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}
 $$
 
 α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
@@ -127,13 +143,13 @@ $$
 $$
 
 
-t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이의 거리 $$\vert\vert z_i - \mu_j\vert\vert$$가 되며 식은 다음과 같이 정리됩니다.   
+t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이의 거리 $$\Vert z_i - \mu_j\Vert$$가 되며 식은 다음과 같이 정리됩니다.   
 
 $$
 \begin{aligned}
-  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\vert\vert z_i - \mu_j\vert\vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\vert\vert z_i - \mu_j \vert\vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\vert\vert z_i - \mu_j \vert\vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{(1+\frac{\vert\vert z_i - \mu_j \vert\vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\vert\vert z_i - \mu_j \vert\vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
 \end{aligned}
 $$
 
@@ -156,13 +172,13 @@ $$
 
 KL divergence(Kullback-Leibler divergence, KLD)는 **두 확률분포의 차이를 계산**하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 P, Q가 있을 때, 두 분포의 KLD는 다음과 같이 정의할 수 있습니다.
 
-$$D_{KL}(P\vert\vertQ) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
+$$D_{KL}(P\Vert Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
 텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](https://melonicedlatte.com/machinelearning/2019/12/20/204900)를 참고하시길 바랍니다.
 
 $$
 \begin{aligned}
-  D_{KL}(P\vert\vertQ) &= H(P,Q) - H(P) \\
+  D_{KL}(P \VertQ) &= H(P,Q) - H(P) \\
                &= (\sum_x p(x) \log q(x)) - (-\sum_x p(x) \log p(x)) \\
 \end{aligned}
 $$
@@ -170,9 +186,9 @@ $$
 *   H(P, Q): P 대신 Q를 사용할 때의 cross-entropy
 *   H(P): 원래의 P 분포가 가지는 entropy 
 
-따라서, 본 연구에서는 두 분포 soft assignments $q_{ij}$와 target distribution $p_{ij}$의 차이를 최소화하는 방향으로 학습한다는 것을 알 수 있습니다.
+따라서, 본 연구에서는 두 분포 soft assignments $$q_{ij}$$와 target distribution $$p_{ij}$$의 차이를 최소화하는 방향으로 학습한다는 것을 알 수 있습니다.
 
-다음으로, target distibutions P를 구하는 것은 DEC의 성능에 있어서 중요한 요소로 작용합니다. $q_i$는 진짜 label이 아닌 unsupervised setting으로 계산된 확률이므로 $p_i$역시 softer probabilistic targets을 사용하는 것이 자연스럽다고 합니다.
+다음으로, target distibutions P를 구하는 것은 DEC의 성능에 있어서 중요한 요소로 작용합니다. $$q_i$$는 진짜 label이 아닌 unsupervised setting으로 계산된 확률이므로 $$p_i$$역시 softer probabilistic targets을 사용하는 것이 자연스럽다고 합니다.
 
 특히 논문 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖고 있길 희망하였습니다.
 1. 예측 강화
@@ -188,7 +204,7 @@ $$
 
 $$f_j = \sum_i q_{ij}$$로, sample i가 cluster j에 속할 확률의 합을 나타냅니다. 
 
-##### $$p_{ij}$$는 어떻게 도출되었을까?
+##### (참고)$$p_{ij}$$는 어떻게 도출되었을까?
 저자들이 원했던 target distribution의 특징 (1) 예측 강화 및 (2) 
 
 $$q_{ij}^2$$를 $$f_j$$나눠주어 normalization 합니다.

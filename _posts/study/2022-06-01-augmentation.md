@@ -10,8 +10,8 @@ tags:
 related_posts:
   - study/_posts/2022-05-31-filter.md
 comments: true
-published: false
-last_modified_at: '2022-06-13'
+published: true
+last_modified_at: '2022-06-17'
 ---
 
 Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 알아보겠습니다.
