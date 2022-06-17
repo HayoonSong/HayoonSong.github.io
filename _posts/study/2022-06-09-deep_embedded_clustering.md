@@ -215,7 +215,7 @@ $$
   p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}}
 $$
 
-$$f_j = \sum_i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
+f_j = \sum i q_{ij}로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
 
 ##### (참고)$$p_{ij}$$는 어떻게 도출되었을까?
 본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
@@ -226,7 +226,7 @@ $$f_j = \sum_i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 
 <center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
 
 $$q_{ij}$$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.
-Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ q_{1j}^2 = 0.85, q_{2j}^2 = 0.0001
+Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ q_{1j}^2 = 0.85, q_{2j}^2 = 0.0001$$
 
 
 
@@ -258,7 +258,7 @@ Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ q_{1j}^2 = 0.85, q_{2j}^2 = 0.0001
 Unsupervised learning의 성능을 평가하고 다른 알고리즘과 비교하기 위하여 standard unsupervisd evaluation metric 및 procols을 사용하였습니다.
 
 $$
-  ACC = \displaystyle\max_m\frac{\sum_{i=1}^{n} 1\lbrace l_i = m(c_i)\rbrace}{n}  
+  ACC = \displaystyle\max _m\frac{\sum_{i=1}^{n} 1\lbrace l_i = m(c_i)\rbrace}{n}  
 $$
 
 
