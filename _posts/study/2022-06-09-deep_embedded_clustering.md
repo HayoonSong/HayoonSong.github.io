@@ -226,7 +226,7 @@ f_j = \sum i q_{ij}로, sample i가 cluster j에 속할 확률들의 합을 나�
 <center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
 
 $q_{ij}$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.
-Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ q_{1j}^2 = 0.85, q_{2j}^2 = 0.0001$$
+Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ {q_{1j}}^2 = 0.85, {q_{2j}}^2 = 0.0001$$
 
 
 
