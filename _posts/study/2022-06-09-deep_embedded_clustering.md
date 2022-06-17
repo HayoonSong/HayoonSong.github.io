@@ -26,15 +26,17 @@ last_modified_at: '2022-06-17'
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
 <br>
 
-* Pretrain
-Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
-Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder 연결해서 재구성(reconstruction)
-Loss: 
+* **Pretrain** (Initialization phase)
+  + Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
+  + Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder를 연결하여 input을 재구성(reconstruction)하도록 학습
+  + Loss: Minimizing the reconstruction loss
 
-* Finetune
-Model: SAE의 encoder
-Task: Data space에서 feature space로 Mapping + Clustering
-Loss:
+<br>
+
+* **Finetune**
+  + Model: SAE의 encoder
+  + Task: Data space에서 feature space로 **Mapping** + **Clustering**
+  + Loss: Minimizing **KL-Divergence loss**
 
 
 ## Introduction
@@ -129,7 +131,7 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 Embedded points $$z_i$$와 cluster centroids $$\mu_j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
 $$
-  q_{ij} = \frac{(1+\Vert z_i - \mu_j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}{\sum_{j'}(1+\Vert z_i - \mu_j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}
+  q_{ij} = \frac{(1+\Vert z_i - \mu_j\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}{\sum_{j'}(1+\Vert z_i - \mu_{j'}\Vert^2 / \alpha)^- \frac{\alpha+1}{2}}
 $$
 
 α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
@@ -147,11 +149,22 @@ t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이
 
 $$
 \begin{aligned}
-  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu_j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu_j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu_{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+         &= \frac{(1+\frac{\Vert z_i - \mu_j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu_{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
 \end{aligned}
 $$
+
+또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
+
+$$
+  q_{ij} = \frac{{(1+\Vert z_i - \mu_j \Vert^2)}^{-1}}{\sum_{j'}({1+\Vert z_i - \mu_{j'} \Vert^2)}^{-1}}
+$$
+
+분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
+
+따라서, $$q_{ij}$$는 sample i가 cluster j에 속할 확률이 되는 것입니다.   
+예를 들어 $$\Vert z_i - \mu_j \Vert^2$$가 0.1일 때는 sample과 cluster centroid가 가까울 것이고, 10일 때는 비교적 멀 것입니다. 이 때의 cluster의 속할 확률 $$q_{ij}$$는 약 0.92, 0.01이 되겠지요.
 
 #### KL DIVERGENCE MINIMIZATION
 
@@ -202,12 +215,22 @@ $$
   p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}}
 $$
 
-$$f_j = \sum_i q_{ij}$$로, sample i가 cluster j에 속할 확률의 합을 나타냅니다. 
+$$f_j = \sum_i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
 
 ##### (참고)$$p_{ij}$$는 어떻게 도출되었을까?
-저자들이 원했던 target distribution의 특징 (1) 예측 강화 및 (2) 
+본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
-$$q_{ij}^2$$를 $$f_j$$나눠주어 normalization 합니다.
+우선, $$q_{ij}$$를 제곱한 이유는 target distribution이 (1) 예측 강화와 (2) 높은 신뢰도로 할당된 data points에 더 강조하는 특징을 가지고 있기를 희망하였기 때문입니다. 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, x 제곱의 감소 폭을 보면 기존 값이 작을 경우 더 큰 폭으로 작아지게 됩니다.
+
+![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true){:.aligncenter} 
+<center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
+
+$$q_{ij}$$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.
+Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ q_{1j}^2 = 0.85, q_{2j}^2 = 0.0001
+
+
+
+마지막으로 분모는 앞서 언급하였듯이 L1-normalization으로 생각하시면 됩니다.
 
 #### OPIMIZATION
 
