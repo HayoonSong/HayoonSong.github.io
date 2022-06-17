@@ -191,8 +191,8 @@ $$D_{KL}(P\Vert Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
 $$
 \begin{aligned}
-  D_{KL}(P \VertQ) &= H(P,Q) - H(P) \\
-               &= (\sum_x p(x) \log q(x)) - (-\sum_x p(x) \log p(x)) \\
+  D_{KL}(P \Vert Q) &= H(P,Q) - H(P) \\
+                    &= (\sum_x p(x) \log q(x)) - (-\sum_x p(x) \log p(x)) \\
 \end{aligned}
 $$
 
