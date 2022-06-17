@@ -26,17 +26,17 @@ last_modified_at: '2022-06-17'
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
 <br>
 
-* **Pretrain** (Initialization phase)
-  + Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
-  + Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder를 연결하여 input을 재구성(reconstruction)하도록 학습
-  + Loss: Minimizing the reconstruction loss
+* Pretrain (Initialization phase)
+  - Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
+  - Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder를 연결하여 input을 재구성(reconstruction)하도록 학습
+  - Loss: Minimizing the reconstruction loss
 
 <br>
 
-* **Finetune**
-  + Model: SAE의 encoder
-  + Task: Data space에서 feature space로 **Mapping** + **Clustering**
-  + Loss: Minimizing **KL-Divergence loss**
+* Finetune
+  - Model: SAE의 encoder
+  - Task: Data space에서 feature space로 **Mapping** + **Clustering**
+  - Loss: Minimizing **KL-Divergence loss**
 
 
 ## Introduction
