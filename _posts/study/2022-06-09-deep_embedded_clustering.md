@@ -119,7 +119,7 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 **Step 1.** X → Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
 ⇒ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
 
-**Step 2.** Deep mapping $$f_θ$$을 업데이트하고 보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의합니다.    
+**Step 2.** **Deep mapping $$f_θ$$을 업데이트**하고 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의**합니다.    
 ⇒ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
 
 이 절차를 수렴 기준에 충족될 때까지 반복합니다.
@@ -227,8 +227,11 @@ f_j = \sum i q_{ij}로, sample i가 cluster j에 속할 확률들의 합을 나�
 ![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true){:.aligncenter} 
 <center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
 
-$q_{ij}$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.
-Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 ⇒ {q_{1j}}^2 = 0.85, {q_{2j}}^2 = 0.0001$$
+<br>
+
+$$q_{ij}$$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.
+Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 → {q_{1j}}^2 = 0.85, {q_{2j}}^2 = 0.0001$$
+
 
 
 
