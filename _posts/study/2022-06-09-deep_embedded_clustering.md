@@ -156,7 +156,7 @@ $$
 또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
 
 $$
-  q_{ij} = \frac{{(1 + \Vert z_i - \mu _j\Vert^2 / \alpha)}^{-\frac{\alpha+1}{2}}}
+  q_{ij} = \frac{{(1 + \Vert z_i - \mu _{j}\Vert^2 / \alpha)}^{-\frac{\alpha+1}{2}}}
   {\sum _{j'}{(1 + \Vert z_i - \mu _{j'}\Vert^2 / \alpha)}^{-\frac{\alpha+1}{2}}}
 $$
 
