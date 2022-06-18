@@ -130,7 +130,10 @@ KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루�
 
 Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
-!!!! QI
+$$
+  q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
+  {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
+$$
 
 α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
 
