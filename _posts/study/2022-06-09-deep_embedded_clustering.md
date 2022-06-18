@@ -156,8 +156,8 @@ $$
 또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
 
 $$
-  q_{ij} = \frac{{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)}^{-\frac{\alpha+1}{2}}}
-  {\sum _{j'}{(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)}^{-\frac{\alpha+1}{2}}}
+  q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
+  {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
 $$
 
 분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
