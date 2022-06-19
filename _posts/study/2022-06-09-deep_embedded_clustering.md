@@ -146,7 +146,7 @@ $$
 $$
 
 
-t-분포를 논문에 맞게 적용해보자면, 데이터 $t$는 두 점 사이의 거리 $$\Vert z_i - \mu _j\Vert$$가 되며 식은 다음과 같이 정리됩니다.   
+t-분포를 논문에 맞게 적용해보자면, 데이터 t는 두 점 사이의 거리 $$\Vert z_i - \mu _j\Vert$$가 되며 식은 다음과 같이 정리됩니다.   
 
 $$
 \begin{aligned}
@@ -159,8 +159,8 @@ $$
 또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
 
 $$
-  q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
-  {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
+  q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2)^{-1}}
+  {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2)^{-1}}
 $$
 
 분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
@@ -208,7 +208,7 @@ $$
 특히 논문 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖고 있길 희망하였습니다.
 1. 예측 강화
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
-3. 대형 클러스터가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contribution 정규화
+3. 대형 클러스터(large cluster)가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
 
 
 따라서 보조 타겟 분포(auxiliary target distribution)는 다음과 같이 정의됩니다.
@@ -217,10 +217,32 @@ $$
   p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}}
 $$
 
-f_j = \sum i q_{ij}로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
+$$f_j = \sum i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
+
+학습 전략은 self-training의 형태로 볼 수 있습니다. Self-training에서 initial classifier와 unlabeled dataset을 사용한 다음, 스스로 높은 신뢰도의 예측을 학습하기 위해 initial classifier로 unlabeled dataset에 label을 지정합니다. 실제로 실험에서 DEC는 높은 신뢰도의 예측에서 학습하여 반복할수록 초기 추정치를 개선하였고, 이는 낮은 신뢰도의 예측을 개선하는 데 도움이 되었다고 합니다.
 
 ##### (참고)$$p_{ij}$$는 어떻게 도출되었을까?
 본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
+
+저자들이 희망하는 타겟 분포(target distribution)의 특징은 다음과 같았습니다.
+1. 예측 강화
+⇒ Sample i가 cluster j에 속할 확률인 예측값 $${q_ij}$$ 강조   
+2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
+⇒ 1번과 동일한 맥락   
+높은 신뢰도의 예측이란, 높은 값의 $$q_{ij}$$   
+낮은 신뢰도의 예측이란, 낮은 값의 $$q_{ij}$$   
+즉. 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조   
+3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
+⇒ 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많아야 합니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다. 따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다.
+
+![Cluster](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster.png?raw=true){:.aligncenter} 
+
+<br>
+
+* $$z_i$$: Embedded points (Data space X에서 feature space Z로 mapping된 데이터)
+* $$\mu _j$$: Cluster j의 중심
+* $$q_{ij}$$: $$z_i$$가 cluster j에 속할 확률
+* $$f_j$$: $$\sum i q_{ij}$$ (Cluster j의 모든 $$q_{ij}$$의 값)
 
 우선, $$q_{ij}$$를 제곱한 이유는 target distribution이 (1) 예측 강화와 (2) 높은 신뢰도로 할당된 data points에 더 강조하는 특징을 가지고 있기를 희망하였기 때문입니다. 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, x 제곱의 감소 폭을 보면 기존 값이 작을 경우 더 큰 폭으로 작아지게 됩니다.
 
@@ -229,7 +251,7 @@ f_j = \sum i q_{ij}로, sample i가 cluster j에 속할 확률들의 합을 나�
 
 <br>
 
-$$q_{ij}$$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.
+$$q_{ij}$$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.    
 Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 → {q_{1j}}^2 = 0.85, {q_{2j}}^2 = 0.0001$$
 
 
@@ -241,20 +263,26 @@ Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 → {q_{1j}}^2 = 0.85, {q_{2j}}^2 = 0.0001$$
 
 ***
 
+Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
+$$
+  \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \\
 
-## Experiments
+  \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j)
+$$
+
+### Experiments
 
 ***
 
-### Datasets
+#### Datasets
 
 ***
 
 1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 DEC의 성능을 평가하였습니다. 
 
 ![Dataset statistics](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true){:.aligncenter} 
-<center><span style="color:gray; font-size:80%">본 논문에서 사용한 데이터셋 정보</span></center>
+<center><span style="color:gray; font-size:80%">본 논문에서 사용한 데이터셋의 정보</span></center>
 
 ### Evaluation Metric
 

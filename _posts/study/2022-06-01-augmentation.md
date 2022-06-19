@@ -11,7 +11,7 @@ related_posts:
   - _posts/study/2022-05-31-filter.md
 comments: true
 published: false
-last_modified_at: '2022-06-17'
+last_modified_at: '2022-06-19'
 ---
 
 Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 알아보겠습니다.
@@ -222,8 +222,8 @@ Original signal의 0 ~ 2 초(500 samples)가 crop and upsampling을 통해 1000 
 ~~~python
 def crop_and_upsample(signal, crop_time, sfreq):
   SAMPLES = signal.shape[-1]
-  t0 = np.random.randint(0, SAMPLES - crop_samples)
   DELAY = int(0.13 * crop_samples)
+  t0 = np.random.randint(0, SAMPLES - crop_samples - DELAY)
 
   cropped_signal = tf.gather(signal,
                              indices=tf.range(t0, t0+crop_samples+DELAY),
@@ -240,12 +240,14 @@ def crop_and_upsample(signal, crop_time, sfreq):
 ~~~
 <br>
 
-신호를 잘라내는 시작점 t0은 0과 SMPLES - crop_samples 사이에서 랜덤으로 정해집니다.
-(ex. SAMPLES = 1000, crop_samples = 450 일 때 시작점 t0 이 550 이상이 되면 crop_samples 만큼 자를 수 없기 때문입니다.)
+DELAY는 신호를 upsampling하는 과정에서 아티팩트를 제거하기 위해 추가한 변수입니다.
+
+신호를 잘라내는 시작점 t0은 0과 SMPLES - crop_samples - DELAY 사이에서 랜덤으로 정해집니다.
+(ex. SAMPLES = 1000 crop_samples = 450 일 때 DELAY = 58이 되며, 시작점 t0 이 492 이상이 되면 crop_samples 만큼 자를 수 없기 때문입니다.)
 
 [tf.gather](https://www.tensorflow.org/api_docs/python/tf/gather)은 tf.Tensor를 슬라이싱(slicing)할 수 있는 함수입니다. tf.Tensor도 리스트처럼 슬라이싱할 수 있으나 1차원 및 2차원 데이터 모두에 적용할 수 있는 함수로 만들기 위해 tf.gather을 사용하였습니다. tf.gather을 통해 t0에서부터 `crop_samples`만큼 신호를 잘라낼 수 있습니다.
 
-신호 데이터의 업샘플링(upsampling) 또는 오버샘플링(oversampling)은 기존 샘플을 이용한 보간법(interpolation) 알고리즘을 통해 데이터 샘플의 개수를 늘리는 것입니다.
+신호 데이터의 업샘플링(upsampling) 또는 오버샘플링(oversampling)은 보간법(interpolation) 알고리즘을 통해 데이터 샘플의 개수를 늘리는 것입니다.
 
 ![Interpolation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/interpolation.png?raw=true){:.aligncenter}
 <center><span style="color:gray; font-size:80%">출처: https://kr.mathworks.com/help/signal/ref/interp.html</span></center>
