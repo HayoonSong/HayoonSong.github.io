@@ -217,7 +217,7 @@ $$
   p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}}
 $$
 
-$$f_j = \sum i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
+$$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
 
 학습 전략은 self-training의 형태로 볼 수 있습니다. Self-training에서 initial classifier와 unlabeled dataset을 사용한 다음, 스스로 높은 신뢰도의 예측을 학습하기 위해 initial classifier로 unlabeled dataset에 label을 지정합니다. 실제로 실험에서 DEC는 높은 신뢰도의 예측에서 학습하여 반복할수록 초기 추정치를 개선하였고, 이는 낮은 신뢰도의 예측을 개선하는 데 도움이 되었다고 합니다.
 
@@ -237,12 +237,19 @@ $$f_j = \sum i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 
 
 ![Cluster](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster.png?raw=true){:.aligncenter} 
 
+![Cluster3](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster3.png?raw=true){:.aligncenter} 
+
+<br>
+
+![Cluster2](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster2.png?raw=true){:.aligncenter} 
+
 <br>
 
 * $$z_i$$: Embedded points (Data space X에서 feature space Z로 mapping된 데이터)
 * $$\mu _j$$: Cluster j의 중심
 * $$q_{ij}$$: $$z_i$$가 cluster j에 속할 확률
-* $$f_j$$: $$\sum i q_{ij}$$ (Cluster j의 모든 $$q_{ij}$$의 값)
+* $$f_j$$: $$\sum _i q_{ij}$$ (Cluster j의 모든 $$q_{ij}$$의 값)
+
 
 우선, $$q_{ij}$$를 제곱한 이유는 target distribution이 (1) 예측 강화와 (2) 높은 신뢰도로 할당된 data points에 더 강조하는 특징을 가지고 있기를 희망하였기 때문입니다. 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, x 제곱의 감소 폭을 보면 기존 값이 작을 경우 더 큰 폭으로 작아지게 됩니다.
 
