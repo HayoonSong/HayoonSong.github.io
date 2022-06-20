@@ -224,45 +224,44 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 ##### (참고)$$p_{ij}$$는 어떻게 도출되었을까?
 본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
-저자들이 희망하는 타겟 분포(target distribution)의 특징은 다음과 같았습니다.
-1. 예측 강화
-⇒ Sample i가 cluster j에 속할 확률인 예측값 $${q_ij}$$ 강조   
-2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
-⇒ 1번과 동일한 맥락   
-높은 신뢰도의 예측이란, 높은 값의 $$q_{ij}$$   
-낮은 신뢰도의 예측이란, 낮은 값의 $$q_{ij}$$   
-즉. 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조   
-3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
-⇒ 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많아야 합니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다. 따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다.
-
-![Cluster](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster.png?raw=true){:.aligncenter} 
-
-![Cluster3](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster3.png?raw=true){:.aligncenter} 
+![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true){:.aligncenter} 
+<center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
 
 <br>
 
-![Cluster2](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/cluster2.png?raw=true){:.aligncenter} 
+$$q_{ij}$$에 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, $$x^2$$ 의 감소 폭을 보면 기존 값이 작을 경우 더욱 작아지게 됩니다.
+
+$$q_{ij}$$에 제곱을 취함으로써 기존의 높은 확률 값(= 높은 신뢰도의 예측)은 크게 변하지 않지만, 낮은 신뢰도의 예측은 더 크게 낮아지게 되는거죠.    
+Ex) $$q_{11} = 0.96, q_{31} = 0.02 → {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.0004$$
+
+원활한 이해를 위하여 간단한 예시를 통해 $$p_{ij}$$의 도출 과정을 직접 확인해보자면 다음과 같습니다.
+
+![pij](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/pij.png?raw=true){:.aligncenter} 
 
 <br>
 
 * $$z_i$$: Embedded points (Data space X에서 feature space Z로 mapping된 데이터)
 * $$\mu _j$$: Cluster j의 중심
 * $$q_{ij}$$: $$z_i$$가 cluster j에 속할 확률
-* $$f_j$$: $$\sum _i q_{ij}$$ (Cluster j의 모든 $$q_{ij}$$의 값)
+* $$f_j$$: $$\sum _i q_{ij}$$ (Cluster j의 모든 $$q_{ij}$$의 합)
+
+(a) $$q_{ij}$$: Embedded points $$z_{i}$$에 대한 $$q_{ij}$$를 가정해보겠습니다.      
+(b) $$q_{ij}^2$$: $$q_{ij}$$에 제곱을 취함으로써 높은 $$q_{ij}$$ 대비 낮은 $$q_{ij}$$가 더 작아지므로 높은 신뢰의 예측과 낮은 신뢰도의 예측 간의 격차가 벌어집니다.   
+(c) $$q_{ij}^2 / f_j$$: $$q_{ij}^2$$을 그대로 사용하면 large cluster(위의 예시에서 cluster 1)의 값이 너무 커지므로 $$f_j$$로 정규화(normalization)를 합니다. Clusters 간의 크기를 맞추기 위한 정규화로 보시며 됩니다.    
+(d) $$q_{ij}^2 / \sum _i q_{ij}^2$$: 번외로 $$\sum _i q_{ij}^2$$가 아닌 $$\sum _i q_{ij}$$으로 정규화한 이유를 보자면, $$q_{32}$$의 경우 $$\sum _i q_{ij}^2$$로 정규화 했을 때 기존의 예측값 $$q_{ij}$$보다 커진 것을 확인하실 수 있습니다. 이 부분에 경우 직접 숫자를 대입해보고 이해하였기에 혹시 수식적으로 안되는 이유를 아신다면 댓글 또는 메일 주시면 감사하겠습니다.   
+(e) $$q_{ij}2 / \sum _i q_{ij}$$: 번외로 보자면, 높은 신뢰도의 예측에 강조하지도 못하고, clusters 간의 정규화만 되어 절대 사용하면 안 될 것 같습니다.
 
 
-우선, $$q_{ij}$$를 제곱한 이유는 target distribution이 (1) 예측 강화와 (2) 높은 신뢰도로 할당된 data points에 더 강조하는 특징을 가지고 있기를 희망하였기 때문입니다. 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, x 제곱의 감소 폭을 보면 기존 값이 작을 경우 더 큰 폭으로 작아지게 됩니다.
-
-![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true){:.aligncenter} 
-<center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
-
-<br>
-
-$$q_{ij}$$에 제곱을 취함으로써 기존의 낮은 확률 값을 보였던 값들은 더 크게 낮아지게 되는거죠.    
-Ex) $$q_{1j} = 0.92, q_{2j} = 0.01 → {q_{1j}}^2 = 0.85, {q_{2j}}^2 = 0.0001$$
-
-
-
+정리하자면, 저자들이 희망하는 타겟 분포(target distribution)의 특징은 다음과 같았습니다.   
+1. 예측 강화
+⇒ Sample i가 cluster j에 속할 확률인 예측값 $${q_ij}$$ 강조 → (b) 
+2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
+⇒ 1번과 동일한 맥락   
+높은 신뢰도의 예측이란, 높은 값의 $$q_{ij}$$   
+낮은 신뢰도의 예측이란, 낮은 값의 $$q_{ij}$$   
+즉. 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조 → (b)
+3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
+⇒ 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많아야 합니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다. 따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다. → (c)   
 
 마지막으로 분모는 앞서 언급하였듯이 L1-normalization으로 생각하시면 됩니다.
 
