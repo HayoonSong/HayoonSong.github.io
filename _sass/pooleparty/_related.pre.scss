@@ -13,35 +13,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-.content .aspect-ratio {
-  overflow: hidden; // inline
-  img {
-    margin: 0; // inline
-    width: 100%; // inline
-    height: 100%; // inline
-    object-fit: cover; // link
-    object-position: center; // link
-    background-color: var(--gray-bg); // inline
+// <<<<< INLINE
+.related-posts {
+  padding-left: 0;
+  list-style: none;
+  margin-bottom: 2rem;
+
+  > li,
+  > li + li {
+    margin-top: 1rem;
   }
 }
+// >>>>>
 
 // <<< link
-figure, .figure {
-  @extend .faded, .fine, .centered;
-  margin-bottom: 2rem;
-
-  > *:first-child {
-    margin-bottom: 1rem;
+.comments {
+  @media print {
+    display: none;
   }
-}
-
-.highlighter-rouge + .figure {
-  margin-top: -1.5rem;
-}
-
-.figcaption {
-  @extend .faded, .fine, .centered;
-  margin-top: -0.5rem;
-  margin-bottom: 2rem;
 }
 // >>>
