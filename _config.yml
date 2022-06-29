@@ -46,19 +46,6 @@ author:
   # # Used by `jekyll-seo-tag`:
   # twitter:             <username>
 
-# Add links to the sidebar.
-menu:
-  - title:             About
-    url:               /about/
-  - title:             Project
-    url:               /project/
-  - title:             Study
-    url:               /study/
-  - title:             Solution
-    url:               /solution/
-  - title:             Tags
-    url:               /tags/
-
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
 legal:
