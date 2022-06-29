@@ -3,7 +3,7 @@ layout: tags
 type: category
 title: Tags
 permalink: /tags/
-sidebar: true
+menu: true
 order: 5
 description: >
   List of all categories & tags of blog.

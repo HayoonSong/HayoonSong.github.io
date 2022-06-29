@@ -3,7 +3,7 @@ layout: list
 type: category
 title: Project
 slug: project
-sidebar: true
+menu: true
 order: 2
 description: >
   Anything about project
