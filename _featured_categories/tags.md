@@ -1,6 +1,5 @@
 ---
 layout: tags
-type: category
 title: Tags
 permalink: /tags/
 menu: true
