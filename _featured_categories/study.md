@@ -1,11 +1,10 @@
 ---
 layout: list
+type: category
 title: Study
 slug: study
-menu: true
+sidebar: true
 order: 3
 description: >
-  논문 리뷰, 논문 구현
-  
-sitemap: false
+  Reviews on hardware/software
 ---

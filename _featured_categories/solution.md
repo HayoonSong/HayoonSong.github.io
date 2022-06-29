@@ -1,11 +1,10 @@
 ---
 layout: list
+type: category
 title: Solution
 slug: solution
-menu: true
+sidebar: true
 order: 4
 description: >
   Errors
-  
-sitemap: false
 ---
