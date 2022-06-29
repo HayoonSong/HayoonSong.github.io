@@ -1,10 +1,10 @@
 ---
 layout: tag-list
 type: tag
-title: Algorithm
-slug: algorithm
+title: Blog
+slug: blog
 category: devlog
 sidebar: true
 description: >
-   Algorithm study / Problem solutions
+   Posts about blogging / jekyll theme.
 ---

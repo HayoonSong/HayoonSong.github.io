@@ -1,10 +1,10 @@
 ---
 layout: tag-list
 type: tag
-title: Algorithm
-slug: algorithm
+title: Development
+slug: development
 category: devlog
 sidebar: true
 description: >
-   Algorithm study / Problem solutions
+   Development Tips & Settings
 ---

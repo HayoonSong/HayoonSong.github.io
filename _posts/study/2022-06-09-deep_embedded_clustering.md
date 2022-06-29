@@ -8,7 +8,7 @@ date: '2022-06-09'
 categories:
     - study
 tags:
-    - DEC
+    - self-supervised-learning
 comments: true
 published: true
 last_modified_at: '2022-06-17'
