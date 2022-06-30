@@ -94,7 +94,7 @@ $$
   y = g_2(W_2\tilde{h} + b_2) \\[0.5em]
 $$
 
-Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습시는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
+Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 인코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습하는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
 {:.faded}
 
 <br>
@@ -106,17 +106,13 @@ Network structure
 {:.figure}
 <br>
 
-다음으로 상단의 그림과 같이 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
+SAE의 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN에 넣어 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
 
-### Parameter optimization
+### Parameter optimization(Clustering with KL divergence)
 
 ***
 
 Non-linear mapping $$f_\theta$$과 cluster centroids {$$\mu _j$$}$$_{j=1}^k$$의 초기값을 추정하였으므로, 비지도 알고리즘을 사용하여 clustering을 개선하는 방법을 살펴보겠습니다.
-
-#### Clustering with KL divergence
-
-***
 
 KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루어집니다.   
 
@@ -141,7 +137,7 @@ $$
 
 α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
 
-##### (참고) $$q_{ij}$$는 어떻게 도출되었을까?
+##### [참고] $$q_{ij}$$는 어떻게 도출되었을까?
 
 t-분포의 공식은 다음과 같습니다.
 
@@ -187,7 +183,7 @@ $$
 $$
 
 
-##### (참고) KL DIVERGENCE에 대한 설명   
+##### [참고] KL DIVERGENCE에 대한 설명   
 
 KL divergence(Kullback-Leibler divergence, KLD)는 **두 확률분포의 차이를 계산**하는데에 사용되는 함수입니다. 두 확률변수에 대한 확률분포 P, Q가 있을 때, 두 분포의 KLD는 다음과 같이 정의할 수 있습니다.
 
@@ -225,7 +221,7 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 
 학습 전략은 self-training의 형태로 볼 수 있습니다. Self-training에서 initial classifier와 unlabeled dataset을 사용한 다음, 스스로 높은 신뢰도의 예측을 학습하기 위해 initial classifier로 unlabeled dataset에 label을 지정합니다. 실제로 실험에서 DEC는 높은 신뢰도의 예측에서 학습하여 반복할수록 초기 추정치를 개선하였고, 이는 낮은 신뢰도의 예측을 개선하는 데 도움이 되었다고 합니다.
 
-##### (참고)$$p_{ij}$$는 어떻게 도출되었을까?
+##### [참고] $$p_{ij}$$는 어떻게 도출되었을까?
 본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
 ![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true)   
