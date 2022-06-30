@@ -25,7 +25,8 @@ last_modified_at: '2022-06-17'
 
 ***
 
-![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
+![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}
+Network structure{:.figure}
 <br>
 
 * **Pretrain** (Initialization phase)
