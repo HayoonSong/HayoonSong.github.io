@@ -289,7 +289,6 @@ Upsampling 단계에서는 신호의 앞부분을 제대로 복원하지 못하�
 [3] Han, Jinpei, Xiao Gu, and Benny Lo. "Semi-Supervised Contrastive Learning for Generalizable Motor Imagery EEG Classification." 2021 IEEE 17th International Conference on Wearable and Implantable Body Sensor Networks (BSN). IEEE, 2021. [[Paper]](https://ieeexplore.ieee.org/abstract/document/9507038)
 
 <br>
-<br>
 
 ***
 
