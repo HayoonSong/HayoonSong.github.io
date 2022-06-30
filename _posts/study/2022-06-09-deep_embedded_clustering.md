@@ -253,18 +253,18 @@ $$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 em
 
 마지막으로 분모는 앞서 언급하였듯이 L1-normalization으로 생각하시면 됩니다.
 
-#### OPIMIZATION
+#### OPTIMIZATION
 
 ***
 
 Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
-\\( \begin{align} \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align} \\)
-\\( \begin{align} \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align} \\)
+$$ \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) $$
+$$ \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) $$
 
-### Experiments
+## Experiments
 
-#### Datasets
+### Datasets
 
 ***
 
@@ -318,9 +318,9 @@ DEC는 LDGMI과 SEC보다 하이퍼파라미터(hyperparameter)에 강건함을 
 
 MNIST와 STL의 각 클러스터에서 10개의 최고 점수 이미지입니다. 각 y축은 cluster이며 x축의 왼쪽부터 cluster에 가장 가까운 순서대로 나열되었습니다. MNIST의 경우 DEC의 클러스터 할당은 혼란스러운 4와 9를 제외하고는 자연 클러스터와 매우 잘 일치하는 반면 STL의 경우 DEC는 비행기, 트럭 및 자동차에 대해 대부분 정확하지만 동물 사진에서는 카테고리 대신 포즈에 주의를 기울이는 것을 확인하실 수 있습니다.
 
-### Discussion
+## Discussion
 
-#### Assumptions and Objective
+### Assumptions and Objective
 
 ***
 
@@ -334,13 +334,13 @@ DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부�
 Cluter center에 더 가까운 points(큰 $$q_{ij}$$)가 gradient에 더 많이 기여하는 것을 확인할 수 있습니다. 또한, $$q_{ij}$$ 정렬의 각 10% 지점마다 원본 이미지를 표시하였습니다.
 신뢰도가 감소할수록, instances는 더욱 모호해졌으며 결국 8로 잘못 레이블링하였습니다.
 
-#### Contribution of Iterative Optimization
+### Contribution of Iterative Optimization
 
 ![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
 
-Embedded representation의 progresson을 t-SNE를 사용하여 시각화하였습니다. Cluster가 잘 분리되어가는 것은 분명하였습니다. 상단의 그림은 SGD epochs에 따라 정확도가 어떻게 개선되는지를 나타냅니다.
+학습 동안의 embedded representation을 t-SNE를 사용하여 시각화하였습니다. Cluster가 점점 더 잘 분리되는 것을 알 수 있습니다. 상단의 그림은 SGD epochs에 따라 정확도가 어떻게 개선되는지를 나타냅니다.
 
 ## Summary
 
