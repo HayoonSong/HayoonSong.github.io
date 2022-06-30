@@ -114,11 +114,11 @@ Non-linear mapping $$f_\theta$$과 cluster centroids {$$\mu _j$$}$$_{j=1}^k$$의
 
 KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루어집니다.   
 
-**Step 1.** X $$\rarr$$ Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
-$$\rArr$$ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
+**Step 1.** X $$\rightarrow$$ Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
+$$\Rightarrow$$ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
 
 **Step 2.** **Deep mapping $$f_θ$$을 업데이트**하고 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의**합니다.    
-$$\rArr$$ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
+$$\Rightarrow$$ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
 
 수렴 기준에 충족될 때까지 이 절차를 반복합니다.
 
@@ -235,7 +235,7 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 $$q_{ij}$$에 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, $$x^2$$ 그래프의 감소 폭을 보면 기존 값이 작을 경우 더욱 작아지게 됩니다.
 
 $$q_{ij}$$에 제곱을 취함으로써 기존의 높은 확률 값(= 높은 신뢰도의 예측)은 크게 변하지 않지만, 낮은 신뢰도의 예측은 더 크게 낮아지게 되는거죠.    
-Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rarr {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.0004$$
+Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rightarrow {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.0004$$
 
 원활한 이해를 위하여 간단한 예시를 통해 $$p_{ij}$$의 도출 과정을 직접 확인해보겠습니다.
 
@@ -257,13 +257,13 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rarr {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.000
 
 정리하자면, 저자들이 희망하는 타겟 분포의 특징은 다음과 같았습니다.   
 1. 예측 강화   
-$$\rArr$$ (b) Sample i가 cluster j에 속할 확률인 예측값 $$q_{ij}$$ 강조 
+$$\Rightarrow$$ (b) Sample i가 cluster j에 속할 확률인 예측값 $$q_{ij}$$ 강조 
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조   
-$$\rArr$$ (b) 1번과 동일한 맥락   
+$$\Rightarrow$$ (b) 1번과 동일한 맥락   
 높은 신뢰도의 예측이란 높은 값의 $$q_{ij}$$, 낮은 신뢰도의 예측이란 낮은 값의 $$q_{ij}$$   
 즉, 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조   
 3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화   
-$$\rArr$$ (c) 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많은 클러스터입니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다.   
+$$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많은 클러스터입니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다.   
 따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다.   
 
 마지막으로 분모는 앞서 언급하였듯이 L1-normalization으로 생각하시면 됩니다.
@@ -307,17 +307,24 @@ $$
 
 * $$l_i$$: Ground-truth label
 * $$c_i$$: 알고리즘으로 할당된 cluster
+* $$m$$: Clusters와 labels 간의 가능한 모든 일대일 mapping
 
-### Implementation
+직관적으로 metric은 unsupervised algorithm과 ground truth에서 클러스터 할당(cluster assignments)를 가져온 다음 이들 간의 최고의 매칭을 찾습니다.
+
+### Experiment results
+
+***
+
+![Accuracy](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy.PNG?raw=true)   
+클러스터링 정확도 비교
+{:.figure}
 
 
+DEC는 다른 모든 방법보다 우수한 성능을 보였습니다. LDGMI과 SEC는 스펙트럴 클러스터링(spectral clustering)으로 데이터들 간의 상대적인 관계나 연결을 중요한 정보로 사용하는 그래프 기반 클러스터링입니다. 또한, 본 연구는 end-to-end 학습의 효율성을 입증하기 위해, 클러스터링 중에 non-linear mapping $$f_\theta$$를 frezezing 즉 고정한 결과(DEC w/o backprop)도 보여주었습니다. DEC w/o backprop는 일반적으로 DEC보다 낮은 성능을 보였습니다.
 
-
-
-
-
-
-⇒ 즉, 보조 타겟 분포가 label이 되어 마치 supervised learning인 것처럼 학습하여 parameter를 최적화함
+![Accuracy plot](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_plot.PNG?raw=true)   
+클러스터링 정확도 비교
+{:.figure}
 
           
 ## Summary
