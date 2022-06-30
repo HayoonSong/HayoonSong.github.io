@@ -26,7 +26,6 @@ last_modified_at: '2022-06-17'
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
 Network structure
 {:.figure}
-<br>
 
 * **Pretrain** (Initialization phase)
   - Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
@@ -104,7 +103,6 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
 Network structure
 {:.figure}
-<br>
 
 SAE의 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN에 넣어 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
 
@@ -116,26 +114,26 @@ Non-linear mapping $$f_\theta$$과 cluster centroids {$$\mu _j$$}$$_{j=1}^k$$의
 
 KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루어집니다.   
 
-**Step 1.** X → Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
-⇒ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
+**Step 1.** X $$\rarr$$ Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
+$$\rArr$$ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
 
 **Step 2.** **Deep mapping $$f_θ$$을 업데이트**하고 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의**합니다.    
-⇒ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
+$$\rArr$$ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
 
-이 절차를 수렴 기준에 충족될 때까지 반복합니다.
+수렴 기준에 충족될 때까지 이 절차를 반복합니다.
 
 #### SOFT ASSIGNMENT
 
 ***
 
-Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 유사도를 구하기 위하 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
+Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 유사도를 구하기 위해 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
 $$
   q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
   {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
 $$
 
-α는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
+$$\alpha$$는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
 
 ##### [참고] $$q_{ij}$$는 어떻게 도출되었을까?
 
@@ -166,7 +164,7 @@ $$
 분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
 
 따라서, $$q_{ij}$$는 sample i가 cluster j에 속할 확률이 되는 것입니다.   
-예를 들어 $$\Vert z_i - \mu _j \Vert^2$$가 0.1일 때는 sample과 cluster centroid가 가까울 것이고, 10일 때는 비교적 멀 것입니다. 이 때의 cluster의 속할 확률 $$q_{ij}$$는 약 0.92, 0.01이 되겠지요.
+예를 들어 $$\Vert z_i - \mu _j \Vert^2$$가 0.1일 때는 sample과 cluster centroid가 가까울 것이고, 10일 때는 비교적 멀 것입니다. 이 때의 cluster에 속할 확률 $$q_{ij}$$는 각각 약 0.92, 0.01이 되겠지요.
 
 #### KL DIVERGENCE MINIMIZATION
 
@@ -174,7 +172,8 @@ $$
 
 다음으로 저자들은 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습**하면서 clusters를 재정의하였습니다. 
 
-기존의 clustering은 unsupervised learning으로 사용되었지만, 본 논문에서는 **보조 타겟 분포를 label로 사용하여 마치 supervised learning 처럼 학습**하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.{:.message}
+기존의 clustering은 unsupervised learning으로 사용되었지만, 본 논문에서는 **보조 타겟 분포를 label로 사용하여 마치 supervised learning 처럼 학습**하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.
+{:.faded}
 
 구체적으로는 DEC는 soft assignments를 target distribution에 매칭하면서 학습합니다. 끝으로, soft assignments $$q_{ij}$$와 target distribution $$p_{ij}$$ 간의 KL divergence loss가 목적함수로 정의되었습니다.
 
@@ -189,7 +188,7 @@ KL divergence(Kullback-Leibler divergence, KLD)는 **두 확률분포의 차이�
 
 $$D_{KL}(P\Vert Q) = \sum_i P(i)\log \frac{P(i)}{Q(i)}$$
 
-텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사하다고 해석**합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](https://melonicedlatte.com/machinelearning/2019/12/20/204900)를 참고하시길 바랍니다.
+텐서플로우 공식 문서에 정의되어 있는 용어로 설명해보자면, KLD는 y_true(P)가 가지는 분포값과 y_pred(Q)가 가지는 분포값이 얼마나 다른 지를 확인하는 방법입니다. **KLD의 값이 낮을수록 두 분포가 유사**하다고 해석합니다. KLD에 대한 자세한 설명은 대학원생이 쉽게 설명해보기의 [KL-Divergence Loss 간단 설명](https://hwiyong.tistory.com/408)과 Easy is Perfect의 [엔트로피(Entropy)와 크로스 엔트로피(Cross-Entropy)의 쉬운 개념 설명](https://melonicedlatte.com/machinelearning/2019/12/20/204900)를 참고하시길 바랍니다.
 
 $$
 \begin{aligned}
@@ -205,7 +204,7 @@ $$
 
 다음으로, target distibutions P를 구하는 것은 DEC의 성능에 있어서 중요한 요소로 작용합니다. $$q_i$$는 진짜 label이 아닌 unsupervised setting으로 계산된 확률이므로 $$p_i$$역시 softer probabilistic targets을 사용하는 것이 자연스럽다고 합니다.
 
-특히 논문 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖고 있길 희망하였습니다.
+특히 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖고 있길 희망하였습니다.
 1. 예측 강화
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
 3. 대형 클러스터(large cluster)가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
@@ -221,8 +220,11 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 
 학습 전략은 self-training의 형태로 볼 수 있습니다. Self-training에서 initial classifier와 unlabeled dataset을 사용한 다음, 스스로 높은 신뢰도의 예측을 학습하기 위해 initial classifier로 unlabeled dataset에 label을 지정합니다. 실제로 실험에서 DEC는 높은 신뢰도의 예측에서 학습하여 반복할수록 초기 추정치를 개선하였고, 이는 낮은 신뢰도의 예측을 개선하는 데 도움이 되었다고 합니다.
 
+보조 타겟 분포를 label로 사용하여 self-training한다는 점에서 self-supervised learning이라고 할 수 있습니다.
+{:.faded}
+
 ##### [참고] $$p_{ij}$$는 어떻게 도출되었을까?
-본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
+본 논문에서는 $$p_{ij}$$의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
 ![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true)   
 출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1
@@ -230,21 +232,21 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 
 <br>
 
-$$q_{ij}$$에 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, $$x^2$$ 의 감소 폭을 보면 기존 값이 작을 경우 더욱 작아지게 됩니다.
+$$q_{ij}$$에 제곱을 취할 경우 모든 데이터의 값이 기존보다 작아지지만, $$x^2$$ 그래프의 감소 폭을 보면 기존 값이 작을 경우 더욱 작아지게 됩니다.
 
 $$q_{ij}$$에 제곱을 취함으로써 기존의 높은 확률 값(= 높은 신뢰도의 예측)은 크게 변하지 않지만, 낮은 신뢰도의 예측은 더 크게 낮아지게 되는거죠.    
-Ex) $$q_{11} = 0.96, q_{31} = 0.02 → {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.0004$$
+Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rarr {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.0004$$
 
-원활한 이해를 위하여 간단한 예시를 통해 $$p_{ij}$$의 도출 과정을 직접 확인해보자면 다음과 같습니다.
+원활한 이해를 위하여 간단한 예시를 통해 $$p_{ij}$$의 도출 과정을 직접 확인해보겠습니다.
 
-![pij](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/pij.png?raw=true){:.aligncenter} 
-
-<br>
+![pij](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/pij.png?raw=true)
 
 * $$z_i$$: Embedded points (Data space X에서 feature space Z로 mapping된 데이터)
-* $$\mu _j$$: Cluster j의 중심
+* $$\mu _j$$: Cluster j의 중심(Cluster centroid)
 * $$q_{ij}$$: $$z_i$$가 cluster j에 속할 확률
 * $$f_j$$: $$\sum _i q_{ij}$$ (Cluster j의 모든 $$q_{ij}$$의 합)
+
+<br>
 
 (a) $$q_{ij}$$: Embedded points $$z_{i}$$에 대한 $$q_{ij}$$를 가정해보겠습니다.      
 (b) $$q_{ij}^2$$: $$q_{ij}$$에 제곱을 취함으로써 높은 $$q_{ij}$$ 대비 낮은 $$q_{ij}$$가 더 작아지므로 높은 신뢰의 예측과 낮은 신뢰도의 예측 간의 격차가 벌어집니다.   
