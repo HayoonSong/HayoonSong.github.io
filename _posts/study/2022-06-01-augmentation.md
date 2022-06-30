@@ -19,7 +19,7 @@ last_modified_at: '2022-06-19'
 Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 알아보겠습니다.
 
 ![Overview](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/overview.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">본 포스팅에서 구현할 데이터 증강 기법</span></center>   
+본 포스팅에서 구현할 데이터 증강 기법{:.figure}
 <br>
 
 - Table of Contents
@@ -34,7 +34,7 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 예제로는 시계열 데이터인 EEG data를 사용하겠습니다.   
 
 ![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">상: 전체 데이터 하: 1초 확대한 데이터</span></center>   
+상: 전체 데이터 하: 1초 확대한 데이터{:.figure}
 <br>
 
 22 channels EEG 데이터는 4초간 측정되었으며, 250 Hz의 sampling frequency가 사용되었습니다.   
@@ -171,12 +171,12 @@ scipy를 대체하지는 못했기에 하단의 코드를 추천하지 않습니
 Original signal, scipy 기반 band-stop filtering, 제가 구현한 tensorflow 기반 band-stop filtering 결과를 비교해보면, tensorflow 기반 band-stop filter가 scipy와 일치하지 않은 것을 확인하실 수 있습니다.
 
 ![Band-stop filter](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">상: scipy 기반 band-stop filtering 하: tensorflow로 구현한 band-stop filtering</span></center>   
+상: scipy 기반 band-stop filtering 하: tensorflow로 구현한 band-stop filtering{:.figure}
 <br>
 
 ![Band-stop filter FFT](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter_fft.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">위에서부터 첫 번째: Original signal의 FFT 적용 결과 <br>
-두 번째: scipy 기반 band-stop filter와 FFT 적용 결과 세 번째: tensorflow 기반 band-stop filter와 FFT 적용 결과</span></center>
+위에서부터 첫 번째: Original signal의 FFT 적용 결과 <br>
+두 번째: scipy 기반 band-stop filter와 FFT 적용 결과 세 번째: tensorflow 기반 band-stop filter와 FFT 적용 결과{:.figure}
 <br>
 
 또한, Original signal, scipy 기반 band-stop filtering, 제가 구현한 tensorflow 기반 band-stop filtering한 신호들을 FFT를 사용하여 주파수 신호로 변환해보면 scipy를 기반으로 한 두 번째 그림은 부드럽게 특정 대역(20 - 40 Hz)이 차단된 반면에, 제가 구현한 세 번째 그림은 갑자기 신호가 끊긴 듯한 형태를 갖습니다.
@@ -218,7 +218,7 @@ Crop and upsample은 데이터를 특정 부분 자르고 업샘플링(upsamplin
 Original signal의 0 ~ 2 초(500 samples)가 crop and upsampling을 통해 1000 samples로 늘어난 것을 확인하실 수 있습니다.
 
 ![Crop and upsample compairson all](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_comparison_all.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">상: Original signal 0 ~ 4s 중: Original signal 0 ~ 2s 하: Crop and upsample을 적용한 transformed signal 0 ~ 4s </span></center>
+상: Original signal 0 ~ 4s 중: Original signal 0 ~ 2s 하: Crop and upsample을 적용한 transformed signal 0 ~ 4s{:.figure}
 <br>
 
 ~~~python
@@ -252,7 +252,7 @@ DELAY는 신호를 upsampling하는 과정에서 아티팩트를 제거하기 �
 신호 데이터의 업샘플링(upsampling) 또는 오버샘플링(oversampling)은 보간법(interpolation) 알고리즘을 통해 데이터 샘플의 개수를 늘리는 것입니다.
 
 ![Interpolation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/interpolation.png?raw=true){:.aligncenter}
-<center><span style="color:gray; font-size:80%">출처: https://kr.mathworks.com/help/signal/ref/interp.html</span></center>
+출처: https://kr.mathworks.com/help/signal/ref/interp.html{:.figure}
 <br>
 
 [tfio.audio.resample](https://www.tensorflow.org/io/api_docs/python/tfio/audio/resample) 함수를 사용하여 원래 신호만큼의 samples이 나오도록 resampling할 수 있습니다. `tfio.audio.resample`은 float64를 지원하지 않으므로 upsampling하기 전에 데이터 타입을 float32로 변경하였습니다.  
