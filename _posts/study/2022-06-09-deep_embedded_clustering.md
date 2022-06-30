@@ -275,9 +275,9 @@ $$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 em
 Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
 $$
-  \[\frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \]
+  \[ \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \]
 
-  \[\frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \]
+  \[ \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \]
 $$
 
 ### Experiments
@@ -340,12 +340,15 @@ MNIST와 STL의 각 클러스터에서 10개의 최고 점수 이미지입니다
 
 DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부분 정확하다는 것입니다. 
 
+![Gradient visulization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/gradient_visualization.PNG?raw=true)   
+기울기 시각화
+{:.figure}
+
+각 embedded point에 대한 gradient L의 크기(magnitude) 즉 $$\lvert \partial L / \partial z_i \rvert$$를 시각화하였습니다. Cluter center에 가까운 points들 즉 $$q_{ij}$$가 클수록 gradient에 더 많이 기여하는 것을 확인할 수 있습니다.
+
 ![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
-
-각 embedded point에 대한 gradient L의 크기(magnitude) 즉 $$$$를 시각화하였습니다.
-
 
 ## Summary
 
