@@ -1,12 +1,14 @@
 ---
 layout: post
 title: '[EEG] Signal data augmentation in Tensorflow'
+description: >
+  시계열 데이터 Augmentation 방법 정리
 subtitle: signal augmentation
 date: '2022-05-31'
 categories:
     - study
 tags:
-    - signal, eeg, audio
+    - signal
 related_posts:
   - _posts/study/2022-05-31-filter.md
 comments: true
