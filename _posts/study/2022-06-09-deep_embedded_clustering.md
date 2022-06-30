@@ -69,21 +69,21 @@ last_modified_at: '2022-06-17'
 
 ***
 
-클러스터링을 data space X에서 바로 하는 것 대신에, 본 연구에서는 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu _j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
+Data space X에서 바로 클러스터링 하지 않고, 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu _j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
 
-Deep embedded clustering (DEC)는 두 단계로 이루어져 있습니다.    
+Deep embedded clustering는 두 단계로 이루어져 있습니다.    
 1. Parameter initialization with a deep autoencoder   
 2. Parameter optimization (i.e., clustering)   
-    * 보조 타겟 분포(auxiliary target distribution)를 계산하고 Kullback-Leibler (KL) divergence를 최소화하는 것을 반복하여 최적화합니다.
+    * 보조 타겟 분포(auxiliary target distribution)를 계산하고 Kullback-Leibler divergence를 최소화하는 것을 반복하여 최적화합니다.
 
-논문의 순서는 다음으로 "Clustering with KL divergence"가 나오지만 원활한 설명을 위하여 "Parameter initialization" 먼저 작성하겠습니다.
-{:.message}
+논문의 다음 순서는 "Clustering with KL divergence"이지만, 원활한 설명을 위하여 "Parameter initialization" 먼저 작성하겠습니다.
+{:.fade}
 
 ### Parameter initialization
 
 ***
 
-DNN parameters θ와 cluster centroids {$$\mu _j$$}를 초기화하는(initialize) 방법을 알아보겠습니다.
+DNN parameters θ와 cluster centroids {$$\mu _j$$}의 초기화 방법을 알아보겠습니다.
 
 DEC network의 θ를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
 
@@ -95,7 +95,7 @@ $$
 $$
 
 Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습시는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
-{:.message}
+{:.fade}
 
 <br>
 
