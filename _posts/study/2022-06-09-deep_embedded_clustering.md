@@ -16,10 +16,8 @@ last_modified_at: '2022-06-17'
 
 본 논문은 2016년 PMLR에 실렸으며 feature representations과 cluster assignment를 동시에 학습하는 Deep Embedded Clustering(DEC)을 제안하였습니다. 설명에 앞서 슈퍼짱짱님의 블로그를 참고하였음을 밝힙니다.
 
-<!--more-->
-
-* this unordered seed list will be replaced by the toc
-{:toc}
+- Table of Contents
+{:toc .large-only}
 
 ## Overview
 
@@ -78,7 +76,7 @@ Deep embedded clustering는 두 단계로 이루어져 있습니다.
     * 보조 타겟 분포(auxiliary target distribution)를 계산하고 Kullback-Leibler divergence를 최소화하는 것을 반복하여 최적화합니다.
 
 논문의 다음 순서는 "Clustering with KL divergence"이지만, 원활한 설명을 위하여 "Parameter initialization" 먼저 작성하겠습니다.
-{:.fade}
+{:.faded}
 
 ### Parameter initialization
 
@@ -96,13 +94,14 @@ $$
 $$
 
 Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습시는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
-{:.fade}
+{:.faded}
 
 <br>
 
 학습은 least squares loss $$\Vert x-y \Vert^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, output h를 input으로 사용하여 다음 layer를 학습합니다. 이러한 greedy layer-wise training 이후, reverse layer-wise training 순서로 encoder layers와 decoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
-![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}<center><span style="color:gray; font-size:80%">Network structure</span></center>   
+![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true){:.aligncenter}
+Network structure{:.figure}
 <br>
 
 다음으로 상단의 그림과 같이 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
@@ -228,7 +227,7 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
 ![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true){:.aligncenter} 
-<center><span style="color:gray; font-size:80%">출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1</span></center>
+출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1{:.figure}
 
 <br>
 
@@ -291,7 +290,7 @@ $$
 1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 DEC의 성능을 평가하였습니다. 
 
 ![Dataset statistics](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true){:.aligncenter} 
-<center><span style="color:gray; font-size:80%">본 논문에서 사용한 데이터셋의 정보</span></center>
+본 연구에서 사용된 데이터셋의 정보{:.figure}
 
 ### Evaluation Metric
 
