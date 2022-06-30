@@ -86,12 +86,10 @@ DNN parameters θ와 cluster centroids {$$\mu _j$$}의 초기화 방법을 알�
 
 DEC network의 θ를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
 
-$$
-  \tilde{x} \sim Dropout(x) \\[0.5em]
-  h = g_1(W_1\tilde{x} + b_1) \\[0.5em]
-  \tilde{h} \sim Dropout(h) \\[0.5em]
-  y = g_2(W_2\tilde{h} + b_2) \\[0.5em]
-$$
+$$ \tilde{x} \sim Dropout(x) \\[0.5em]
+   h = g_1(W_1\tilde{x} + b_1) \\[0.5em]
+   \tilde{h} \sim Dropout(h) \\[0.5em]
+   y = g_2(W_2\tilde{h} + b_2) \\[0.5em] $$
 
 Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 인코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습하는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
 {:.faded}
@@ -128,10 +126,8 @@ $$\Rightarrow$$ **보조 타겟 분포를 label로 사용**함으로써, unsuper
 
 Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 유사도를 구하기 위해 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
-$$
-  q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
-  {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
-$$
+$$ q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
+   {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}$$
 
 $$\alpha$$는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{ij}$$는 sample i가 cluster j에 속할 확률(i.e., soft assignment)**을 나타냅니다. Clustering은 비지도 알고리즘으로써 alpha를 validation set에 cross-validate하지 못하므로 모든 실험에서 alpha를 1로 설정하였습니다.
 
@@ -139,27 +135,20 @@ $$\alpha$$는 t-분포의 자유도(degree of freedom)를 나타내며, **$$q_{i
 
 t-분포의 공식은 다음과 같습니다.
 
-$$
-  f(t) = \frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{t^2}{\alpha})^{-\frac{\alpha+1}{2}}
-$$
+$$ f(t) = \frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{t^2}{\alpha})^{-\frac{\alpha+1}{2}}$$
 
 
 t-분포를 논문에 맞게 적용해보자면, 데이터 t는 두 점 사이의 거리 $$\Vert z_i - \mu _j\Vert$$가 되며 식은 다음과 같이 정리됩니다.   
 
-$$
-\begin{aligned}
-  q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu _j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-         &= \frac{(1+\frac{\Vert z_i - \mu _j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
-\end{aligned}
-$$
+$$ \begin{aligned}
+   q_{ij} &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{||z_i - \mu _j||^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _{j'}\Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+          &= \frac{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}(1+\frac{\Vert z_i - \mu _j \Vert ^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\frac{\varGamma(\frac{\alpha+1}{2})}{\sqrt{\alpha\pi}\varGamma(\frac{\alpha}{2})}\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em]
+          &= \frac{(1+\frac{\Vert z_i - \mu _j \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}}{\sum_{j'}(1+\frac{\Vert z_i - \mu _{j'} \Vert^2}{\alpha})^{-\frac{\alpha+1}{2}}} \\[2em] \end{aligned} $$
 
 또한, alpha = 1로 설정하였으므로 최종적으로 다음과 같은 식을 얻을 수 있습니다.
 
-$$
-  q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2)^{-1}}
-  {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2)^{-1}}
-$$
+$$ q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2)^{-1}}
+   {\sum _{j'}(1 + \lVert z_i - \mu _{j'} \rVert ^2)^{-1}}$$
 
 분모는 L1 정규화(L1-normalization)를 적용한 것으로, 각 벡터 안의 요소 값을 모두 더한 것이 크기가 1이 되도록 벡터들의 크기를 조절하였습니다.
 
@@ -177,9 +166,7 @@ $$
 
 구체적으로는 DEC는 soft assignments를 target distribution에 매칭하면서 학습합니다. 끝으로, soft assignments $$q_{ij}$$와 target distribution $$p_{ij}$$ 간의 KL divergence loss가 목적함수로 정의되었습니다.
 
-$$
-  L = KL(P||Q) = \sum_i\sum_jp_{ij}\log\frac{p_{ij}}{q_{ij}}
-$$
+$$ L = KL(P||Q) = \sum_i\sum_jp_{ij}\log\frac{p_{ij}}{q_{ij}} $$
 
 
 ##### [참고] KL DIVERGENCE에 대한 설명   
@@ -212,9 +199,7 @@ $$
 
 따라서 보조 타겟 분포(auxiliary target distribution)는 다음과 같이 정의됩니다.
 
-$$
-  p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}}
-$$
+$$ p_{ij} = \frac{q_{ij}^2 / f_j}{\sum_{j'}q_{ij'}^2 / f_{j'}} $$
 
 $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을 나타냅니다. 
 
@@ -274,8 +259,8 @@ $$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 em
 
 Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
-$$ \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) $$
-$$ \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) $$
+$$\begin{align} \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align}$$
+$$\begin{align} \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align} $$
 
 ### Experiments
 
@@ -335,13 +320,15 @@ MNIST와 STL의 각 클러스터에서 10개의 최고 점수 이미지입니다
 
 ***
 
-DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부분 정확하다는 것입니다. 
+DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부분 정확하다는 것입니다. 이 가정이 본 연구의 task에 적용되고 P의 선택이 원하는 속성을 갖는다는 것을 확인하기 위해, 
+각 embedded point에 대한 gradient L의 크기(magnitude) 즉 $$\lvert \partial L / \partial z_i \rvert$$를 soft assignment $$q_{ij}$$에 따라 시각화하였습니다. 
 
 ![Gradient visulization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/gradient_visualization.PNG?raw=true)   
 기울기 시각화
 {:.figure}
 
-각 embedded point에 대한 gradient L의 크기(magnitude) 즉 $$\lvert \partial L / \partial z_i \rvert$$를 시각화하였습니다. Cluter center에 가까운 points들 즉 $$q_{ij}$$가 클수록 gradient에 더 많이 기여하는 것을 확인할 수 있습니다.
+Cluter center에 더 가까운 points(큰 $$q_{ij}$$)가 gradient에 더 많이 기여하는 것을 확인할 수 있습니다. 또한, $$q_{ij}$$ 정렬의 각 10% 지점마다 원본 이미지를 표시하였습니다.
+신뢰도가 감소할수록, instances는 더욱 모호해졌으며 결국 8로 잘못 레이블링하였습니다.
 
 ![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
 클러스터링 정확도 비교
