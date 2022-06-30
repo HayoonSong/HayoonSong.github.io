@@ -240,7 +240,7 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rightarrow {q_{11}}^2 = 0.9216, {q_{31}}^2 =
 (e) $$q_{ij} / \sum _i q_{ij}$$: 번외로 보자면, 높은 신뢰도의 예측에 강조하지도 못하고, clusters 간의 정규화만 되어 절대 사용하면 안 될 것 같습니다.
 
 
-정리하자면, 저자들이 희망하는 타겟 분포의 특징은 다음과 같았습니다.   
+정리하자면, 저자들이 희망하는 **타겟 분포의 특징**은 다음과 같았습니다.   
 1. 예측 강화   
 $$\Rightarrow$$ (b) Sample i가 cluster j에 속할 확률인 예측값 $$q_{ij}$$ 강조 
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조   
@@ -259,8 +259,8 @@ $$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 em
 
 Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
-$$\begin{align} \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align}$$
-$$\begin{align} \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align} $$
+\\( \begin{align} \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align} \\)
+\\( \begin{align} \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \end{align} \\)
 
 ### Experiments
 
@@ -302,11 +302,15 @@ $$
 
 DEC는 다른 모든 방법보다 우수한 성능을 보였습니다. LDGMI과 SEC는 스펙트럴 클러스터링(spectral clustering)으로 데이터들 간의 상대적인 관계나 연결을 중요한 정보로 사용하는 그래프 기반 클러스터링입니다. 또한, 본 연구는 end-to-end 학습의 효율성을 입증하기 위해, 클러스터링 중에 non-linear mapping $$f_\theta$$를 frezezing 즉 고정한 결과(DEC w/o backprop)도 보여주었습니다. DEC w/o backprop는 일반적으로 DEC보다 낮은 성능을 보였습니다.
 
+<br>
+
 ![Accuracy plot](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_plot.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
 
 DEC는 LDGMI과 SEC보다 하이퍼파라미터(hyperparameter)에 강건함을 보였습니다. DEC는 모든 데이터셋에서 하이퍼파라미터 $$\lambda = 40$$일 때 거의 최적의 성능을 보인 반면, 다른 알고리즘들은 다양했습니다. 또한, DEC는 GPU 가속을 사용하여 30분 만에 REUTERS 데이터셋 전체를 처리할 수 있었지만, 두 번째로 우수한 알고리즘은 LDGMI과 SEC는 수개월의 계산시간과 테라바이트의 메모리가 필요했습니다. 
+
+<br>
 
 ![Clustering images](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_images.PNG?raw=true)   
 클러스터링 정확도 비교
@@ -330,9 +334,13 @@ DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부�
 Cluter center에 더 가까운 points(큰 $$q_{ij}$$)가 gradient에 더 많이 기여하는 것을 확인할 수 있습니다. 또한, $$q_{ij}$$ 정렬의 각 10% 지점마다 원본 이미지를 표시하였습니다.
 신뢰도가 감소할수록, instances는 더욱 모호해졌으며 결국 8로 잘못 레이블링하였습니다.
 
+#### Contribution of Iterative Optimization
+
 ![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
+
+Embedded representation의 progresson을 t-SNE를 사용하여 시각화하였습니다. Cluster가 잘 분리되어가는 것은 분명하였습니다. 상단의 그림은 SGD epochs에 따라 정확도가 어떻게 개선되는지를 나타냅니다.
 
 ## Summary
 
