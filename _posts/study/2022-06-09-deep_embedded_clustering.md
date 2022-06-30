@@ -24,7 +24,8 @@ last_modified_at: '2022-06-17'
 ***
 
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
-Network structure{:.figure}
+Network structure
+{:.figure}
 <br>
 
 * **Pretrain** (Initialization phase)
@@ -101,7 +102,8 @@ Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코�
 학습은 least squares loss $$\Vert x-y \Vert^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, output h를 input으로 사용하여 다음 layer를 학습합니다. 이러한 greedy layer-wise training 이후, reverse layer-wise training 순서로 encoder layers와 decoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
-Network structure{:.figure}
+Network structure
+{:.figure}
 <br>
 
 다음으로 상단의 그림과 같이 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN을 거쳐 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 사용하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
@@ -227,7 +229,8 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 본 논문에서는 p_{ij}의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
 ![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true)   
-출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1{:.figure}
+출처: https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1
+{:.figure}
 
 <br>
 
@@ -290,7 +293,8 @@ $$
 1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 DEC의 성능을 평가하였습니다. 
 
 ![Dataset statistics](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true)   
-본 연구에서 사용된 데이터셋의 정보{:.figure}
+본 연구에서 사용된 데이터셋의 정보
+{:.figure}
 
 ### Evaluation Metric
 
