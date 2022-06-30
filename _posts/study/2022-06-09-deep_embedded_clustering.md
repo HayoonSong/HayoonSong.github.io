@@ -207,7 +207,7 @@ $$
 특히 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖고 있길 희망하였습니다.
 1. 예측 강화
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
-3. 대형 클러스터(large cluster)가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
+3. 대형 클러스터(large cluster)가 hidden feature space를 왜곡하는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
 
 
 따라서 보조 타겟 분포(auxiliary target distribution)는 다음과 같이 정의됩니다.
@@ -262,7 +262,7 @@ $$\Rightarrow$$ (b) Sample i가 cluster j에 속할 확률인 예측값 $$q_{ij}
 $$\Rightarrow$$ (b) 1번과 동일한 맥락   
 높은 신뢰도의 예측이란 높은 값의 $$q_{ij}$$, 낮은 신뢰도의 예측이란 낮은 값의 $$q_{ij}$$   
 즉, 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조   
-3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화   
+3. Large cluster가 hidden feature space를 왜곡하는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화   
 $$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많은 클러스터입니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다.   
 따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다.   
 
@@ -275,20 +275,18 @@ $$\Rightarrow$$ (c) 기본적으로 large cluster란, cluster안에 속하는 em
 Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
 $$
-  \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \\[2em]
+  \[\frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \]
 
-  \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j)
+  \[\frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \]
 $$
 
 ### Experiments
-
-***
 
 #### Datasets
 
 ***
 
-1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 DEC의 성능을 평가하였습니다. 
+1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 성능을 평가하였습니다. 
 
 ![Dataset statistics](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true)   
 본 연구에서 사용된 데이터셋의 정보
@@ -326,7 +324,29 @@ DEC는 다른 모든 방법보다 우수한 성능을 보였습니다. LDGMI과 
 클러스터링 정확도 비교
 {:.figure}
 
-          
+DEC는 LDGMI과 SEC보다 하이퍼파라미터(hyperparameter)에 강건함을 보였습니다. DEC는 모든 데이터셋에서 하이퍼파라미터 $$\lambda = 40$$일 때 거의 최적의 성능을 보인 반면, 다른 알고리즘들은 다양했습니다. 또한, DEC는 GPU 가속을 사용하여 30분 만에 REUTERS 데이터셋 전체를 처리할 수 있었지만, 두 번째로 우수한 알고리즘은 LDGMI과 SEC는 수개월의 계산시간과 테라바이트의 메모리가 필요했습니다. 
+
+![Clustering images](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_images.PNG?raw=true)   
+클러스터링 정확도 비교
+{:.figure}
+
+MNIST와 STL의 각 클러스터에서 10개의 최고 점수 이미지입니다. 각 y축은 cluster이며 x축의 왼쪽부터 cluster에 가장 가까운 순서대로 나열되었습니다. MNIST의 경우 DEC의 클러스터 할당은 혼란스러운 4와 9를 제외하고는 자연 클러스터와 매우 잘 일치하는 반면 STL의 경우 DEC는 비행기, 트럭 및 자동차에 대해 대부분 정확하지만 동물 사진에서는 카테고리 대신 포즈에 주의를 기울이는 것을 확인하실 수 있습니다.
+
+### Discussion
+
+#### Assumptions and Objective
+
+***
+
+DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부분 정확하다는 것입니다. 
+
+![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
+클러스터링 정확도 비교
+{:.figure}
+
+각 embedded point에 대한 gradient L의 크기(magnitude) 즉 $$$$를 시각화하였습니다.
+
+
 ## Summary
 
 본 논문은 feature space와 cluster memberships을 동시에 해결하는 방법을 제안하였습니다. 이를 위해 data space X에서 cluster에 최적화된 feature space Z로 parameterized non-linear mapping을 정의하였으며, clustering에 최적화된 mapping을 학습하기 위해 stochastic gradient descent(SGD)를 사용하였습니다. Deep Embedded Clustering(DEC)는 당시의 SOTA를 달성하였습니다.
