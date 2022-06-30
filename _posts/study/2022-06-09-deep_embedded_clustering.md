@@ -16,8 +16,10 @@ last_modified_at: '2022-06-17'
 
 본 논문은 2016년 PMLR에 실렸으며 feature representations과 cluster assignment를 동시에 학습하는 Deep Embedded Clustering(DEC)을 제안하였습니다. 설명에 앞서 슈퍼짱짱님의 블로그를 참고하였음을 밝힙니다.
 
-- Table of Contents
-{:toc .large-only}
+<!--more-->
+
+* this unordered seed list will be replaced by the toc
+{:toc}
 
 ## Overview
 
@@ -45,13 +47,13 @@ last_modified_at: '2022-06-17'
 
 클러스터링(clustering)은 데이터 분석 및 시각화(visualization)에서 핵심적인 기법으로, 각기 다른 관점에서 unsupervised machine learning으로 널리 연구되어 왔습니다.
 
-클러스터링 알고리즘에서 distance(또는 dissimilarity)는 feature space에서 데이터를 표현하는데 중요한 역할을 합니다. 예를 들어, k-means 클러스터링 알고리즘에서는 feature space에서 points 사이의 Euclidean distance를 사용하였습니다.
+클러스터링 알고리즘에서 distance(또는 dissimilarity)는 feature space에서 데이터를 표현하는데 중요한 역할을 합니다. 예를 들어, k-means 클러스터링 알고리즘에서는 Euclidean distance를 사용하여 feature space의 point들 간의 거리를 측정합니다.
 
 또한, feature space를 선택하는 것도 중요합니다. 가장 간단한 이미지 데이터셋을 제외하고는, raw pixels에서 Euclidian distance를 사용하는 것은 비효율적입니다.
 
 결국 저자들은 다음과 같은 의문에 도달하였습니다. "데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수는 없을까?"
 
-본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 **clustering와 더불어 feautre representation도 개선**시켰습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였습니다. 또한 DEC는 hyperparameters 선택에 있어써도 훨씬 덜 민감했습니다.
+본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 **clustering 및 feautre representation을 개선**하였습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였습니다. 또한 DEC는 hyperparameters 선택에 있어서도 훨씬 덜 민감했습니다.
 
 
 ### Contributions
