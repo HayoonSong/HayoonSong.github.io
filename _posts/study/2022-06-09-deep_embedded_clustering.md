@@ -106,7 +106,7 @@ Network structure
 
 SAE의 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN에 넣어 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
 
-### Parameter optimization(Clustering with KL divergence)
+### Clustering with KL divergence
 
 ***
 
@@ -249,22 +249,22 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rarr {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.000
 <br>
 
 (a) $$q_{ij}$$: Embedded points $$z_{i}$$에 대한 $$q_{ij}$$를 가정해보겠습니다.      
-(b) $$q_{ij}^2$$: $$q_{ij}$$에 제곱을 취함으로써 높은 $$q_{ij}$$ 대비 낮은 $$q_{ij}$$가 더 작아지므로 높은 신뢰의 예측과 낮은 신뢰도의 예측 간의 격차가 벌어집니다.   
+(b) $$q_{ij}^2$$: 제곱으로 인해 높은 $$q_{ij}$$ 대비 낮은 $$q_{ij}$$가 더 작아지므로 높은 신뢰도의 예측과 낮은 신뢰도의 예측 간의 격차가 벌어집니다.   
 (c) $$q_{ij}^2 / f_j$$: $$q_{ij}^2$$을 그대로 사용하면 large cluster(위의 예시에서 cluster 1)의 값이 너무 커지므로 $$f_j$$로 정규화(normalization)를 합니다. Clusters 간의 크기를 맞추기 위한 정규화로 보시며 됩니다.    
 (d) $$q_{ij}^2 / \sum _i q_{ij}^2$$: 번외로 $$\sum _i q_{ij}^2$$가 아닌 $$\sum _i q_{ij}$$으로 정규화한 이유를 보자면, $$q_{32}$$의 경우 $$\sum _i q_{ij}^2$$로 정규화 했을 때 기존의 예측값 $$q_{ij}$$보다 커진 것을 확인하실 수 있습니다. 이 부분에 경우 직접 숫자를 대입해보고 이해하였기에 혹시 수식적으로 안되는 이유를 아신다면 댓글 또는 메일 주시면 감사하겠습니다.   
-(e) $$q_{ij}2 / \sum _i q_{ij}$$: 번외로 보자면, 높은 신뢰도의 예측에 강조하지도 못하고, clusters 간의 정규화만 되어 절대 사용하면 안 될 것 같습니다.
+(e) $$q_{ij} / \sum _i q_{ij}$$: 번외로 보자면, 높은 신뢰도의 예측에 강조하지도 못하고, clusters 간의 정규화만 되어 절대 사용하면 안 될 것 같습니다.
 
 
-정리하자면, 저자들이 희망하는 타겟 분포(target distribution)의 특징은 다음과 같았습니다.   
-1. 예측 강화
-⇒ Sample i가 cluster j에 속할 확률인 예측값 $${q_ij}$$ 강조 → (b) 
-2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
-⇒ 1번과 동일한 맥락   
-높은 신뢰도의 예측이란, 높은 값의 $$q_{ij}$$   
-낮은 신뢰도의 예측이란, 낮은 값의 $$q_{ij}$$   
-즉. 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조 → (b)
-3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
-⇒ 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많아야 합니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다. 따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다. → (c)   
+정리하자면, 저자들이 희망하는 타겟 분포의 특징은 다음과 같았습니다.   
+1. 예측 강화   
+$$\rArr$$ (b) Sample i가 cluster j에 속할 확률인 예측값 $$q_{ij}$$ 강조 
+2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조   
+$$\rArr$$ (b) 1번과 동일한 맥락   
+높은 신뢰도의 예측이란 높은 값의 $$q_{ij}$$, 낮은 신뢰도의 예측이란 낮은 값의 $$q_{ij}$$   
+즉, 낮은 값의 $$q_{ij}$$ 대비 높은 값의 $$q_{ij}$$에 더욱 강조   
+3. Large cluster가 hidden feature space를 왜곡시키는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화   
+$$\rArr$$ (c) 기본적으로 large cluster란, cluster안에 속하는 embedded points $$z_i$$가 많은 클러스터입니다. 그러나 $$q_{ij}$$의 수식에 따르면 $$q_{ij}$$는 0이 될 수 없으므로, 각 cluster j는 모두 동일한 개수의 $$q_{ij}$$를 갖게 됩니다.   
+따라서 본 연구에서 말하는 large cluster란 $$\sum _i q_{ij}$$의 값이 높은 cluster가 됩니다.   
 
 마지막으로 분모는 앞서 언급하였듯이 L1-normalization으로 생각하시면 됩니다.
 
@@ -272,10 +272,10 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rarr {q_{11}}^2 = 0.9216, {q_{31}}^2 = 0.000
 
 ***
 
-Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
+Momentum과 함께 Stochastic Gradient Descent (SGD)를 사용하여 **cluster centers {$$\mu _j$$}와 DNN parameters $$\theta$$를 동시에 최적화**합니다. 각 데이터 points $$z_i$$와 각 cluster centroid $$\mu _j$$의 feature embedding에 대한 gradients $$L$$은 다음과 같이 계산됩니다.
 
 $$
-  \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \\
+  \frac{\partial L}{\partial z_i} = \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j) \\[2em]
 
   \frac{\partial L}{\partial \mu _i} = - \frac{\alpha + 1}{\alpha}\sum _j{(1 + \frac{\Vert z_i - \mu _j \Vert^2}{\alpha})}^{-1} \times (p_{ij} - q_{ij})(z_i - \mu _j)
 $$
@@ -298,12 +298,15 @@ $$
 
 ***
 
-Unsupervised learning의 성능을 평가하고 다른 알고리즘과 비교하기 위하여 standard unsupervisd evaluation metric 및 procols을 사용하였습니다.
+다른 알고리즘과 평가 및 비교하기 위하여 standard unsupervisd evaluation metric 및 procols을 사용하였습니다.
+모든 알고리즘에서 clusters의 개수를 ground-truth 카테고리의 개수로 설정하고 unsupervised clustering accuracy(ACC)로 성능을 평가하였습니다.
 
 $$
   ACC = \displaystyle\max _m\frac{\sum_{i=1}^{n} 1\lbrace l_i = m(c_i)\rbrace}{n}  
 $$
 
+* $$l_i$$: Ground-truth label
+* $$c_i$$: 알고리즘으로 할당된 cluster
 
 ### Implementation
 
@@ -331,7 +334,6 @@ $$
 [1] Xie, Junyuan, Ross Girshick, and Ali Farhadi. "Unsupervised deep embedding for clustering analysis." International conference on machine learning. PMLR, 2016. [[Paper]](http://proceedings.mlr.press/v48/xieb16.html)   
 [2] 슈퍼짱짱, "[논문] DEC 리뷰: Unsupervised Deep Embedding for Clustering Analysis" [[Online]](https://leedakyeong.tistory.com/entry/%EB%85%BC%EB%AC%B8Unsupervised-Deep-Embedding-for-Clustering-AnalysisDEC)    
 
-<br>
 <br>
 
 ***
