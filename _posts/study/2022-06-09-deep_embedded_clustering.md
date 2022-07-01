@@ -29,15 +29,15 @@ Network structure
 
 * **Pretrain** (Initialization phase)
   - Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
-  - Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder를 연결하여 input을 재구성(reconstruction)하도록 학습
-  - Loss: Reconstruction loss 최소화
+  - Loss: Reconstruction loss
+  - Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder를 연결하여 input을 재구성(reconstruction)하도록 학습 $$\rightarrow$$ Reconstruction loss 최소화
 
 <br>
 
 * **Finetune**
   - Model: SAE의 encoder
-  - Task: Data space에서 feature space로 **Mapping** + **Clustering**
-  - Loss: **KL-Divergence loss** 최소화
+  - Loss: **KL-Divergence loss** $$\rightarrow$$ Q(발생 확률 분포)와 P(타켓 분포)의 차이
+  - Task: Data space에서 feature space로 **Mapping** + **Clustering** $$\rightarrow$$ KL-Divergence loss 최소화
 
 
 ## Introduction
@@ -128,7 +128,7 @@ $$\Rightarrow$$ **보조 타겟 분포를 label로 사용**함으로써, unsuper
 
 ***
 
-Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 유사도를 구하기 위해 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
+Embedded points $$z_i$$와 cluster centroids $$\mu _j$$ 간의 거리 즉, 유사도를 구하기 위해 t-분포(Studetnt's t-distribution)를 사용하였습니다. 
 
 $$ 
   q_{ij} = \frac{(1 +  \lVert z_i - \mu _{j} \rVert ^2 / \alpha)^{-\frac{\alpha+1}{2}}}
@@ -204,8 +204,8 @@ $$
 
 다음으로, target distibutions P를 구하는 것은 DEC의 성능에 있어서 중요한 요소로 작용합니다. $$q_i$$는 진짜 label이 아닌 unsupervised setting으로 계산된 확률이므로 $$p_i$$역시 softer probabilistic targets을 사용하는 것이 자연스럽다고 합니다.
 
-특히 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖고 있길 희망하였습니다.
-1. 예측 강화
+특히 저자들은 타겟 분포(target distribution)가 다음과 같은 특징을 갖도록 수식을 구성하였습니다.
+1. 클러스터 내 순도(purity) 증가
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조
 3. 대형 클러스터(large cluster)가 hidden feature space를 왜곡하는 것을 방지하기 위해 각 centroid의 loss contributions을 정규화
 
@@ -254,7 +254,7 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rightarrow {q_{11}}^2 = 0.9216, {q_{31}}^2 =
 
 
 정리하자면, 저자들이 희망하는 **타겟 분포의 특징**은 다음과 같았습니다.   
-1. 예측 강화   
+1.클러스터 내 순도 증가
 $$\Rightarrow$$ (b) Sample i가 cluster j에 속할 확률인 예측값 $$q_{ij}$$ 강조 
 2. 높은 신뢰도(high confidence)로 할당된 data points에 더 강조   
 $$\Rightarrow$$ (b) 1번과 동일한 맥락   
@@ -330,7 +330,7 @@ DEC는 LDGMI과 SEC보다 하이퍼파라미터(hyperparameter)에 강건함을 
 <br>
 
 ![Clustering images](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_images.PNG?raw=true)   
-클러스터링 정확도 비교
+클러스터링 이미지
 {:.figure}
 
 MNIST와 STL의 각 클러스터에서 10개의 최고 점수 이미지입니다. 각 y축은 cluster이며 x축의 왼쪽부터 cluster에 가장 가까운 순서대로 나열되었습니다. MNIST의 경우 DEC의 클러스터 할당은 혼란스러운 4와 9를 제외하고는 자연 클러스터와 매우 잘 일치하는 반면 STL의 경우 DEC는 비행기, 트럭 및 자동차에 대해 대부분 정확하지만 동물 사진에서는 카테고리 대신 포즈에 주의를 기울이는 것을 확인하실 수 있습니다.
@@ -387,20 +387,41 @@ MNIST의 불균형 subsample에서의 클러스터링 정확도
 
 ***
 
-![Centroid count](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/centroid_count.PNG?raw=true)   
-클러스터의 수 선택
-{:.figure}
-
-지금까지는 알고리즘 간의 비굘르 단순화하기 위해 클러스터 수가 주어졌다고 가정하였습니다. 그러나, 실제로는 클러스터의 수를 알 수 없는 경우가 많기에 최적의 클러스터 수를 결정해야 합니다. 이를 위해 본 연구에서는 2가지의 metrics를 정의하였습니다.  
+지금까지는 알고리즘 간의 비교를 단순화하기 위해 클러스터 수가 주어졌다고 가정하였습니다. 그러나, 실제로는 클러스터의 수를 알 수 없는 경우가 많기에 최적의 클러스터 수를 결정해야 합니다. 이를 위해 본 연구에서는 2가지의 metrics를 정의하였습니다.  
 
 1. Standard metric: Normalizaed Mutual Information (NMI)   
 
 $$NMI(l,c) = \frac{I(l,c)}{\frac{1}{2}[H(l)+H(c)]}$$
 
+* $$l$$: Ground-truth label
+* $$c$$: 알고리즘으로 할당된 cluster
 * $$I$$: 상호정보량(information metric)
 * $$H$$: Entropy
 
-두 확률변수 사이의 상호정보량은 하나의 확률변수가 다른 확률변수에 대해 제공하는 정보의 양을 의미합니다. $$I(X;Y)$$로 표현하며 다음과 같이 나타냅니다.
+서로 다른 클러스터의 수로 클러스터링의 결과를 평가하기 위해 사용됩니다.
+
+2. Generalizability
+
+$$G = \frac{L_{train}}{L_{validation}}$$
+
+G는 training loss와 validation loss 간의 비율로 정의됩니다. Training loss가 validation loss보다 작을 때 G도 작아지며, 이는 과적합을 나타냅니다.
+
+![Centroid count](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/centroid_count.PNG?raw=true)   
+클러스터의 수 선택
+{:.figure}
+
+클러스터 수가 9~10으로 증가할 때 일반화가능성(generalizability)는 크게 떨어지며, 9가 최적의 클러스터 수라는 것을 나타냅니다. NMI 점수도 9에서 가장 높았으며, 이를 통해 일반화가능성이 클러스터의 수를 선택하는 데에 좋은 metric이라는 것을 증명합니다. MNIST 데이터셋은 총 10개의 class를 가지지만, NMI 점수는 클러스터의 수 10이 아닌 9에서 가장 높았는데요, 글을 쓸 때 9와 4가 유사하여 DEC는 하나의 클러스터로 묶어야 한다고 생각했기 때문이라고 합니다.
+
+![Clustering images (MNIST)](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_images_mnist.PNG?raw=true)   
+클러스터링 이미지
+{:.figure}
+
+위에서 봤던 MNIST 클러스터링 그림을 보면 9와 4를 잘 분류하지 못한 것을 알 수 있습니다.
+
+
+#### [참고] Mutual Information에 대한 설명
+
+두 확률변수 사이의 상호정보량(mutual information, MI)은 하나의 확률변수가 다른 확률변수에 대해 제공하는 정보의 양을 의미합니다. $$I(X;Y)$$로 표현하며 다음과 같이 나타냅니다.
 
 $$
   \begin{align}
@@ -408,22 +429,13 @@ $$
   \end{align}
 $$
 
+p(x)는 x가 일어날 확률이며, p(x,y)는 x와 y가 동시에 일어날 확률입니다. 만약 두 확률변수가 독립(independent)이라면, $$p(x,y) = p(x)p(y)$$가 되고 log 내 식의 값이 1이 되면서 MI 값은 0이 됩니다. 따라서 **X, Y가 dependent할수록 MI 값은 증가**합니다. 위 식에서 X와 Y의 순서를 바꾸어도 MI의 값은 동일합니다.
 
-2. Generalizability
+## Conclustion
 
-$$G = \frac{L_{train}}{L_{validation}}$$
+본 연구에서 제안하는 Deep Embedded Clustering, DEC는 공동으로 최적화된 feature space에서 data points를 클러스터링하는 알고리즘입니다. DEC는 self-training을 얻은 타켓 분포를 가지고 반복적으로 KL divergence 기반 clustering objective를 최적화함으로써 학습합니다. 이런 방법은 unsupervised learning의 확장판으로 볼 수 있습니다. DEC의 프레임워크는 label 없이 클러스터링에 특화된 표현(representation)을 학습하는 방법을 제공합니다.
 
-
-지금까지 우리는 알고리즘 간의 비교를 단순화하기 위해 자연 클러스터의 수가 주어졌다고 가정했습니다. 그러나 실제로는 이 양을 알 수 없는 경우가 많습니다. 따라서 최적의 클러스터 수를 결정하는 방법이 필요합니다. 이를 위해 우리는 두 가지 메트릭을 정의합니다. (1) 다른 클러스터 번호로 클러스터링 결과를 평가하기 위한 표준 메트릭인 정규화된 상호 정보(NMI):
-
-
-
-## Summary
-
-본 논문은 feature space와 cluster memberships을 동시에 해결하는 방법을 제안하였습니다. 이를 위해 data space X에서 cluster에 최적화된 feature space Z로 parameterized non-linear mapping을 정의하였으며, clustering에 최적화된 mapping을 학습하기 위해 stochastic gradient descent(SGD)를 사용하였습니다. Deep Embedded Clustering(DEC)는 당시의 SOTA를 달성하였습니다.
-   
-
-
+DEC는 좋은 성능을 보였으며 하이퍼파라미터의 세팅에 대해서도 강건하였습니다. 
 
 ## References
 
