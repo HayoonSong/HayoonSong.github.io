@@ -9,6 +9,7 @@ categories:
     - study
 tags:
     - self-supervised-learning
+    - representation-learning
 comments: true
 published: true
 last_modified_at: '2022-07-01'
