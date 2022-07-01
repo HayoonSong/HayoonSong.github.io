@@ -7,7 +7,8 @@ subtitle: Deep Enbedded Clustering
 date: '2022-06-09'
 categories:
     - study
-tags: self-supervised-learning representation-learning
+tags:
+    - self-supervised-learning
 comments: true
 published: true
 last_modified_at: '2022-07-01'
@@ -15,8 +16,8 @@ last_modified_at: '2022-07-01'
 
 본 논문은 2016년 PMLR에 실렸으며 feature representations과 cluster assignment를 동시에 학습하는 Deep Embedded Clustering(DEC)을 제안하였습니다. 설명에 앞서 슈퍼짱짱님의 블로그를 참고하였음을 밝힙니다.
 
-- Table of Contents
-{:toc .large-only}
+* this unordered seed list will be replaced by the toc
+{:toc}
 
 ## Overview
 
