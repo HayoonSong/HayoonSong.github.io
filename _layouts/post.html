@@ -32,8 +32,6 @@ layout: base
   {% case addon %}
   {% when 'about' %}
      {% include_cached components/about.html author=page.author %}
-  {% when 'newsletter' %}
-    {% include if-non-null try="pro/newsletter.html" %}
   {% when 'related' %}
     {% include if-non-null try="pro/related-posts.html" fallback="components/related-posts.html" %}
   {% when 'random' %}
