@@ -59,7 +59,7 @@ last_modified_at: '2022-07-01'
 
 ***
 
-* Deep embedding과 clustering의 공동 최적화
+* Deep embedding과 clustering을 동시에 최적화
 * Soft assignment를 통한 clusters 재정의
 * 정확도 및 속도에서 SOTA clustering 달성
 
@@ -84,7 +84,7 @@ Deep embedded clustering는 두 단계로 이루어져 있습니다.
 
 DNN parameters θ와 cluster centroids {$$\mu _j$$}의 초기화 방법을 알아보겠습니다.
 
-DEC network의 θ를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
+DEC network의 θ는 **Stacked autoencoder(SAE)**를 사용하여 초기화하였습니다. 또한, SAE의 초기화를 위해 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder(DA)가 활용되었습니다. 즉 SAE의 각 레이어는 초기화된 DA로 구성되며, DA는 다음과 같이 2개의 layer로 이루어져 있습니다.
 
 $$
   \begin{align}
@@ -95,18 +95,18 @@ $$
   \end{align}
 $$
 
-Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 인코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습하는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
+SAE는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 인코딩(부호화)을 학습할 수 있게 됩니다. DA는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습하는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
 {:.faded}
 
 <br>
 
-학습은 least squares loss $$\Vert x-y \Vert^2$$을 최소화함으로써 이루어집니다. 하나의 layer를 학습한 후, output h를 input으로 사용하여 다음 layer를 학습합니다. 이러한 greedy layer-wise training 이후, reverse layer-wise training 순서로 encoder layers와 decoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. 최종적으로 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
+DA는 least squares loss $$\Vert x-y \Vert^2$$을 최소화하도록 학습합니다. DA의 하나의 layer를 학습한 후, output h를 input으로 사용하여 다음 layer를 학습하며 진행됩니다. 이러한 greedy layer-wise training 이후 reverse layer-wise training 순서로, encoder layers와 decoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. SAE는 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
 ![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
 네트워크 구조
 {:.figure}
 
-SAE의 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN에 넣어 embedded data를 얻은 다음 feature space Z에서 k-means clustering하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
+최종적으로 SAE의 decoder layers를 버리고 encoder layers를 data space와 feature space 간의 initial mapping으로 사용합니다. Cluster centers를 초기화하기 위해 데이터를 초기화된 DNN에 넣어 embedded data를 얻고 feature space Z에서 k-means clustering하여 k개의 initial centroids $$\lbrace\mu _j\rbrace_{j=1}^k$$를 얻습니다.
 
 ### Clustering with KL divergence
 
@@ -114,13 +114,13 @@ SAE의 decoder layers를 버리고 encoder layers를 data space와 feature space
 
 Non-linear mapping $$f_\theta$$과 cluster centroids {$$\mu _j$$}$$_{j=1}^k$$의 초기값을 추정하였으므로, 비지도 알고리즘을 사용하여 clustering을 개선하는 방법을 살펴보겠습니다.
 
-KL divergence 기반 clustering은 다음의 두 단계를 반복하여 이루어집니다.   
+KL divergence 기반 clustering은 다음의 두 단계를 반복하며 최적화합니다.  
 
 **Step 1.** X $$\rightarrow$$ Z로 mapping된 embedded points와 cluster centroids 간의 **soft assignment를 계산**합니다.   
 $$\Rightarrow$$ Embedded points와 cluster centroids 간의 거리를 계산하여, Embedded point가 cluster에 속할 확률(soft assignment)를 구하는 것입니다.   
 
 **Step 2.** **Deep mapping $$f_θ$$을 업데이트**하고 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습하여 cluster centroids를 재정의**합니다.    
-$$\Rightarrow$$ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supverised learning 처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
+$$\Rightarrow$$ **보조 타겟 분포를 label로 사용**함으로써, unsupervised learning 알고리즘인 클러스터링이 마치 supervised learning처럼 학습되어 높은 신뢰도로 학습한다고 말할 수 있습니다.
 
 수렴 기준에 충족될 때까지 이 절차를 반복합니다.
 
@@ -172,12 +172,12 @@ $$
 
 ***
 
-다음으로 저자들은 **보조 타겟 분포(auxiliary target distribution)를 통해 높은 신뢰도(high confidence)로 학습**하면서 clusters를 재정의하였습니다. 
+$$q_{ij}$$를 통해 보조 타겟 분포(auxiliary target distribution)를 구하고, 이를 label로 사용하여 높은 신뢰도(high confidence)로 학습하면서 clusters를 재정의하였습니다. 
 
-기존의 clustering은 unsupervised learning으로 사용되었지만, 본 논문에서는 **보조 타겟 분포를 label로 사용하여 마치 supervised learning 처럼 학습**하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.
+기존의 클러스터링은 unsupervised learning으로 사용되었지만, 본 논문에서는 **보조 타겟 분포를 label로 사용하여 마치 supervised learning처럼 학습**하였으므로 높은 신뢰도(high confidence)로 clusters를 재정의했다고 할 수 있습니다.
 {:.faded}
 
-구체적으로는 DEC는 soft assignments를 target distribution에 매칭하면서 학습합니다. 끝으로, soft assignments $$q_{ij}$$와 target distribution $$p_{ij}$$ 간의 KL divergence loss가 목적함수로 정의되었습니다.
+구체적으로 DEC는 soft assignments를 target distribution에 매칭하면서 학습합니다. Soft assignments $$q_{ij}$$와 target distribution $$p_{ij}$$ 간의 KL divergence loss를 목적함수로 정의하여, 두 분포의 차이를 최소화하도록 학습하였습니다.
 
 $$L = KL(P||Q) = \sum_i\sum_jp_{ij}\log\frac{p_{ij}}{q_{ij}}$$
 
@@ -433,7 +433,7 @@ p(x)는 x가 일어날 확률이며, p(x,y)는 x와 y가 동시에 일어날 확
 
 ## Conclustion
 
-본 연구에서 제안하는 Deep Embedded Clustering, DEC는 공동으로 최적화된 feature space에서 data points를 클러스터링하는 알고리즘입니다. DEC는 self-training을 얻은 타켓 분포를 가지고 반복적으로 KL divergence 기반 clustering objective를 최적화함으로써 학습합니다. 이런 방법은 unsupervised learning의 확장판으로 볼 수 있습니다. DEC의 프레임워크는 label 없이 클러스터링에 특화된 표현(representation)을 학습하는 방법을 제공합니다.
+본 연구에서 제안하는 Deep Embedded Clustering, DEC는 공동으로 최적화된 feature space에서 data points를 클러스터링하는 알고리즘입니다. DEC는 self-training으로 얻은 타켓 분포를 가지고 반복적으로 KL divergence 기반 clustering objective를 최적화함으로써 학습합니다. 이런 방법은 unsupervised learning의 확장판으로 볼 수 있습니다. DEC의 프레임워크는 label 없이 클러스터링에 특화된 표현(representation)을 학습하는 방법을 제공합니다.
 
 DEC는 좋은 성능을 보였으며 하이퍼파라미터의 세팅에 대해서도 강건하였습니다. 
 
