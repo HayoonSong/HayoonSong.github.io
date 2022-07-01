@@ -16,8 +16,8 @@ last_modified_at: '2022-07-01'
 
 본 논문은 2017년 CVPR에 실렸으며 
 
-- Table of Contents
-{:toc .large-only}
+* this unordered seed list will be replaced by the toc
+{:toc}
 
 ## Overview
 
