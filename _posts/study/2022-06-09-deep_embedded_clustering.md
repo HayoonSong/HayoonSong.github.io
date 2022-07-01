@@ -285,7 +285,7 @@ $$
 
 ***
 
-1개의 text dataset "REUTERS"와 2개의 image datasets "MNIST" 및 "STL-10"에 대하여 성능을 평가하였습니다. 
+1개의 텍스트 데이터셋 "REUTERS"와 2개의 이미지 데이터셋 "MNIST" 및 "STL-10"에 대하여 성능을 평가하였습니다. 
 
 ![Dataset statistics](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true)   
 본 연구에서 사용된 데이터셋의 정보
@@ -389,7 +389,7 @@ MNIST의 불균형 subsample에서의 클러스터링 정확도
 
 지금까지는 알고리즘 간의 비교를 단순화하기 위해 클러스터 수가 주어졌다고 가정하였습니다. 그러나, 실제로는 클러스터의 수를 알 수 없는 경우가 많기에 최적의 클러스터 수를 결정해야 합니다. 이를 위해 본 연구에서는 2가지의 metrics를 정의하였습니다.  
 
-1. Standard metric: Normalizaed Mutual Information (NMI)   
+1.Standard metric: Normalizaed Mutual Information (NMI)   
 
 $$NMI(l,c) = \frac{I(l,c)}{\frac{1}{2}[H(l)+H(c)]}$$
 
@@ -400,7 +400,7 @@ $$NMI(l,c) = \frac{I(l,c)}{\frac{1}{2}[H(l)+H(c)]}$$
 
 서로 다른 클러스터의 수로 클러스터링의 결과를 평가하기 위해 사용됩니다.
 
-2. Generalizability
+2.Generalizability
 
 $$G = \frac{L_{train}}{L_{validation}}$$
 
