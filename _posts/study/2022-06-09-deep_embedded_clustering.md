@@ -11,7 +11,7 @@ tags:
     - self-supervised-learning
 comments: true
 published: true
-last_modified_at: '2022-06-17'
+last_modified_at: '2022-07-01'
 ---
 
 본 논문은 2016년 PMLR에 실렸으며 feature representations과 cluster assignment를 동시에 학습하는 Deep Embedded Clustering(DEC)을 제안하였습니다. 설명에 앞서 슈퍼짱짱님의 블로그를 참고하였음을 밝힙니다.
@@ -30,14 +30,14 @@ Network structure
 * **Pretrain** (Initialization phase)
   - Model: 각 layer가 denoising autoencoder로 이루어진 stacked autoencoder(SAE)
   - Task: Encoder는 한 번에 한 층씩 학습(greedy layer-wise training) + Encoder에 Decoder를 연결하여 input을 재구성(reconstruction)하도록 학습
-  - Loss: Minimizing the reconstruction loss
+  - Loss: Reconstruction loss 최소화
 
 <br>
 
 * **Finetune**
   - Model: SAE의 encoder
   - Task: Data space에서 feature space로 **Mapping** + **Clustering**
-  - Loss: Minimizing **KL-Divergence loss**
+  - Loss: **KL-Divergence loss** 최소화
 
 
 ## Introduction
@@ -353,19 +353,70 @@ Cluter center에 더 가까운 points(큰 $$q_{ij}$$)가 gradient에 더 많이 
 
 ### Contribution of Iterative Optimization
 
+***
+
 ![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
 
-학습 동안의 embedded representation을 t-SNE를 사용하여 시각화하였습니다. Cluster가 점점 더 잘 분리되는 것을 알 수 있습니다. 상단의 그림은 SGD epochs에 따라 정확도가 어떻게 개선되는 지를 나타냅니다.
+Embedded representation을 t-SNE를 사용하여 시각화하였습니다. Cluster가 점점 더 잘 분리되는 것을 알 수 있습니다. 상단의 그림은 SGD epochs에 따라 정확도가 어떻게 개선되는 지를 나타냅니다.
 
 ### Contribution of Autoencoder Initialization
+
+***
 
 ![Clustering accuracy on autoencoder](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_autoencoder.PNG?raw=true)   
 Autoencoder feature에 따른 클러스터링 정확도 비교
 {:.figure}
 
-학습 동안의 embedded representation을 t-SNE를 사용하여 시각화하였습니다. Cluster가 점점 더 잘 분리되는 것을 알 수 있습니다. 상단의 그림은 SGD epochs에 따라 정확도가 어떻게 개선되는 지를 나타냅니다.
+Autoencoder의 feature를 알고리즘에 적용한 성능을 나타냅니다. SEC 및 LDMGI의 성능은 autoencoder feature에 크게 변경되지 않는 반면, k-means은 개선되었지만 여전히 DEC보다 낮았습니다. 이는 **deep embedding의 중요성**과 **KL divergence objective로 fine-tuning**하는 것의 이점을 보여줍니다.
+
+### Performace on Imbalanced Data
+
+***
+
+불균형 데이터의 영향을 확인하기 위해, 다양한 보유율로 MNIST의 하위집합을 샘플링하였습니다. 최소 보유율 $$r_{min}$$의 경우 class 0의 데이터 개수는 확률 $$r_{min}$$만큼 유지되고 class 9의 데이터 개수는 확률 1 즉 기존 데이터 개수만큼 보유하게 되며, 다른 class들은 그 사이에 선형으로 유지됩니다. 결과적으로 가장 큰 클러스터(class 9)는 가장 작은 클러스터(class 0)의 $$1/r_{min}$$배가 됩니다.
+
+![Imbalanced subsample](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_imbalaned_subsample.PNG?raw=true)   
+MNIST의 불균형 subsample에서의 클러스터링 정확도
+{:.figure}
+
+표는 DEC의 클러스터의 크기 변동에 대한 강인함을 나타냅니다. 또한 DEC의 KL divergence 최소화는 autoencoder 및 k-means initialization (AE+k-means) 이후에도 클러스터링 정확도를 지속적으로 향상시키는 것을 알 수 있습니다.
+
+### Number of Clusters
+
+***
+
+![Centroid count](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/centroid_count.PNG?raw=true)   
+클러스터의 수 선택
+{:.figure}
+
+지금까지는 알고리즘 간의 비굘르 단순화하기 위해 클러스터 수가 주어졌다고 가정하였습니다. 그러나, 실제로는 클러스터의 수를 알 수 없는 경우가 많기에 최적의 클러스터 수를 결정해야 합니다. 이를 위해 본 연구에서는 2가지의 metrics를 정의하였습니다.  
+
+1. Standard metric: Normalizaed Mutual Information (NMI)   
+
+$$NMI(l,c) = \frac{I(l,c)}{\frac{1}{2}[H(l)+H(c)]}$$
+
+* $$I$$: 상호정보량(information metric)
+* $$H$$: Entropy
+
+두 확률변수 사이의 상호정보량은 하나의 확률변수가 다른 확률변수에 대해 제공하는 정보의 양을 의미합니다. $$I(X;Y)$$로 표현하며 다음과 같이 나타냅니다.
+
+$$
+  \begin{align}
+  I(X;Y) = \sum_{y \in Y} \sum_{x \in X} p(x,y)log\frac{p(x,y)}{p(x)p(y)}
+  \end{align}
+$$
+
+
+2. Generalizability
+
+$$G = \frac{L_{train}}{L_{validation}}$$
+
+
+지금까지 우리는 알고리즘 간의 비교를 단순화하기 위해 자연 클러스터의 수가 주어졌다고 가정했습니다. 그러나 실제로는 이 양을 알 수 없는 경우가 많습니다. 따라서 최적의 클러스터 수를 결정하는 방법이 필요합니다. 이를 위해 우리는 두 가지 메트릭을 정의합니다. (1) 다른 클러스터 번호로 클러스터링 결과를 평가하기 위한 표준 메트릭인 정규화된 상호 정보(NMI):
+
+
 
 ## Summary
 
