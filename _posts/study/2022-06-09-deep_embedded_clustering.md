@@ -87,10 +87,12 @@ DNN parameters θ와 cluster centroids {$$\mu _j$$}의 초기화 방법을 알�
 DEC network의 θ를 초기화하기 위하여 **Stacked autoencoder(SAE)**가 활용되었습니다. SAE의 각 레이어는 random corruption 이후 이전 계층의 츨력을 재구성하도록 학습된 denoising autoencoder로 초기화되었습니다. Denoising autoencoder는 다음과 같이 2개의 layer로 이루어져 있습니다.
 
 $$
+  \begin{align}
   \tilde{x} \sim Dropout(x) \\$
   h = g_1(W_1\tilde{x} + b_1) \\$
   \tilde{h} \sim Dropout(h) \\$
   y = g_2(W_2\tilde{h} + b_2)
+  \end{align}
   $$
 
 Stacked autoecoder는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이어를 추가할수록 오토인코더가 더 복잡한 인코딩(부호화)을 학습할 수 있게 됩니다. Denoising autoencoder는 입력에 noise를 추가하고 noise가 없는 원본 입력을 재구성하도록 학습하는 방법입니다. Stacked autoencoder 및 denoising autoencoder를 포함하여 autoencoder에 대한 자세한 설명은 Excelsior-JH님의 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)를 참고하시길 바랍니다.
