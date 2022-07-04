@@ -29,13 +29,13 @@ Various ML metrics. 출처: https://towardsdatascience.com/17-types-of-similarit
 
 ***
 
-데이터 사이언스에서 유사도 측정(similarity measure)은 개별 데이터 간의 관련성(relation)을 측정하는 방법입니다. 반면에 비유사도 측정(dissimilarity measure)은 개별 데이터들이 얼마나 구별되(distinct)를 나타냅니다. 유사도 측정이라는 용어는 머신러닝에서 다방면으로 사용됩니다.
+머신러닝에서 유사도 측정(similarity measure)은 개별 데이터 간의 관련성(relation)을 측정하는 방법입니다. 반면에 비유사도 측정(dissimilarity measure)은 개별 데이터들이 얼마나 구별되는지(distinct)를 나타냅니다. 유사도 측정이라는 용어는 머신러닝에서 다방면으로 사용됩니다.
 
-* Clustering: 비슷한 데이터끼리 하나의 클러스터로 묶음
+* Clustering: 비슷한 데이터들끼리 하나의 클러스터로 묶음
 * Classification: 특징의 유사성(features's similarity)에 따라 데이터 분류(e.g., KNN)
-* Anomaly detection: 다른 데이터들과 비교하여 유사하지 않은 이상값 탐지
+* Anomaly detection: 다른 데이터들과 유사하지 않은 이상값 탐지
 
-일반적으로 유사도 측정은 숫자 값(numerical value)으로 표현됩니다. 데이터들 간의 관련성이 높아질 경우 값도 커집니다. 가끔 변환되어 0과 1사이의 숫자로 표현되기도 합니다. 0은 낮은 유사도, 즉 유사하지 않음을 뜻하며 1은 높은 유사도, 즉 매우 유사함을 의미합니다. 예를 들어, 하나의 input feature만을 갖고 있는 데이터 포인트 A, B, C가 있습니다. Input feature가 한 개이므로 각 데이터는 한 축에 하나의 값을 가질 수 있습니다. 그 축을 x축이라고 할 때, A(0.5), B(1), C(30)의 두 점을 살펴보겠습니다. 쉽게 알 수 있듯이, A와 B는 C와 비교할 때 서로 가깝습니다. 따라서, A와 B의 유사도는 A와 C 또는 B와 C의 유사도보다 높습니다. 다시 말해 **데이터 간의 거리가 작을수록, 유사도는 커집니다.**
+일반적으로 유사도 측정은 숫자 값(numerical value)으로 표현됩니다. 데이터들 간의 관련성이 높아질 경우 값도 커집니다. 가끔 변환되어 0과 1사이의 숫자로 표현되기도 합니다. 0은 낮은 유사도, 즉 유사하지 않음을 뜻하며 1은 높은 유사도, 즉 매우 유사함을 의미합니다. 예를 들어, 하나의 input feature만을 갖고 있는 데이터 포인트 A, B, C가 있습니다. Input feature가 한 개이므로 각 데이터는 한 축에 하나의 값을 가질 수 있습니다. 그 축을 x축이라고 할 때 A(0.5), B(1), C(30)에서 두 점을 살펴보겠습니다. 쉽게 알 수 있듯이, A와 B는 C와 비교할 때 서로 가깝습니다. 따라서, A와 B의 유사도는 A와 C 또는 B와 C의 유사도보다 큰 값을 가집니다. 다시 말해 **데이터 간의 거리가 가까울수록, 유사도는 커집니다.**
 
 ### Metric
 
@@ -67,8 +67,8 @@ $$
   d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2} \\
                                  &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + \dots + (p_n - q_n)^2}
 \end{align}
-$$
-where:
+$$   
+where:   
 $$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
 
 아시다시피 유클리드 거리 측정법은 **대칭성(symmetry)**, **미분가능성(differentiability)**, **볼록성(convexity)**, **구형성(sphericity)** 등 잘 알려진 속성을 나타냅니다.
@@ -80,8 +80,8 @@ $$
   d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2} \\
                                  &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2}
 \end{align}
-$$
-where:
+$$   
+where:   
 $$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
 
 해당 식은 직각삼각형의 빗변의 길이를 구하는 공식과 동일합니다.
