@@ -222,6 +222,7 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 {:.faded}
 
 ##### [참고] $$p_{ij}$$는 어떻게 도출되었을까?
+
 본 논문에서는 $$p_{ij}$$의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
 ![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true)   
@@ -432,6 +433,8 @@ $$
 p(x)는 x가 일어날 확률이며, p(x,y)는 x와 y가 동시에 일어날 확률입니다. 만약 두 확률변수가 독립(independent)이라면, $$p(x,y) = p(x)p(y)$$가 되고 log 내 식의 값이 1이 되면서 MI 값은 0이 됩니다. 따라서 **X, Y가 dependent할수록 MI 값은 증가**합니다. 위 식에서 X와 Y의 순서를 바꾸어도 MI의 값은 동일합니다.
 
 ## Conclustion
+
+***
 
 본 연구에서 제안하는 Deep Embedded Clustering, DEC는 공동으로 최적화된 feature space에서 data points를 클러스터링하는 알고리즘입니다. DEC는 self-training으로 얻은 타켓 분포를 가지고 반복적으로 KL divergence 기반 clustering objective를 최적화함으로써 학습합니다. 이런 방법은 unsupervised learning의 확장판으로 볼 수 있습니다. DEC의 프레임워크는 label 없이 클러스터링에 특화된 표현(representation)을 학습하는 방법을 제공합니다.
 
