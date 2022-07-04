@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '[Deep learning] 유사도 측정(similarity measure)'
+title: '[Deep learning] Similarity measure'
 description: >
   머신러닝에서 사용되는 데이터 거리 측정 방법
 subtitle: Similarity measure
@@ -63,8 +63,9 @@ Various ML metrics. 출처: https://towardsdatascience.com/17-types-of-similarit
 Numeric attributes 또는 features와 같이 수치로 표현된 자료에서 가장 흔히 사용되는 거리 함수는 유클리드 거리(Euclidean distance)이며 수식은 다음과 같이 정의됩니다.
 
 $$
-  d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2}
-                                 &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + \dots + (p_n - q_n)^2}
+  d(P,Q) &= \lVert P - Q \rVert_0 
+         &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2}
+         &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + \dots + (p_n - q_n)^2}
 $$
 where:
 $$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
@@ -74,8 +75,8 @@ $$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
 2차원 공간에서는 다음과 같이 표현할 수 있습니다.
 
 $$
-  d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2}
-                                 &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2}
+  d(P,Q) &= \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2}
+                                  &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2}
 $$
 where:
 $$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
