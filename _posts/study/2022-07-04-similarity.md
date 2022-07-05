@@ -41,12 +41,16 @@ Various ML metrics. 출처: https://towardsdatascience.com/17-types-of-similarit
 
 ***
 
-주어진 거리(distance)는 다음 네 가지 조건을 충족하는 경우에만 지표(metric)가 됩니다.
+주어진 거리(distance)는 다음 네 가지 조건을 충족하는 경우에만 지표(metric)로 사용할 수 있습니다.
 
-1. **Non-negativity**: d(p, q) ≥ 0, for any two distinct obeservations p and q.
+1. **Non-negativity**: d(p, q) ≥ 0, for any two distinct obeservations p and q.   
+$$\to$$ 두 지점 p와 q 사이의 거리는 음수가 되면 안됩니다.
 2. **Symmetry**: d(p, q) = d(q, p) for all p and q.
+$$\to$$ 두 지점 p와 q 사이의 거리는 q와 p 사이의 거리와 동일해야 합니다.
 3. **Triangle Inequality**: d(p, q) ≤ d(p, r) + d(r, q) for all p, q, r.
+$$\to$$ 삼각 부등식(triangle inequality)에 따라 두 변의 합이 나머지 한 변보다 커야 힙니다.
 4. d(p, q) = 0 if only if p = q.
+$$\to$$ p와 q가 같을 때, p와 q 사이의 거리는 0이어야 합니다.
 
 거리 측정은 주어진 데이터들 간의 비유사도를 측정하는 k-nearest neigbor(K-NN) 알고리즘과 같은 분류(classification)의 기본적인 원칙입니다. 또한, 어떤 거리 지표(distance metric)를 사용하느냐에 따라 분류기의 성능은 크게 달라집니다. 따라서, 객체 간의 거리를 구하는 방식은 분류기 알고리즘 성능에 중요한 역할을 합니다.
 
@@ -63,24 +67,28 @@ Various ML metrics. 출처: https://towardsdatascience.com/17-types-of-similarit
 Numeric attributes 또는 features와 같이 수치로 표현된 자료에서 가장 흔히 사용되는 거리 함수는 유클리드 거리(Euclidean distance)이며 수식은 다음과 같이 정의됩니다.
 
 $$
-\begin{align}
+\begin{aligned}
   d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2} \\
                                  &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + \dots + (p_n - q_n)^2}
-\end{align}
+\end{aligned}
 $$   
+
 where:   
 $$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
+
+<br>
 
 아시다시피 유클리드 거리 측정법은 **대칭성(symmetry)**, **미분가능성(differentiability)**, **볼록성(convexity)**, **구형성(sphericity)** 등 잘 알려진 속성을 나타냅니다.
 
 2차원 공간에서는 다음과 같이 표현할 수 있습니다.
 
 $$
-\begin{align}
+\begin{aligned}
   d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2} \\
                                  &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2}
-\end{align}
+\end{aligned}
 $$   
+
 where:   
 $$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
 
@@ -88,27 +96,85 @@ $$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
 
 또한, 유클리드 거리는 앞서 말씀드린 4가지 기준을 충족하기에 지표(metric)라고 할 수 있습니다.
 
-![Euclidean distance](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean_distance.PNG?raw=true)   
-The Euclidean distance satisfies all the conditions for being a metric. 출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+![Euclidean distance](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/euclidean_distance.PNG?raw=true)   
+The Euclidean distance satisfies all the conditions for being a metric.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
 {:.figure}
 
 또한, 해당 공식을 통해 계산된 거리는 **두 점 사이의 가장 짧은 거리**를 나타냅니다. 다시 말해, A 지점에서 B 지점으로 가는 최단 경로입니다.
 
-![Shortest path](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean_distance_shortest_path.PNG?raw=true)   
-The Euclidean distance is the shortest path(Excluding the case of a wormhole in a quantum world). 출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+![Shortest path](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/euclidean_distance_shortest_path.PNG?raw=true)   
+The Euclidean distance is the shortest path(Excluding the case of a wormhole in a quantum world).   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
 {:.figure}
 
-따라서, 유클리드 거리는 장애물이 없는 상태에서 두 점 사이의 거리를 계산해야 할 때 유용합니다. 가장 유명한 분류 알고리즘 중 하나인 KNN 알고리즘은 데이터를 분류하기 위해 유클리드 거리를 사용하여 이점을 얻을 수 있습니다. KNN의 분류 과정을 설명하고자 Scipy 패키지에 있는 iris dataset을 예시로 사용하겠습니다.
+따라서, 장애물이 없는 상태에서 두 점 사이의 거리를 계산해야 할 때 유클리드 거리가 유용할 수 있습니다. 분류 알고리즘 중 하나인 KNN 알고리즘을 기반으로 유클리드 거리를 사용하여 분류 과정을 설명드리겠습니다. 예제 데이터로는 Scipy 패키지에 있는 iris dataset을 사용하고자 합니다.  
 
-![Iris dataset](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/iris_dataset.PNG?raw=true)   
-Iris dataset for two types of flowers in two features’ space. 출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+![Iris dataset](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_dataset.PNG?raw=true)   
+Iris dataset for two types of flowers in two features’ space.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
 {:.figure}
 
 Iris dataset은 붓꽃의 3가지 종(Iris-Setosa, Iris-Versicolor, Iris-Virginica)에 대해 4가지의 features(꽃받침 길이, 꽃받침 너비, 꽃잎 길이, 꽃잎 너비)가 있는 데이터입니다. 따라서 각 데이터 포인트를 표현할 수 있는 4차원 공간이 있습니다. 원활한 설명을 위하여 2가지의 features 꽃잎 길이(petal length)와 꽃잎 너비(petal width)만 사용하고, label도 2가지 Iris-Setosa, Iris-Versicolor만 사용하겠습니다. 이런 식으로 x축과 y축에 각각 petal length와 petal width를 나타내는 2차원 공간의 데이터 포인트를 시각화 할 수 있습니다.
 
-![Iris training data](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/iris_training_data.PNG?raw=true)   
-Training dataset. 출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+![Iris training data](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_training_data.PNG?raw=true)   
+Training dataset.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
 {:.figure}
 
-그러나, 직선이 아닌 곡선을 따르는 경로에서는 유클리드 거리가 유용하지 않을 수 있습니다.  
+각 데이터 포인트는 Iris-Setosa 또는 Iris-versicolor에 속하므로, KNN 분류를 위한 데이터셋으로 사용할 수 있습니다. 따라서 2개의 input features와 20개의 데이터 포인트를 가지고 KNN(k = 4)을 학습한다고 가정해 보겠습니다.
 
+![Iris new data](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_new_data.PNG?raw=true)   
+Predict the label for a new data point.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+KNN은 학습을 통해 새로운 데이터 포인트를 분류할 수 있습니다. 모델은 새로운 데이터 포인트를 어떻게 분류할까요?
+
+KNN 알고리즘은 새로운 데이터로부터 거리가 가까운 k개의 다른 데이터의 label을 참고하여, k개의 데이터 중 가장 빈도 수가 높에 나온 label로 새로운 데이터를 분류합니다. 이때 데이터 간의 거리를 측정하기 위해 유클리드 거리를 사용할 수 있습니다. 
+
+![Euclidean in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/knn_euclidean.PNG?raw=true)     
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+새로운 데이터에서 training data의 각 지점까지의 유클리드 거리를 계산한 결과입니다. k = 4 이므로, KNN은 새로운 데이터에서 가장 가까운 4개의 지점을 선택해야 합니다. 위 그림에서 point1, point5, point8, point9에서의 거리가 가장 짧은 것을 알 수 있습니다. 해당 지점들을 그래프로 그려보면 다음과 같습니다.
+
+![4 neigbors in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_knn_neighbors.PNG?raw=true)     
+Four neighbors voted for Iris-Setosa.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+따라서 새로운 데이터는 Iris-Setosa로 분류되었습니다. 
+
+그러나 도메인에 따라 사용되는 거리 측정 방법이 다르며, 유클리드 거리는 직선이 아닌 곡선을 따르는 경로에서는 유용하지 않을 수 있습니다. 
+
+### Squared Euclidean distance
+
+***
+
+유클리드 제곱 거리(Squared Euclidean Distance, SED)는 유클리드 거리의 제곱과 같습니다. 그러므로, 제곱근 함수를 사용할 필요가 없으며 계산량을 줄일 수 있습니다.
+
+$$
+\begin{aligned}
+  d(P,Q) &= \sum_{i=1}^n (p_i - q_i)^2 \\
+         &= (p_1 - q_1)^2 + (p_2 - q_2)^2 + \dots + (p_n - q_n)^2
+\end{aligned}
+$$   
+
+where:   
+$$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
+
+### L1 norm, Manhattan distance, City block, taxicab distance
+
+***
+
+맨해튼 거리(Manhattan distance)는 도시에서 두 streets 간의 거리를 측정할 때 매우 유용합니다.
+
+![Manhattan](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/manhattan.PNG?raw=true)     
+Manhattan distance in real world.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+예를 들어, 상단의 그림에서 A지점과 B지점 사이의 거리는 대략 4 blocks입니다. 맨해튼 거리는 도시와 같이 일직선으로 가지 못하는 곳에서 출발지와 도착지 간의 거리를 계산하기 위해 만들어졌습니다. 물론, A지점에서 B지점까지의 거리도 유클리드로 계산할 수 있지만 유용하지 않습니다. 맨해튼 거리는 여행 시간이나 운전하는데 얼마나 오래걸리는지 추정하는 데 유용하게 사용됩니다. 따라서, 상황에 따라 달라집니다.
+
+n-차원에서 맨해튼 거리는 다음과 같이 표현됩니다.
