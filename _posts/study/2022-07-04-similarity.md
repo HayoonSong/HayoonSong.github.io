@@ -22,7 +22,7 @@ last_modified_at: '2022-07-04'
 ***
 
 ![Overview](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/overview.PNG?raw=true)   
-Various ML metrics. 출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Various ML metrics(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 ## Introduction
@@ -97,36 +97,31 @@ $$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
 또한, 유클리드 거리는 앞서 말씀드린 4가지 기준을 충족하기에 지표(metric)라고 할 수 있습니다.
 
 ![Euclidean distance](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/euclidean_distance.PNG?raw=true)   
-The Euclidean distance satisfies all the conditions for being a metric.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+The Euclidean distance satisfies all the conditions for being a metric(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 또한, 해당 공식을 통해 계산된 거리는 **두 점 사이의 가장 짧은 거리**를 나타냅니다. 다시 말해, A 지점에서 B 지점으로 가는 최단 경로입니다.
 
 ![Shortest path](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/euclidean_distance_shortest_path.PNG?raw=true)   
-The Euclidean distance is the shortest path(Excluding the case of a wormhole in a quantum world).   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+The Euclidean distance is the shortest path(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 따라서, 장애물이 없는 상태에서 두 점 사이의 거리를 계산해야 할 때 유클리드 거리가 유용할 수 있습니다. 분류 알고리즘 중 하나인 KNN 알고리즘을 기반으로 유클리드 거리를 사용하여 분류 과정을 설명드리겠습니다. 예제 데이터로는 Scipy 패키지에 있는 iris dataset을 사용하고자 합니다.  
 
 ![Iris dataset](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_dataset.PNG?raw=true)   
-Iris dataset for two types of flowers in two features’ space.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Iris dataset for two types of flowers in two features’ space(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681))
 {:.figure}
 
 Iris dataset은 붓꽃의 3가지 종(Iris-Setosa, Iris-Versicolor, Iris-Virginica)에 대해 4가지의 features(꽃받침 길이, 꽃받침 너비, 꽃잎 길이, 꽃잎 너비)가 있는 데이터입니다. 따라서 각 데이터 포인트를 표현할 수 있는 4차원 공간이 있습니다. 원활한 설명을 위하여 2가지의 features 꽃잎 길이(petal length)와 꽃잎 너비(petal width)만 사용하고, label도 2가지 Iris-Setosa, Iris-Versicolor만 사용하겠습니다. 이런 식으로 x축과 y축에 각각 petal length와 petal width를 나타내는 2차원 공간의 데이터 포인트를 시각화 할 수 있습니다.
 
 ![Iris training data](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_training_data.PNG?raw=true)   
-Training dataset.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Training dataset(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 각 데이터 포인트는 Iris-Setosa 또는 Iris-versicolor에 속하므로, KNN 분류를 위한 데이터셋으로 사용할 수 있습니다. 따라서 2개의 input features와 20개의 데이터 포인트를 가지고 KNN(k = 4)을 학습한다고 가정해 보겠습니다.
 
 ![Iris new data](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_new_data.PNG?raw=true)   
-Predict the label for a new data point.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Predict the label for a new data point(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 KNN은 학습을 통해 새로운 데이터 포인트를 분류할 수 있습니다. 모델은 새로운 데이터 포인트를 어떻게 분류할까요?
@@ -134,14 +129,13 @@ KNN은 학습을 통해 새로운 데이터 포인트를 분류할 수 있습니
 KNN 알고리즘은 새로운 데이터로부터 거리가 가까운 k개의 다른 데이터의 label을 참고하여, k개의 데이터 중 가장 빈도 수가 높에 나온 label로 새로운 데이터를 분류합니다. 이때 데이터 간의 거리를 측정하기 위해 유클리드 거리를 사용할 수 있습니다. 
 
 ![Euclidean in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/knn_euclidean.PNG?raw=true)     
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)
 {:.figure}
 
 새로운 데이터에서 training data의 각 지점까지의 유클리드 거리를 계산한 결과입니다. k = 4 이므로, KNN은 새로운 데이터에서 가장 가까운 4개의 지점을 선택해야 합니다. 위 그림에서 point1, point5, point8, point9에서의 거리가 가장 짧은 것을 알 수 있습니다. 해당 지점들을 그래프로 그려보면 다음과 같습니다.
 
 ![4 neigbors in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/euclidean/iris_knn_neighbors.PNG?raw=true)     
-Four neighbors voted for Iris-Setosa.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Four neighbors voted for Iris-Setosa(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 따라서 새로운 데이터는 Iris-Setosa로 분류되었습니다. 
@@ -171,8 +165,7 @@ $$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
 맨해튼 거리(Manhattan distance)는 도시에서 두 streets 간의 거리를 측정할 때 매우 유용합니다.
 
 ![Manhattan](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/manhattan.PNG?raw=true)     
-Manhattan distance in real world.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Manhattan distance in real world(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 예를 들어, 상단의 그림에서 A지점과 B지점 사이의 거리는 대략 4 blocks입니다. 맨해튼 거리는 도시와 같이 **일직선으로 가지 못하는 곳에서 출발지와 목적지 사이의 거리를 계산**하기 위해 만들어졌습니다. 다라서 이름이 City Block입니다. 물론, A지점에서 B지점까지의 거리도 유클리드로 계산할 수 있지만 유용하지 않습니다. 맨해튼 거리는 이동 시간이나 운전 시간을 추정할 때 유용하게 사용됩니다. 따라서 거리를 어떻게 정의하고 사용할 수 있는지에 따라 상황이 달라집니다.
@@ -204,36 +197,31 @@ $$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
 앞선 유클리드 거리를 기반으로 KNN을 적용한 것과 같이, 맨해튼 거리로 새로운 데이터에서 training data 간의 거리를 계산하면 다음과 같은 결과를 얻을 수 있습니다.
 
 ![Manhattan in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_manhattan.PNG?raw=true)     
-KNN classification using Manhattan distance(tie!)      
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+KNN classification using Manhattan distance(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 위의 그림에서 확인할 수 있듯이, 2개의 points는 새로운 데이터를 Iris-Setosa로 투표했고, 나머지 2개의 points는 Iris-Versicolor로 투표했습니다. 이는 동점을 의미합니다.
 
 ![Manhattan in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_iris.PNG?raw=true)     
-Manhattan distance: a tie!   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Manhattan distance: a tie(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681))!
 {:.figure}
 
 이런 문제에서는 k의 값을 변경함으로써 즉 k의 값을 1만큼 늘리거나 줄여서 해결할 수 있습니다. 그러나, k의 값에 따라 KNN의 성능은 달라질 수 있습니다.
 
 ![Manhattan in KNN(k=3)](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_decrease.PNG?raw=true)     
-Decreasing k by one.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Decreasing k by one(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 예를 들어, k=3으로 바꾸면 새로운 데이터는 Iris-Versicolor로 분류됩니다. 
 
 ![Manhattan in KNN(k=5)](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_increase.PNG?raw=true)     
-Increasing k by one.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Increasing k by one(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 그러나 k=5로 바꾸면 새로운 데이터는 Iris-Setosa로 분류됩니다. 따라서 k의 값을 증가시킬 것인지 감소시킬 것인지는 사용자에게 달려있습니다. 만약, 새로운 차원(dimension) 또는 feature를 추가할 수 있다면 동일한 k값으로도 다른 결과를 야기할 수 있습니다. Iris dataset에서 꽃받침 너비(sepal width)를 새로운 차원으로 추가하면 다음과 같은 결과가 나옵니다.
 
 ![KNN with a new feature](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_new.PNG?raw=true)     
-Adding a new feature to the model.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+Adding a new feature to the model(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 새로운 데이터는 Iris-Versicolor로 분류됩니다.
@@ -241,8 +229,7 @@ Adding a new feature to the model.
 각 feature를 3d 공간에서 표현하면 다음과 같습니다.
 
 ![3D plot of Iris dataset](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/iris_3d.PNG?raw=true)     
-A 3-D plot of Iris dataset.   
-출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+A 3-D plot of Iris dataset(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
 유클리드 및 맨해튼 거리는 정규화(regularization)에서도 사용됩니다. L1 및 L2 정규화를 사용하는 기준에 대해 JINSOL KIM님의 [Normalization과 Regularization](https://gaussian37.github.io/dl-concept-regularization)과  Seongkyun Hans님의 [L1 & L2 loss/regularization](https://seongkyun.github.io/study/2019/04/18/l1_l2)를 참고하여 정리해보았습니다. 
@@ -251,7 +238,7 @@ A 3-D plot of Iris dataset.
 
 ***
 
-정규화(regularization)은 과적합(overfitting)을 방지하고자 weight에 페널티를 줌으로써 predict function에 복잡도를 조정하는 작업입니다.
+정규화(regularization)는 과적합(overfitting)을 방지하고자 weight에 페널티를 줌으로써 predict function에 복잡도를 조정하는 작업입니다.
 
 ##### L1 regularization
 
@@ -271,8 +258,7 @@ $$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입�
 | 선택 기준 | 전반적으로 features가 비슷한 수준으로 성능에 영향을 미치는 경우                                                                 | Features의 영향력 편차가 큰 경우    
 
 ![Lasso and Ridge regression](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/l1_l2.PNG?raw=true)     
-A 3-D plot of Iris dataset.   
-출처: [Wikipedia](https://en.wikipedia.org/wiki/Lasso_(statistics)#/media/File:L1_and_L2_balls.svg)
+A 3-D plot of Iris dataset(Source: [Wikipedia](https://en.wikipedia.org/wiki/Lasso_(statistics)#/media/File:L1_and_L2_balls.svg))).
 {:.figure}
 
 * Sparsity(희소성) & Feature selection(변수 선택)
