@@ -36,7 +36,7 @@ last_modified_at: '2022-07-06'
 
 정규화는 일반화(genenralization)을 위해서 제약 조건을 추가하는 기법으로, **Loss 값이 감소하는 것을 기대하면 안됩니다.**
 
-![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/regularization.PNG?raw=true)   
+![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.PNG?raw=true)   
 {:.figure}
 
 ### L1 regularization
@@ -44,8 +44,10 @@ last_modified_at: '2022-07-06'
 $$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} \lvert w \rvert$$
 
 $$
-Cost function &= Loss + L1 Weight Penalty \\
-              &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N \lvert w_j \rvert
+  \begin{align}
+  Cost function &= Loss + L1 Weight Penalty \\
+                &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N \lvert w_j \rvert
+  \end{align}
 $$
 
 ### L2 regularization
@@ -53,15 +55,15 @@ $$
 $$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} {\lvert w \rvert}^2$$
 
 $$
-Cost function &= Loss + L2 Weight Penalty \\
-              &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N w_j^2
+  \begin{align}
+  Cost function &= Loss + L2 Weight Penalty \\
+                &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N w_j^2
+  \end{align}
 $$
 
 $$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입니다. 0에 가까울수록 정규화의 효과는 사라집니다. K-fold cross validation을 통해 적절한 $$\lambda$$ 값을 찾을 수 있습니다.
- 
 
-![Lasso and Ridge regression](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/l1_l2.PNG?raw=true)     
-A 3-D plot of Iris dataset(Source: [Wikipedia](https://en.wikipedia.org/wiki/Lasso_(statistics)#/media/File:L1_and_L2_balls.svg))).
+![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.PNG?raw=true)   
 {:.figure}
 
 * Sparsity(희소성) & Feature selection(변수 선택)
