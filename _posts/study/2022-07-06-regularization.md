@@ -44,8 +44,8 @@ last_modified_at: '2022-07-06'
 $$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} \lvert w \rvert$$
 
 $$
-Cost function &= Loss + L1 Weight Penalty
-              &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \lambda \sum_{j=1}^N \lvert w_j \rvert
+Cost function &= Loss + L1 Weight Penalty \\
+              &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N \lvert w_j \rvert
 $$
 
 ### L2 regularization
@@ -53,8 +53,8 @@ $$
 $$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} {\lvert w \rvert}^2$$
 
 $$
-Cost function &= Loss + L2 Weight Penalty
-              &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \lambda \sum_{j=1}^N w_j^2
+Cost function &= Loss + L2 Weight Penalty \\
+              &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N w_j^2
 $$
 
 $$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입니다. 0에 가까울수록 정규화의 효과는 사라집니다. K-fold cross validation을 통해 적절한 $$\lambda$$ 값을 찾을 수 있습니다.
