@@ -24,14 +24,14 @@ last_modified_at: '2022-07-06'
 |              | L1 norm (Lasso)<br>$${\lVert w \rVert}_1 = \lvert w \rvert$$                                                                    | L2 norm (Ridge)<br>$$\frac{1}{2} {\lVert w \rVert}^2 = \frac{1}{2}w^2$$                                                       |
 |:------------:|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 |     특성     | - 가중치의 값을 완전히 0으로 축소하는 경향<br>- 중요한 특징을 선택하는 feature selection 효과<br>- Convex하여 global optimum에 수렴 가능 | - 가중치의 값을 0에 가까운 수로 축소하는 경향<br>- 모델의 전반적인 복잡도를 감소시키는 효과<br>- Convex하여 global optimum에 수렴 가능 |
-| 선택<br>기준 | 전반적으로 features가 비슷한 수준으로<br>성능에 영향을 미치는 경우                                                              | Features의 영향력 편차가 큰 경우                                                                                              |                                                                                           |
+| 선택<br>기준 | Features의 영향력 편차가 큰 경우                                                                                              |                                                                                           | 전반적으로 features가 비슷한 수준으로<br>성능에 영향을 미치는 경우                                                              |
 
 
 ## Regularization
 
 ***
 
-![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.PNG?raw=true)   
+![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.jpg?raw=true)   
 {:.figure}
 
 정규화(regularization)는 weights에 페널티를 줌으로써 **predict function에 복잡도를 조정**하는 작업입니다. 학습 데이터에 과적합(overfitting)되는 것을 방지하고 모델의 강건함을 개선하기 위해 사용됩니다. 즉, Loss function에 regularization을 더하여 학습 데이터에 편중되어 학습하는 것을 방지하게 합니다. 따라서, Loss + Regularization은 **제약 조건이 있는 상태의 최적화** 문제입니다.
