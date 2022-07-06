@@ -6,7 +6,7 @@ description: >
 subtitle: signal augmentation
 date: '2022-05-31'
 categories:
-    - study
+    - project
 tags:
     - signal
 related_posts:
