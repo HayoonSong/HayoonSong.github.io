@@ -84,7 +84,7 @@ $$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
 
 $$
 \begin{aligned}
-  d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^n (p_i - q_i)^2} \\
+  d(P,Q) = \lVert P - Q \rVert_0 &= \sqrt{\sum_{i=1}^2 (p_i - q_i)^2} \\
                                  &= \sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2}
 \end{aligned}
 $$   
@@ -175,6 +175,135 @@ Manhattan distance in real world.
 출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
 {:.figure}
 
-예를 들어, 상단의 그림에서 A지점과 B지점 사이의 거리는 대략 4 blocks입니다. 맨해튼 거리는 도시와 같이 일직선으로 가지 못하는 곳에서 출발지와 도착지 간의 거리를 계산하기 위해 만들어졌습니다. 물론, A지점에서 B지점까지의 거리도 유클리드로 계산할 수 있지만 유용하지 않습니다. 맨해튼 거리는 여행 시간이나 운전하는데 얼마나 오래걸리는지 추정하는 데 유용하게 사용됩니다. 따라서, 상황에 따라 달라집니다.
+예를 들어, 상단의 그림에서 A지점과 B지점 사이의 거리는 대략 4 blocks입니다. 맨해튼 거리는 도시와 같이 **일직선으로 가지 못하는 곳에서 출발지와 목적지 사이의 거리를 계산**하기 위해 만들어졌습니다. 다라서 이름이 City Block입니다. 물론, A지점에서 B지점까지의 거리도 유클리드로 계산할 수 있지만 유용하지 않습니다. 맨해튼 거리는 이동 시간이나 운전 시간을 추정할 때 유용하게 사용됩니다. 따라서 거리를 어떻게 정의하고 사용할 수 있는지에 따라 상황이 달라집니다.
 
-n-차원에서 맨해튼 거리는 다음과 같이 표현됩니다.
+n-차원 공간에서 맨해튼 거리는 다음과 같이 표현됩니다.
+
+$$
+\begin{aligned}
+  d(P,Q) = \lVert P - Q \rVert_1 &= \sum_{i}^n \lvert p_i - q_i \rvert \\
+                                 &= \lvert p_1 - q_1 \rvert + \vert p_2 - q_2 \rvert + \dots + \lvert p_n - q_n \rvert
+\end{aligned}
+$$   
+
+where:   
+$$P = (p_1,p_2,\dots,p_n),$$ and $$Q = (q_1,q_2,\dots,q_n)$$
+
+2차원 공간에서는 다음과 같이 표현할 수 있습니다.
+
+$$
+\begin{aligned}
+  d(P,Q) = \lVert P - Q \rVert_1 &= \sum_{i}^2 \lvert p_i - q_i \rvert \\
+                                 &= \lvert p_1 - q_1 \rvert + \vert p_2 - q_2 \rvert
+\end{aligned}
+$$   
+
+where:   
+$$P = (p_1,p_2),$$ and $$Q = (q_1,q_2)$$
+
+앞선 유클리드 거리를 기반으로 KNN을 적용한 것과 같이, 맨해튼 거리로 새로운 데이터에서 training data 간의 거리를 계산하면 다음과 같은 결과를 얻을 수 있습니다.
+
+![Manhattan in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_manhattan.PNG?raw=true)     
+KNN classification using Manhattan distance(tie!)      
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+위의 그림에서 확인할 수 있듯이, 2개의 points는 새로운 데이터를 Iris-Setosa로 투표했고, 나머지 2개의 points는 Iris-Versicolor로 투표했습니다. 이는 동점을 의미합니다.
+
+![Manhattan in KNN](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_iris.PNG?raw=true)     
+Manhattan distance: a tie!   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+이런 문제에서는 k의 값을 변경함으로써 즉 k의 값을 1만큼 늘리거나 줄여서 해결할 수 있습니다. 그러나, k의 값에 따라 KNN의 성능은 달라질 수 있습니다.
+
+![Manhattan in KNN(k=3)](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_decrease.PNG?raw=true)     
+Decreasing k by one.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+예를 들어, k=3으로 바꾸면 새로운 데이터는 Iris-Versicolor로 분류됩니다. 
+
+![Manhattan in KNN(k=5)](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_increase.PNG?raw=true)     
+Increasing k by one.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+그러나 k=5로 바꾸면 새로운 데이터는 Iris-Setosa로 분류됩니다. 따라서 k의 값을 증가시킬 것인지 감소시킬 것인지는 사용자에게 달려있습니다. 만약, 새로운 차원(dimension) 또는 feature를 추가할 수 있다면 동일한 k값으로도 다른 결과를 야기할 수 있습니다. Iris dataset에서 꽃받침 너비(sepal width)를 새로운 차원으로 추가하면 다음과 같은 결과가 나옵니다.
+
+![KNN with a new feature](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/knn_new.PNG?raw=true)     
+Adding a new feature to the model.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+새로운 데이터는 Iris-Versicolor로 분류됩니다.
+
+각 feature를 3d 공간에서 표현하면 다음과 같습니다.
+
+![3D plot of Iris dataset](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/iris_3d.PNG?raw=true)     
+A 3-D plot of Iris dataset.   
+출처: https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681
+{:.figure}
+
+유클리드 및 맨해튼 거리는 정규화(regularization)에서도 사용됩니다. L1 및 L2 정규화를 사용하는 기준에 대해 JINSOL KIM님의 [Normalization과 Regularization](https://gaussian37.github.io/dl-concept-regularization)과  Seongkyun Hans님의 [L1 & L2 loss/regularization](https://seongkyun.github.io/study/2019/04/18/l1_l2)를 참고하여 정리해보았습니다. 
+
+#### [참고] Euclidean(L1 norm) vs Mahattam(L2 norm) regularization
+
+***
+
+정규화(regularization)은 과적합(overfitting)을 방지하고자 weight에 페널티를 줌으로써 predict function에 복잡도를 조정하는 작업입니다.
+
+##### L1 regularization
+
+$$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} \lvert w \rvert$$
+
+##### L2 regularization
+
+$$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} {\lvert w \rvert}^2$$
+
+$$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입니다. 0에 가까울수록 정규화의 효과는 사라집니다. K-fold cross validation을 통해 적절한 $$\lambda$$ 값을 찾을 수 있습니다.
+
+
+|           | L1 norm<br>(Lasso)                                                                                                              | L2 norm<br>(Ridge)                                                                                                            |
+|:---------:|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+|    수식   |                                                       $${\lVert w \rVert}_1$$                                                       |                                                $$\frac{1}{2} {\lVert w \rVert}^2$$                                                |
+|    특성   | - 가중치의 값을 완전히 0으로 축소<br>- 중요한 특징을 선택하는 feature selection 효과<br>- Convex하여 global optimum에 수렴 가능 | - 가중치의 값을 0에 가까운 수로 축소<br>- 모델의 전반적인 복잡도를 감소시키는 효과<br>- Convex하여 global optimum에 수렴 가능 |
+| 선택 기준 | 전반적으로 features가 비슷한 수준으로 성능에 영향을 미치는 경우                                                                 | Features의 영향력 편차가 큰 경우    
+
+![Lasso and Ridge regression](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-04-similarity/manhattan/l1_l2.PNG?raw=true)     
+A 3-D plot of Iris dataset.   
+출처: [Wikipedia](https://en.wikipedia.org/wiki/Lasso_(statistics)#/media/File:L1_and_L2_balls.svg)
+{:.figure}
+
+* Sparsity(희소성) & Feature selection(변수 선택)
+  + Sparse vectors란 벡터 내 대부분의 값이 0인 것(e.g., one-hot vectors)
+  + L1을 적용할 경우
+    - Vectors가 sparse vectors로 되는 경향이 있음
+    - 즉, 작은 weights의 값은 0이 되므로 weights의 수를 줄이고 small set을 만들 수 있음
+    - 다시 말해 weights가 너무 많을 때 좀 더 중요한 weights만 선택하고, 나머지는 weights는 0으로 되는 효과를 얻을 수 있음
+    - 이러한 특징으로 feature selection이 가능함
+  + L2를 적용할 경우
+    - 모든 가중치가 균등하게 작아짐
+    - 일반적으로 학습시 더 좋은 성능을 보임
+  + 예를 들어, 두 vectors a와 b가 있음   
+    a = (0.25, 0.25, 0.25, 0.25)
+    b = (-0.5, 0.5, 0, 0)
+    - 두 벡터의 L1 norm
+      $${\lVert a \rVert}_1 = abs(0.25) + abs(0.25) + abs(0.25) + abs(0.25) = 1$$
+      $${\lVert b \rVert}_1 = abs(-0.5) + abs(0.5) + abs(0.0) + abs(0.0) = 1$$
+    - 두 벡터의 L2 norm
+      $${\lVert a \rVert}_2 = \sqrt{0.25^2, 0.25^2, 0.25^2, 0.25^2} = 0.5$$
+      $${\lVert b \rVert}_2 = \sqrt{{(-0.5)}^2, {(0.5)}^2, 0^2, 0^2} = 0.7071$$
+    - L2는 각 vectors 값에 대해 unique한 값이 출력되는 반면, L1은 경우에 따라 특정 feature(vector의 요소)없이도 같은 값을 낼 수 있음
+
+## References
+
+***
+
+[1] Towards Data Science, 17 types of similarity and dissimilarity measures used in data science. [[Online]](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)
+
+<br>
+
+***
+
+<center>오류나 틀린 부분이 있을 경우 언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.</center>
