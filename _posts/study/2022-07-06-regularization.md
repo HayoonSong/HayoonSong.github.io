@@ -12,7 +12,7 @@ published: true
 last_modified_at: '2022-07-06'
 ---
 
-정규화(regularization)은 알고리즘의 **일반화(generalization)을 개선**하기 위해 사용되는 기법입니다. 이번 포스팅에서는 L1 및 L2 정규화 다른 말로 Lasso 및 Ridge 정규화에 대해 알아보고자 합니다.
+정규화(regularization)는 알고리즘의 **일반화(generalization)을 개선**하기 위해 사용되는 기법입니다. 이번 포스팅에서는 L1 및 L2 정규화 다시 말해 Lasso 및 Ridge 정규화에 대해 알아보고자 합니다.
 
 * this unordered seed list will be replaced by the toc
 {:toc}
@@ -21,49 +21,54 @@ last_modified_at: '2022-07-06'
 
 ***
 
-|              | L1 norm<br>(Lasso)                                                                                                              | L2 norm<br>(Ridge)                                                                                                            |
+|              | L1 norm (Lasso)<br>$${\lVert w \rVert}_1 = \lvert w \rvert$$                                                                    | L2 norm (Ridge)<br>$$\frac{1}{2} {\lVert w \rVert}^2 = \frac{1}{2}w^2$$                                                       |
 |:------------:|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-|     수식     |                                                       $${\lVert w \rVert}_1$$                                                       |                                                $$\frac{1}{2} {\lVert w \rVert}^2$$                                                |
 |     특성     | - 가중치의 값을 완전히 0으로 축소<br>- 중요한 특징을 선택하는 feature selection 효과<br>- Convex하여 global optimum에 수렴 가능 | - 가중치의 값을 0에 가까운 수로 축소<br>- 모델의 전반적인 복잡도를 감소시키는 효과<br>- Convex하여 global optimum에 수렴 가능 |
-| 선택<br>기준 | 전반적으로 features가 비슷한 수준으로<br>성능에 영향을 미치는 경우                                                              | Features의 영향력 편차가 큰 경우                                                                                              |
+| 선택<br>기준 | 전반적으로 features가 비슷한 수준으로<br>성능에 영향을 미치는 경우                                                              | Features의 영향력 편차가 큰 경우                                                                                              |                                                                                           |
 
 
 ## Regularization
 
 ***
 
+![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.PNG?raw=true)   
+{:.figure}
+
 정규화(regularization)는 weights에 페널티를 줌으로써 **predict function에 복잡도를 조정**하는 작업입니다. 학습 데이터에 과적합(overfitting)되는 것을 방지하고 모델의 강건함을 개선하기 위해 사용됩니다. 즉, Loss function에 regularization을 더하여 학습 데이터에 편중되어 학습하는 것을 방지하게 합니다. 따라서, Loss + Regularization은 **제약 조건이 있는 상태의 최적화** 문제입니다.
 
 정규화는 일반화(genenralization)을 위해서 제약 조건을 추가하는 기법으로, **Loss 값이 감소하는 것을 기대하면 안됩니다.**
 
-![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.PNG?raw=true)   
+![L1 vs L2](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/l1_l2.PNG?raw=true)   
+출처: [Medium](L1 & L2 loss/regularization)
 {:.figure}
 
 ### L1 regularization
 
-$$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} \lvert w \rvert$$
-
 $$
   \begin{align}
-  Cost function &= Loss + L1 Weight Penalty \\
-                &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N \lvert w_j \rvert
+  Cost &= \text{Loss + L1 Weight Penalty} \\
+       &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N \lvert w_j \rvert
   \end{align}
 $$
+
+* 가중치의 값을 완전히 0으로 축소
+  + 
+
 
 ### L2 regularization
 
-$$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} {\lvert w \rvert}^2$$
-
 $$
   \begin{align}
-  Cost function &= Loss + L2 Weight Penalty \\
-                &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \lambda \sum_{j=1}^N w_j^2
+  Cost &= \text{Loss + L2 Weight Penalty} \\
+       &= \sum_{i=1}^M {(y_i - \sum_{j=1}^N x_{ij}w_j)}^2 + \color{red} \frac{1}{2} \lambda \sum_{j=1}^N w_j^2
   \end{align}
 $$
 
+
+
 $$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입니다. 0에 가까울수록 정규화의 효과는 사라집니다. K-fold cross validation을 통해 적절한 $$\lambda$$ 값을 찾을 수 있습니다.
 
-![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.PNG?raw=true)   
+![Regularization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-06-regularization/regularization.jpg?raw=true)   
 {:.figure}
 
 * Sparsity(희소성) & Feature selection(변수 선택)
@@ -91,7 +96,8 @@ $$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입�
 
 ***
 
-[1] Towards Data Science, 17 types of similarity and dissimilarity measures used in data science. [[Online]](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)
+[1] Jinsol Kim, L1,L2 Regularization. [[Online]](https://gaussian37.github.io/dl-concept-regularization)
+[2] Seongkyun Han's blog, L1 & L2 loss/regularization. [[Online]](https://seongkyun.github.io/study/2019/04/18/l1_l2)
 
 <br>
 
