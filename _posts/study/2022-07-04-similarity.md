@@ -292,8 +292,8 @@ A 3-D plot of Iris dataset.
       $${\lVert a \rVert}_1 = abs(0.25) + abs(0.25) + abs(0.25) + abs(0.25) = 1$$
       $${\lVert b \rVert}_1 = abs(-0.5) + abs(0.5) + abs(0.0) + abs(0.0) = 1$$
     - 두 벡터의 L2 norm
-      $${\lVert a \rVert}_2 = \sqrt{0.25^2, 0.25^2, 0.25^2, 0.25^2} = 0.5$$
-      $${\lVert b \rVert}_2 = \sqrt{{(-0.5)}^2, {(0.5)}^2, 0^2, 0^2} = 0.7071$$
+      $${\lVert a \rVert}_2 = \sqrt{0.25^2 + 0.25^2 + 0.25^2 + 0.25^2} = 0.5$$
+      $${\lVert b \rVert}_2 = \sqrt{(-0.5)^2 + (0.5}^2 + 0^2 + 0^2} = 0.7071$$
     - L2는 각 vectors 값에 대해 unique한 값이 출력되는 반면, L1은 경우에 따라 특정 feature(vector의 요소)없이도 같은 값을 낼 수 있음
 
 ## References
