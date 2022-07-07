@@ -148,7 +148,7 @@ def gaussian_noise(signal, sigma):
 
 Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 하며, **특정한 주파수 대역만을 차단**하는 역할을 합니다.
 
-[이전 포스팅](https://hayoonsong.github.io/study/2022-05-31-filter/)에서 `scipy` 모듈을 활용하여 FFT 변환 과정을 살펴보고 Band-pass filter 및 Band-stop filter를 구현하였습니다.
+이전 포스팅 [Signal Filtering in Python](https://hayoonsong.github.io/study/2022-05-31-filter/)에서 `scipy` 모듈을 활용하여 FFT 변환 과정을 살펴보고 Band-pass filter 및 Band-stop filter를 구현하였습니다.
 
 그러나, scipy를 사용하여 tensorflow의 tensor를 필터링하고자 할 때 tf.Tensor가 numpy로 계산되어 다음과 같은 에러가 났습니다.
 
