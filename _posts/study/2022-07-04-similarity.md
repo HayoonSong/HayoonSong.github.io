@@ -234,55 +234,14 @@ Adding a new feature to the model(Source: [Towards Data Science](https://towards
 A 3-D plot of Iris dataset(Source: [Towards Data Science](https://towardsdatascience.com/17-types-of-similarity-and-dissimilarity-measures-used-in-data-science-3eb914d2681)).
 {:.figure}
 
-유클리드 및 맨해튼 거리는 정규화(regularization)에서도 사용됩니다. L1 및 L2 정규화를 사용하는 기준에 대해 JINSOL KIM님의 [Normalization과 Regularization](https://gaussian37.github.io/dl-concept-regularization)과  Seongkyun Hans님의 [L1 & L2 loss/regularization](https://seongkyun.github.io/study/2019/04/18/l1_l2)를 참고하여 정리해보았습니다. 
+유클리드 및 맨해튼 거리는 정규화(regularization)에서도 사용됩니다. L1 및 L2 Regularization에 대한 자세한 설명은 [L1 and L2 Regularization](https://hayoonsong.github.io/study/2022-07-05-regularization)을 참고하시길 바랍니다.
 
-#### [참고] Euclidean(L1 norm) vs Mahattam(L2 norm) regularization
+### Canberra distance
 
 ***
 
-정규화(regularization)는 과적합(overfitting)을 방지하고자 weight에 페널티를 줌으로써 predict function에 복잡도를 조정하는 작업입니다.
-
-##### L1 regularization
-
-$$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} \lvert w \rvert$$
-
-##### L2 regularization
-
-$$cost(W,b) = \frac{1}{m} \sum_i^m L(^{y}_i,y_i) + \lambda \frac{1}{2} {\lvert w \rvert}^2$$
-
-$$\lambda$$는 정규화 비중을 얼마나 줄 것인지 정하는 계수입니다. 0에 가까울수록 정규화의 효과는 사라집니다. K-fold cross validation을 통해 적절한 $$\lambda$$ 값을 찾을 수 있습니다.
 
 
-|           | L1 norm<br>(Lasso)                                                                                                              | L2 norm<br>(Ridge)                                                                                                            |
-|:---------:|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-|    수식   |                                                       $${\lVert w \rVert}_1$$                                                       |                                                $$\frac{1}{2} {\lVert w \rVert}^2$$                                                |
-|    특성   | - 가중치의 값을 완전히 0으로 축소<br>- 중요한 특징을 선택하는 feature selection 효과<br>- Convex하여 global optimum에 수렴 가능 | - 가중치의 값을 0에 가까운 수로 축소<br>- 모델의 전반적인 복잡도를 감소시키는 효과<br>- Convex하여 global optimum에 수렴 가능 |
-| 선택 기준 | 전반적으로 features가 비슷한 수준으로 성능에 영향을 미치는 경우                                                                 | Features의 영향력 편차가 큰 경우    
-
-![Lasso and Ridge regression](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/deep_learning/2022-07-04-similarity/manhattan/l1_l2.PNG?raw=true)     
-A 3-D plot of Iris dataset(Source: [Wikipedia](https://en.wikipedia.org/wiki/Lasso_(statistics)#/media/File:L1_and_L2_balls.svg))).
-{:.figure}
-
-* Sparsity(희소성) & Feature selection(변수 선택)
-  + Sparse vectors란 벡터 내 대부분의 값이 0인 것(e.g., one-hot vectors)
-  + L1을 적용할 경우
-    - Vectors가 sparse vectors로 되는 경향이 있음
-    - 즉, 작은 weights의 값은 0이 되므로 weights의 수를 줄이고 small set을 만들 수 있음
-    - 다시 말해 weights가 너무 많을 때 좀 더 중요한 weights만 선택하고, 나머지는 weights는 0으로 되는 효과를 얻을 수 있음
-    - 이러한 특징으로 feature selection이 가능함
-  + L2를 적용할 경우
-    - 모든 가중치가 균등하게 작아짐
-    - 일반적으로 학습시 더 좋은 성능을 보임
-  + 예를 들어, 두 vectors a와 b가 있음   
-    a = (0.25, 0.25, 0.25, 0.25)
-    b = (-0.5, 0.5, 0, 0)
-    - 두 벡터의 L1 norm
-      $${\lVert a \rVert}_1 = abs(0.25) + abs(0.25) + abs(0.25) + abs(0.25) = 1$$
-      $${\lVert b \rVert}_1 = abs(-0.5) + abs(0.5) + abs(0.0) + abs(0.0) = 1$$
-    - 두 벡터의 L2 norm
-      $${\lVert a \rVert}_2 = \sqrt{0.25^2 + 0.25^2 + 0.25^2 + 0.25^2} = 0.5$$
-      $${\lVert b \rVert}_2 = \sqrt{(-0.5)^2 + (0.5}^2 + 0^2 + 0^2} = 0.7071$$
-    - L2는 각 vectors 값에 대해 unique한 값이 출력되는 반면, L1은 경우에 따라 특정 feature(vector의 요소)없이도 같은 값을 낼 수 있음
 
 ## References
 
