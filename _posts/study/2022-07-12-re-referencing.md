@@ -41,12 +41,11 @@ $$\begin{align}
   \text{v_chan_newref} &= \text{v_chan - v_t8} \\
                        &= \text{efield_chan - efield_fz - (efield_t8 - efield_fz)} \\
                        &= \text{efield_chan - efield_t8} 
-\end{align}$$
+\end{align}
 
-$$
   \text{v_t8_newref} = \text{v_t8 - v_t8} = 0
-$$
-$$\begin{align}
+
+\begin{align}
   \text{v_fz_newref} &= 0 - \text{v_t8} \\
                      &= - \text{(efield_t8 - efield_fz)} \\
                      &= \text{efield_fz - efield_t8}
