@@ -43,12 +43,13 @@ $$\begin{align}
                        &= \text{efield_chan - efield_t8} 
 \end{align}$$
 
-$$\begin{alignat}
+$$
   \text{v_t8_newref} = \text{v_t8 - v_t8} = 0 \\
+  \begin{align}
   \text{v_fz_newref} &= 0 - \text{v_t8} \\
                      &= - \text{(efield_t8 - efield_fz)} \\
                      &= \text{efield_fz - efield_t8}
-\end{alignat}$$
+  \end{align}$$
 
 기존 EEG 신호 v_chan과 re-refencing을 적용한 v_chan_newref를 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한, 기존에 reference로 사용한 Fz도 다시 사용할 수 있습니다.
 
