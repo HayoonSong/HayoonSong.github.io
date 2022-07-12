@@ -38,19 +38,19 @@ $$\begin{align}
 이를 re-referencing이라고 하며, 모든 채널의 전압에서 바꾸고 싶은 reference의 전압을 빼면됩니다. 예시로 reference 채널을 T8로 변경하면 다음과 같습니다.
 
 $$\begin{gather}
-\begin{spilt}
+\begin{split}
   \text{v_chan_newref} &= \text{v_chan - v_t8} \\
                        &= \text{efield_chan - efield_fz - (efield_t8 - efield_fz)} \\
                        &= \text{efield_chan - efield_t8} \\
-\end{spilt}
+\end{split}
 
   \text{v_t8_newref} = \text{v_t8 - v_t8} = 0 \\
 
-\begin{spilt}
+\begin{split}
   \text{v_fz_newref} &= 0 - \text{v_t8} \\
                      &= - \text{(efield_t8 - efield_fz)} \\
                      &= \text{efield_fz - efield_t8}
-  \end{spilt}
+  \end{split}
 \end{gather}$$
 
 기존 EEG 신호 v_chan과 re-refencing을 적용한 v_chan_newref를 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한, 기존에 reference로 사용한 Fz도 다시 사용할 수 있습니다.
