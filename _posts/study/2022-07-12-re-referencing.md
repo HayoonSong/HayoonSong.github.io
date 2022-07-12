@@ -21,27 +21,26 @@ MNE에서 Re-referencing하는 방법을 알아보고자 합니다.
 
 ## Re-referencing
 
-***
-
 ### EEG re-referencing   
 
 ***
 
-비단 MNE뿐만 아니라 EEGLAB을 포함하여 EEG 신호를 다룰 때 reference channel을 바꾸는 re-referencing의 개념을 쉽게 마주칠 수 있습니다.   
+MNE뿐만 아니라 EEGLAB을 포함하여 EEG 신호를 다룰 때 reference electrode을 바꾸는 re-referencing을 쉽게 만날 수 있습니다. Acitve electrode, reference electrode, ground electorde 간의 관계에 대한 설명은 이전 포스팅 [뇌파의 이해](https://hayoonsong.github.io/study/2021-01-05-understanding_eeg/)를 참고해주시길 바랍니다.
 
-Re-referecning이란, 기준 전극(reference electrode)를 다른 전극으로 재설정하는 것을 말합니다. Acitve electrode, reference electrode, ground electorde 간의 관계에 대한 설명은 이전 포스팅 [뇌파의 이해](https://hayoonsong.github.io/study/2021-01-05-understanding_eeg/)를 참고해주시길 바랍니다.
+Re-referecning이란 **기준 전극(reference electrode)를 다른 전극으로 재설정**하는 것을 말합니다. 
 
 만약 EEG를 측정하는 동안의 online reference가 Fz였을 때, 모든 채널에서의 전압(voltage)는 다음과 같습니다.
 
-v_chan = efield_chan - efield_fz
+v_chan = efield_chan - efield_fz   
 v_fz = efield_fz - efield_fz = 0
 
 동시에 online reference로 사용한 Fz의 전압은 0이 됩니다. EEG 측정이 끝나고 offline으로 referece 채널을 변경해야 하는 경우가 생길 수 있습니다.
 이를 re-referencing이라고 하며, 모든 채널의 전압에서 바꾸고 싶은 reference의 전압을 빼면됩니다. 예시로 reference 채널을 T8로 변경하면 다음과 같습니다.
 
-$$\text{v_chan_newref} &= \text{v_chan - v_t8} \\
+$$\begin{align}
+  \text{v_chan_newref} &= \text{v_chan - v_t8} \\
                        &= \text{efield_chan - efield_fz - (efield_t8 - efield_fz)} \\
-                       &= \text{efield_chan - efield_t8}$$
+                       &= \text{efield_chan - efield_t8} \end{align}$$
 
 v_t8_newref = v_t8 - v_t8 = 0
 $$\text{v_fz_newref} &= \text{0 - v_t8}
