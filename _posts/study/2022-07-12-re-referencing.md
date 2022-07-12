@@ -30,7 +30,7 @@ Re-referecning이란 **기준 전극(reference electrode)를 다른 전극으로
 만약 EEG를 측정하는 동안의 online reference가 Fz였을 때, 모든 채널에서의 전압(voltage)는 다음과 같습니다.
 
 $$\begin{align}
-  \text{v_chan} = \text{efield_chan - efield_fz}   
+  \text{v_chan} = \text{efield_chan - efield_fz} \\
   \text{v_fz} = \text{efield_fz - efield_fz} = 0
 \end{align}$$
 
@@ -44,9 +44,9 @@ $$\begin{align}
 \end{align}$$
 
 $$\begin{align}
-  \text{v_t8_newref} = \text{v_t8 - v_t8} = 0
-  \text{v_fz_newref} &= 0 - \text{v_t8}   
-                     &= - \text{(efield_t8 - efield_fz)}   
+  \text{v_t8_newref} = \text{v_t8 - v_t8} = 0 \\
+  \text{v_fz_newref} &= 0 - \text{v_t8} \\
+                     &= - \text{(efield_t8 - efield_fz)} \\
                      &= \text{efield_fz - efield_t8}
 \end{align}$$
 
