@@ -19,9 +19,7 @@ MNE에서 Re-referencing하는 방법을 알아보고자 합니다.
 * this unordered seed list will be replaced by the toc
 {:toc}
 
-## Re-referencing
-
-### EEG re-referencing   
+## EEG re-referencing   
 
 ***
 
@@ -31,8 +29,10 @@ Re-referecning이란 **기준 전극(reference electrode)를 다른 전극으로
 
 만약 EEG를 측정하는 동안의 online reference가 Fz였을 때, 모든 채널에서의 전압(voltage)는 다음과 같습니다.
 
-v_chan = efield_chan - efield_fz   
-v_fz = efield_fz - efield_fz = 0
+$$\begin{align}
+  \text{v_chan} = \text{efield_chan - efield_fz}   
+  \text{v_fz} = \text{efield_fz - efield_fz} = 0
+\end{align}$$
 
 동시에 online reference로 사용한 Fz의 전압은 0이 됩니다. EEG 측정이 끝나고 offline으로 referece 채널을 변경해야 하는 경우가 생길 수 있습니다.
 이를 re-referencing이라고 하며, 모든 채널의 전압에서 바꾸고 싶은 reference의 전압을 빼면됩니다. 예시로 reference 채널을 T8로 변경하면 다음과 같습니다.
@@ -40,24 +40,27 @@ v_fz = efield_fz - efield_fz = 0
 $$\begin{align}
   \text{v_chan_newref} &= \text{v_chan - v_t8} \\
                        &= \text{efield_chan - efield_fz - (efield_t8 - efield_fz)} \\
-                       &= \text{efield_chan - efield_t8} \end{align}$$
+                       &= \text{efield_chan - efield_t8} 
+\end{align}$$
 
-v_t8_newref = v_t8 - v_t8 = 0
-v_fz_newref = 0 - v_t8   
-            = - (efield_t8 - efield_fz)   
-            = efield_fz - efield_t8
+$$\begin{align}
+  \text{v_t8_newref} = \text{v_t8 - v_t8} = 0
+  \text{v_fz_newref} &= 0 - \text{v_t8}   
+                     &= - \text{(efield_t8 - efield_fz)}   
+                     &= \text{efield_fz - efield_t8}
+\end{align}$$
 
 기존 EEG 신호 v_chan과 re-refencing을 적용한 v_chan_newref를 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한, 기존에 reference로 사용한 Fz도 다시 사용할 수 있습니다.
 
 따라서 re-ferencing을 통해 **기존 채널들의 전압은 새로운 reference를 뺀 값**이 되고, **새로운 reference 전압은 0**이 됩니다.
 
-### Re-referencing in MNE-Python
+## Re-referencing in MNE-Python
 
 ***
 
 MNE를 활용하여 쉽게 re-referencing할 수 있습니다.
 
-예제로 사용할 EEG signal을 plot하면 다음과 같습니다.
+예제로 사용할 EEG signal을 plot하면 다음과 같습니다. Fz를 reference electrode로 설정하여 EEG를 기록하였습니다.
 
 ~~~python
 # Original EEG signal
@@ -81,7 +84,7 @@ raw_newref.plot(n_channels=15, start=100.0)
 EEG new reference without restoring the signal at Fz.
 {:.figure}
 
-또한, reference 채널을 T8로 재설정하면서 기존에 reference 채널로 사용한 Fz를 복원할 수도 있습니다.
+새로운 reference electrode T8이 0이 된 것을 확인하실 수 있습니다. 또한, reference 채널을 T8로 재설정하면서 기존에 reference 채널로 사용한 Fz를 복원할 수도 있습니다.
 
 ~~~python
 # Re-referencing: Change the reference electrode(Fz) to T8
