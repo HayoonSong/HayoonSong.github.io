@@ -43,7 +43,7 @@ $$\begin{split}
                        &= \text{efield_chan - efield_t8}
 \end{split}$$
 $$\begin{split}
-  \text{v_t8_newref} = \text{v_t8 - v_t8} = 0 \\   
+  \text{v_t8_newref} = \text{v_t8 - v_t8} = 0 
 \end{split}$$
 $$\begin{split}
   \text{v_fz_newref} &= 0 - \text{v_t8} \\
