@@ -50,7 +50,7 @@ $$
 $$
 
 
-기존 EEG 신호 v_chan과 re-refencing을 적용한 v_chan_newref를 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한, 기존에 reference로 사용한 Fz도 다시 사용할 수 있습니다.
+기존 EEG 신호의 v_chan과 re-refencing을 적용한 v_chan_newref를 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한, 기존에 reference로 사용한 Fz도 다시 사용할 수 있습니다.
 
 따라서 re-ferencing을 통해 **기존 채널들의 전압은 새로운 reference를 뺀 값**이 되고, **새로운 reference 전압은 0**이 됩니다.
 
@@ -96,6 +96,8 @@ raw_newref_add.plot(n_channels=16, start=100.0)
 ![Re-referencing with Fz](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-07-12-re-referencing/re_referencing_withFz.png?raw=true)   
 EEG new reference with restoring the signal at Fz.
 {:.figure}
+
+Re-referencing은 EEG 측정에서 reference electrode를 재설정하는 것으로, 수식을 통해 **신호 측정 후에도 기존 EEG 신호의 손상 없이 단순히 reference 채널을 변경**할 수 있다는 것을 확인하였습니다. 또한, MNE-Python으로 re-referencing하는 방법과 reference 채널을 복구하는 방법까지 알아보았습니다.  
 
 ## References
 
