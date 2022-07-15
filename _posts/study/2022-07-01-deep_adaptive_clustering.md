@@ -21,15 +21,25 @@ last_modified_at: '2022-07-01'
 
 ## Overview
 
+Image clustering 문제를 Binary pairwise-classification 프레임워크로 전환 
+
+![The flowchart of DAC](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-01-DAC/DAC_flowchart.PNG?raw=true)   
+The flowchart of Deep Adaptive Clustering
+{:.figure}
+
+* Model:
+* Loss:
+* Task:
+
 ***
 
 ## Introduction
 
 ***
 
-전통적으로 K-means 및 병합 군집(agglomerative clustering)과 같은 다양한 클러스터링 기법들이 연구되었습니다. 기존 방법은 사전 정의된 distance metrics를 활용하지만, 이미지 데이터셋에서 이러한 방법은 식별하기 어렵다는 한계가 있습니다. 최근에는 이미지의 표현(representation)을 학습하기 위해 autoencoder 및 auto-encoding Variational bayes와 같은 deep unsupervised feature learning 이 관심받고 있습니다. Deep unsupervised feature learning은 multi-stage pipeline으로 형성되어, 먼저 unsupervised로 deep neural networks(DNN)을 사전학습하고 후처리로써 기존의 방법으로 이미지를 클러스터링 합니다. 그러나 이러한 representation 기반 접근 방식은 multi-stage 패러다임의 번거로움과, 학습된 representation은 unsupervised feature learning 이후에 고정된다는 점에서 한계가 있습니다. 결과적으로 클러스터링 과정에서 representation은 더 이상 개선될 수 없습니다.
+클러스터링 기법으로는 전통적으로 K-means 및 병합 군집(agglomerative clustering)과 같은 다양한 기법들이 연구되었습니다. 기존에는 사전 정의된 distance metrics(e.g, Euclidean Metric)를 활용하여 클러스터링하였지만, 이미지 데이터셋에서 distance 기반 척도로는 이미지간의 유사성을 구별하기 어렵다는 한계가 있습니다. (예를 들어, 이미지 픽셀 벡터를 기반으로 pixel MSE가 낮으면 같은 얼굴이고 높으면 다른 얼굴일까요? 아니죠!) 최근에는 Deep unsupervised feature learning 기법(e.g., autoencoder, auto-encoding Variational bayes)이 이미지의 표현 학습(representation learning)에서 관심을 받고 있습니다. Deep unsupervised feature learning은 multi-stage pipeline으로 형성되어 먼저 unsupervised로 deep neural networks(DNN)을 사전학습하고 후처리로써 기존의 방법으로 이미지를 클러스터링 합니다. 그러나 이러한 representation 기반 접근 방식은 multi-stage 패러다임의 번거로움과, 학습된 representation은 unsupervised feature learning 이후에 고정된다는 점에서 한계가 있습니다. 결과적으로 클러스터링 과정에서 representation은 더 이상 개선될 수 없습니다.
 
-본 연구는 이미지 클러스터링을 위한 single-stage ConvNet 기반 방법인 Deep Adaptive Clustering을 제안하였습니다. 한 쌍의 이미지가 같은 클러스터에 속하는지 아닌지 판단하기 위한 binary pairwise-classification 문제로 여깁니다. 
+본 연구는 이미지 클러스터링을 위한 single-stage ConvNet 기반 방법인 Deep Adaptive Clustering(DAC)을 제안하였습니다. Image clustering task를 **한 쌍의 이미지가 같은 클러스터에 속하는지 아닌지 판별하는 binary pairwise-classification 문제**로 여깁니다. 구체적으로 이미지는 deep ConvNet으로 생성된 label features로 표현되고, 유사성은 label features간의 cosine distance로 측정됩니다. 또한, DAC에 제약조건을 추가하였으며 이를 통해 학습된 label feautres는 one-hot vectors가 되는 경향이 있습니다. 본 연구에서는 cosine distance로 추정된 유사성을 사용하였으며, 실제 유사성은 알 수 없기에 모델을 최적화하기 위한 alternating iterative 방법인 Adaptive Learning 알고리즘을 개발하였습니다. 
 
 ### Contributions
 
@@ -101,8 +111,9 @@ $$\min_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j),$$
 $$s.t. \forall i, \lVert l_i \rVert_2 = 1,$$ and $$ l_{ih} \geq 0, h = 1,\dots ,k, $$.
 
 
-상단의 식에서 clustering constraint는 데이터 클러스터링의 흥미로운 특징을 제공합니다.
+상단의 식에서 clustering constraint는 데이터 클러스터링의 흥미로운 특징을 제공합니다. $$\Bbb{E}^k$$를 k-차원 유클리드 공간(Euclidean space)의 표준 기반이라고 하면 다음 정리를 따릅니다.
 
+THEOREM 1. $$If the optimal value of upper equation is attained, for \forall i, j, l_i \in \Bbb{E}^k, l_i  l_j$$
 
 
 

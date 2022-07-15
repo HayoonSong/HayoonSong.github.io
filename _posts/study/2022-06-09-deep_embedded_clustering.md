@@ -36,8 +36,9 @@ last_modified_at: '2022-07-01'
 
 * **Finetune**
   - Model: SAE의 encoder
-  - Loss: **KL-Divergence loss** $$\rightarrow$$ Q(발생 확률 분포)와 P(타켓 분포)의 차이
+  - Loss: KL-Divergence los* $$\rightarrow$$ **Q(발생 확률 분포)와 P(타켓 분포)의 차이**
   - Task: Data space에서 feature space로 **Mapping** + **Clustering** $$\rightarrow$$ KL-Divergence loss 최소화
+  - Contribution: Unsupervised learning 알고리즘인 클러스터링을 supervised learning처럼 학습 가능
 
 
 ## Introduction
