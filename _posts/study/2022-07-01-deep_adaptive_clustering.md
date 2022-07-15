@@ -10,7 +10,7 @@ categories:
 tags:
     - self-supervised-learning
 comments: true
-published: false
+published: true
 last_modified_at: '2022-07-01'
 ---
 
@@ -23,7 +23,7 @@ last_modified_at: '2022-07-01'
 
 ***
 
-Image clustering 문제를 Binary pairwise-classification 프레임워크로 전환 
+Image clustering 문제를 Binary pairwise-classification 프레임워크로 전환하여 접근 
 
 ![The flowchart of DAC](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-01-DAC/DAC_flowchart.PNG?raw=true)   
 The flowchart of Deep Adaptive Clustering
@@ -76,7 +76,7 @@ The flowchart of DAC
 DAC의 목적 함수(objective function)은 다음과 같이 정의됩니다.
 
 $$
-  \min_w E(w) = \sum_{i,j} L(r_{ij},g(x_i,x_j;w)),
+  \min_w E(w) = \sum_{i,j} L(r_{ij},g(x_i,x_j;w)), \tag{1}
 $$
 
 * $$g(x_i,x_j;w)$$: 추정된 유사도(estimated similarity), 즉 모델이 학습하여 추론한 $$x_i$$와 $$x_j$$의 관계
@@ -86,7 +86,7 @@ $$
 따라서 Loss는 다음과 같이 정의됩니다.
 
 $$
-  L(r_{ij},g(x_i,x_j;w)) = -r_{ij}log(g(x_i,x_j;w)) - (1-r_{ij})log(1-g(x_i,x_j;w)).
+  L(r_{ij},g(x_i,x_j;w)) = -r_{ij}log(g(x_i,x_j;w)) - (1-r_{ij})log(1-g(x_i,x_j;w)). \tag{2}
 $$
 
 일반적으로 흔히 볼 수 있는 Binary Cross Entropy Loss입니다. 그러나 상단의 수식에는 두 가지 문제가 있습니다. 첫 번째로, 추정된 유사도 $$g(xi, xj ;w)$$만을 가지고 $$x_i$$와 $$x_j$$의 클러스터를 알 수 없습니다. 두 번째로, 이미지 클러스터링 과정에서 y 즉 $$r_{ij}$$를 알 수 없습니다. Section 3.2 및 3.3에서 두 가지 문제의 해결방법에 대한 설명을 이어나가고자 합니다.
@@ -95,10 +95,10 @@ $$
 
 ***
 
-이미지 쌍의 유사도를 추정하기 위해 label features $$L = {1_i /in \Reals^k}_{i=1}^n$$가 도입되었습니다. $$l_i$$는 이미지 $$x_i$$의 k-dimensional label feature를 나타냅니다.
+이미지 쌍의 유사도를 추정하기 위해 label features $$L = {\lbrace l_i \in \Bbb{R}^k \rbrace}_{i=1}^n$$가 도입되었습니다. $$l_i$$는 이미지 $$x_i$$의 k-dimensional label feature를 나타냅니다.
 **유사도 $$g(x_i, x_j ;w)$$는 두 label features 간의 cosine distance로 정의**되었습니다. 또한, 이미지 클러스터링에 유용한 feature representation을 학습하기 위해 label features에 clustering constraint를 추가하였습니다.
 
-$$\forall i, \lVert l_i \rVert_2 = 1,$$ and $$ l_{ih} \geq 0, h = 1,\dots,k, $$
+$$\forall \, i, \, \lVert l_i \rVert_2 = 1,$$ and $$ l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}$$
 
 * $$l_i$$: 이미지 $$x_i$$의 k-dimensional label feature
 * $$\lVert \cdot \rVert_2$$: L2-norm
@@ -106,27 +106,22 @@ $$\forall i, \lVert l_i \rVert_2 = 1,$$ and $$ l_{ih} \geq 0, h = 1,\dots,k, $$
 
 즉 i 개의 모든 이미지 데이터가 k-dimension의 label feature를 가질 때, 하나의 이미지 내에서 각 label features 간의 유사도는 1이며, $$l_{ih}$$는 0이상의 값을 가진다는 것입니다.
 
-한 이미지의 label features는 당연히 이미지의 vector이므로 유사도는 1이 나와야 합니다.
-{:.faded}
+i 개의 모든 이미지 데이터에서 각 이미지의 label features 간의 유사도는 1이므로($$\forall i, \lVert l_i \rVert_2 = 1,$$), cosine similarity $$g(x_i, x_j ;w)$$는 다음과 같이 계산할 수 있습니다.
 
-i 개의 모든 이미지 데이터에서 각 이미지의 label features 간의 유사도는 1이므로($\forall i, \lVert l_i \rVert_2 = 1,$$), cosine similarity $$g(xi, xj ;w)$$는 다음과 같이 계산할 수 있습니다.
-
-$$
-  g(x_i,x_j;w) = f(x_i;w) \cdot f(x_j;w) = l_i \cdot l_j,
-$$
+$$g(x_i,x_j;w) = f(x_i;w) \cdot f(x_j;w) = l_i \cdot l_j,$$
 
 * $$f_w$$: 입력 이미지를 label features로 매핑해주는 mapping function
 * 연산자 $$\cdot$$: 두 label features 간의 내적
 
 결국, 모델이 추정한 두 이미지간의 유사도 $$g(xi, xj ;w)$$는 두 이미지의 label features 간의 내적으로 정의할 수 있습니다. Clustering constraint를 도입하여 DAC 모델은 다음과 같이 재구성할 수 있습니다.
 
-$$\min_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j),$$
+$$\min_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j),$$   
 $$s.t. \forall i, \lVert l_i \rVert_2 = 1,$$ and $$ l_{ih} \geq 0, h = 1,\dots ,k, $$.
 
 
 상단의 식에서 clustering constraint는 데이터 클러스터링의 흥미로운 특징을 제공합니다. $$\Bbb{E}^k$$를 k-차원 유클리드 공간(Euclidean space)의 표준 기반이라고 하면 다음 정리를 따릅니다.
 
-THEOREM 1. $$If the optimal value of upper equation is attained, for \forall i, j, l_i \in \Bbb{E}^k, l_i  l_j$$
+THEOREM 1. If the optimal value of upper equation is attained, for $$\; \forall i, \; j, \; l_i \in \Bbb{E}^k, \; l_i \not = l_j$$
 
 
 
@@ -135,9 +130,9 @@ THEOREM 1. $$If the optimal value of upper equation is attained, for \forall i, 
 **
 
 $$
-  r_{ij} \coloneqq \begin{cases}
-          1, &\text{if } l_i \cdot l_j \geq u(\labmda),     i,j = 1,\dots,k,
-          0, &\text{if } l_i \cdot l_j \lt l(\labmda),
-          None, otehrwise,
+  r_{ij} := \begin{cases}
+         1, \enspace \text{if } l_i \cdot l_j \geq u(\lambda), \\
+         0, \enspace \text{if } l_i \cdot l_j \lt l(\lambda), \quad i, \; j=1, \dots, n, \\
+         None, \enspace otherwise,
   \end{cases}
 $$
