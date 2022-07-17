@@ -66,7 +66,7 @@ $$\to$$ p와 q가 같을 때, p와 q 사이의 거리는 0이어야 합니다.
 
 ***
 
-Numeric attributes 또는 features와 같이 수치로 표현된 자료에서 가장 흔히 사용되는 거리 함수는 유클리드 거리(Euclidean distance)이며 수식은 다음과 같이 정의됩니다.
+유클리드 거리(Euclidean distance)는 numeric attributes 또는 features와 같이 수치로 표현된 자료에서 가장 흔히 사용되는 거리 함수이며 수식은 다음과 같이 정의됩니다.
 
 $$
 \begin{aligned}
