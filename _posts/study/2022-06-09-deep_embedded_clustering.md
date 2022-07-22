@@ -239,7 +239,7 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rightarrow {q_{11}}^2 = 0.9216, {q_{31}}^2 =
 
 원활한 이해를 위하여 간단한 예시를 통해 $$p_{ij}$$의 도출 과정을 직접 확인해보겠습니다.
 
-![pij](https://github.com/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/pij.png?raw=true)
+![pij](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/pij.png?raw=true)
 
 * $$z_i$$: Embedded points (Data space X에서 feature space Z로 mapping된 데이터)
 * $$\mu _j$$: Cluster j의 중심(Cluster centroid)

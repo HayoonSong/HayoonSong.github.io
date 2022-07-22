@@ -21,7 +21,10 @@ Jekyll 테마 적용 에러에 대해서 살펴봅시다.
 
 * 깃헙 블로그 **테마 설정**이 안됨
 * **Page build failure** 메일을 받음
-<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/solution/01_github_theme_error/error_mail.PNG?raw=true" alt="Error mail"></center>
+
+![Error mail](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/solution/01_github_theme_error/error_mail.PNG?raw=true)   
+Error mail.
+{:.figure}
 
 ## Code
 
@@ -41,9 +44,13 @@ remote_theme: hydecorp/hydejack@v9
 
 github-pages 223 | Error:  The jekyll-theme-hydejack theme could not be found.
 
-<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/solution/01_github_theme_error/01_error.PNG?raw=true" alt="error pages"></center>
+![Error pages](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/solution/01_github_theme_error/01_error.PNG?raw=true)   
+Error pages.
+{:.figure}
 
-<center><img src="https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/solution/01_github_theme_error/02_error.PNG?raw=true" alt="error code"></center>
+![Error code](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/solution/01_github_theme_error/02_error.PNG?raw=true)   
+Error code.
+{:.figure}
 
 ~~~js
 Run actions/jekyll-build-pages@v1-beta
