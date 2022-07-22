@@ -68,7 +68,7 @@ raw = mne.io.read_raw_brainvision(vhdr_fname, preload=True, verbose=False)
 raw.plot(n_channels=15, start=100.0)
 ~~~
 
-![Original EEG](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-07-12-re-referencing/original.png?raw=true)   
+![Original EEG](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-07-12-re-referencing/original.png?raw=true)   
 EEG original reference.
 {:.figure}
 
@@ -80,7 +80,7 @@ raw_newref, ref_data = mne.set_eeg_reference(raw, ref_channels=['T8'])
 raw_newref.plot(n_channels=15, start=100.0)
 ~~~
 
-![Re-referencing without Fz](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-07-12-re-referencing/re_referencing_withoutFz.png?raw=true)   
+![Re-referencing without Fz](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-07-12-re-referencing/re_referencing_withoutFz.png?raw=true)   
 EEG new reference without restoring the signal at Fz.
 {:.figure}
 
@@ -93,7 +93,7 @@ raw_newref_add.set_eeg_reference(ref_channels=['T8'])
 raw_newref_add.plot(n_channels=16, start=100.0)
 ~~~
 
-![Re-referencing with Fz](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-07-12-re-referencing/re_referencing_withFz.png?raw=true)   
+![Re-referencing with Fz](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-07-12-re-referencing/re_referencing_withFz.png?raw=true)   
 EEG new reference with restoring the signal at Fz.
 {:.figure}
 

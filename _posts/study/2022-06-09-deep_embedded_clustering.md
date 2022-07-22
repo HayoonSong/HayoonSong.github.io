@@ -23,7 +23,7 @@ last_modified_at: '2022-07-01'
 
 ***
 
-![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
+![Network structure](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
 네트워크 구조
 {:.figure}
 
@@ -103,7 +103,7 @@ SAE는 여러 개의 히든 레이어를 가지는 오토인코더이며, 레이
 
 DA는 least squares loss $$\Vert x-y \Vert^2$$을 최소화하도록 학습합니다. DA의 하나의 layer를 학습한 후, output h를 input으로 사용하여 다음 layer를 학습하며 진행됩니다. 이러한 greedy layer-wise training 이후 reverse layer-wise training 순서로, encoder layers와 decoder layers를 붙여서 deep autoencoder를 형성하고 다음으로 재구성 손실(reconstruction loss)를 최소화하도록 학습합니다. SAE는 중간에 bottleneck coding layer가 있는 multilayer deep autoencoder가 됩니다.
 
-![Network structure](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
+![Network structure](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/network_structure.PNG?raw=true)   
 네트워크 구조
 {:.figure}
 
@@ -226,7 +226,7 @@ $$f_j = \sum _i q_{ij}$$로, sample i가 cluster j에 속할 확률들의 합을
 
 본 논문에서는 $$p_{ij}$$의 도출에 대한 자세한 설명이 없기에 추론해 보았습니다.
 
-![Power](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/power.png?raw=true)   
+![Power](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/power.png?raw=true)   
 거듭제곱 함수 그래프(출처: [Wikipedia](https://ko.wikipedia.org/wiki/%EA%B1%B0%EB%93%AD%EC%A0%9C%EA%B3%B1))
 {:.figure}
 
@@ -239,7 +239,7 @@ Ex) $$q_{11} = 0.96, q_{31} = 0.02 \rightarrow {q_{11}}^2 = 0.9216, {q_{31}}^2 =
 
 원활한 이해를 위하여 간단한 예시를 통해 $$p_{ij}$$의 도출 과정을 직접 확인해보겠습니다.
 
-![pij](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/pij.png?raw=true)
+![pij](https://github.com/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/pij.png?raw=true)
 
 * $$z_i$$: Embedded points (Data space X에서 feature space Z로 mapping된 데이터)
 * $$\mu _j$$: Cluster j의 중심(Cluster centroid)
@@ -289,7 +289,7 @@ $$
 
 1개의 텍스트 데이터셋 "REUTERS"와 2개의 이미지 데이터셋 "MNIST" 및 "STL-10"에 대하여 성능을 평가하였습니다. 
 
-![Dataset statistics](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true)   
+![Dataset statistics](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/dataset_statistics.PNG?raw=true)   
 본 연구에서 사용된 데이터셋의 정보
 {:.figure}
 
@@ -314,7 +314,7 @@ $$
 
 ***
 
-![Accuracy](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy.PNG?raw=true)   
+![Accuracy](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/clustering_accuracy.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
 
@@ -323,7 +323,7 @@ DEC는 다른 모든 방법보다 우수한 성능을 보였습니다. LDGMI과 
 
 <br>
 
-![Accuracy plot](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_plot.PNG?raw=true)   
+![Accuracy plot](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/clustering_accuracy_plot.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
 
@@ -331,7 +331,7 @@ DEC는 LDGMI과 SEC보다 하이퍼파라미터(hyperparameter)에 강건함을 
 
 <br>
 
-![Clustering images](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_images.PNG?raw=true)   
+![Clustering images](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/clustering_images.PNG?raw=true)   
 클러스터링 이미지
 {:.figure}
 
@@ -346,7 +346,7 @@ MNIST와 STL의 각 클러스터에서 10개의 최고 점수 이미지입니다
 DEC의 기본 가정은 initial classifier의 높은 신뢰도 예측은 대부분 정확하다는 것입니다. 이 가정이 본 연구의 task에 적용되고 P의 선택이 원하는 속성을 갖는다는 것을 확인하기 위해, 
 각 embedded point에 대한 gradient L의 크기(magnitude) 즉 $$\lvert \partial L / \partial z_i \rvert$$를 soft assignment $$q_{ij}$$에 따라 시각화하였습니다. 
 
-![Gradient visulization](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/gradient_visualization.PNG?raw=true)   
+![Gradient visulization](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/gradient_visualization.PNG?raw=true)   
 기울기 시각화
 {:.figure}
 
@@ -357,7 +357,7 @@ Cluter center에 더 가까운 points(큰 $$q_{ij}$$)가 gradient에 더 많이 
 
 ***
 
-![Latent representation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
+![Latent representation](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/latent_representation.PNG?raw=true)   
 클러스터링 정확도 비교
 {:.figure}
 
@@ -367,7 +367,7 @@ Embedded representation을 t-SNE를 사용하여 시각화하였습니다. Clust
 
 ***
 
-![Clustering accuracy on autoencoder](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_autoencoder.PNG?raw=true)   
+![Clustering accuracy on autoencoder](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/clustering_accuracy_autoencoder.PNG?raw=true)   
 Autoencoder feature에 따른 클러스터링 정확도 비교
 {:.figure}
 
@@ -379,7 +379,7 @@ Autoencoder의 feature를 알고리즘에 적용한 성능을 나타냅니다. S
 
 불균형 데이터의 영향을 확인하기 위해, 다양한 보유율로 MNIST의 하위집합을 샘플링하였습니다. 최소 보유율 $$r_{min}$$의 경우 class 0의 데이터 개수는 확률 $$r_{min}$$만큼 유지되고 class 9의 데이터 개수는 확률 1 즉 기존 데이터 개수만큼 보유하게 되며, 다른 class들은 그 사이에 선형으로 유지됩니다. 결과적으로 가장 큰 클러스터(class 9)는 가장 작은 클러스터(class 0)의 $$1/r_{min}$$배가 됩니다.
 
-![Imbalanced subsample](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_accuracy_imbalaned_subsample.PNG?raw=true)   
+![Imbalanced subsample](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/clustering_accuracy_imbalaned_subsample.PNG?raw=true)   
 MNIST의 불균형 subsample에서의 클러스터링 정확도
 {:.figure}
 
@@ -408,13 +408,13 @@ $$G = \frac{L_{train}}{L_{validation}}$$
 
 G는 training loss와 validation loss 간의 비율로 정의됩니다. Training loss가 validation loss보다 작을 때 G도 작아지며, 이는 과적합을 나타냅니다.
 
-![Centroid count](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/centroid_count.PNG?raw=true)   
+![Centroid count](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/centroid_count.PNG?raw=true)   
 클러스터의 수 선택
 {:.figure}
 
 클러스터 수가 9~10으로 증가할 때 일반화가능성(generalizability)는 크게 떨어지며, 9가 최적의 클러스터 수라는 것을 나타냅니다. NMI 점수도 9에서 가장 높았으며, 이를 통해 일반화가능성이 클러스터의 수를 선택하는 데에 좋은 metric이라는 것을 증명합니다. MNIST 데이터셋은 총 10개의 class를 가지지만, NMI 점수는 클러스터의 수 10이 아닌 9에서 가장 높았는데요, 글을 쓸 때 9와 4가 유사하여 DEC는 하나의 클러스터로 묶어야 한다고 생각했기 때문이라고 합니다.
 
-![Clustering images (MNIST)](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-06-09-DEC/clustering_images_mnist.PNG?raw=true)   
+![Clustering images (MNIST)](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-06-09-DEC/clustering_images_mnist.PNG?raw=true)   
 클러스터링 이미지
 {:.figure}
 
