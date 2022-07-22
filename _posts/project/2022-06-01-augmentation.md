@@ -18,7 +18,7 @@ last_modified_at: '2022-06-19'
 
 Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 알아보겠습니다.
 
-![Overview](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/overview.png?raw=true)
+![Overview](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/overview.png?raw=true)
 본 포스팅에서 구현할 데이터 증강 기법
 {:.figure}
 <br>
@@ -34,7 +34,7 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 
 예제로는 시계열 데이터인 EEG data를 사용하겠습니다.   
 
-![Raw signal](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/raw.png?raw=true)
+![Raw signal](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/raw.png?raw=true)
 상: 전체 데이터 하: 1초 확대한 데이터
 {:.figure}
 <br>
@@ -49,7 +49,7 @@ Tensorflow를 사용하여 시계열 데이터를 증강하는 기법에 대해 
 
 진폭 스케일(amplitude sclae)은 신호에 상수를 곱하여 **진폭의 크기를 조정**하는 기법입니다.
 
-![Amplitude scale](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/amplitude_scale.png?raw=true)
+![Amplitude scale](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/amplitude_scale.png?raw=true)
 
 ~~~python
 def amplitude_scale(signal, num_scale):
@@ -64,7 +64,7 @@ def amplitude_scale(signal, num_scale):
 시간 이동(time shift)은 temporal roll이라고 불리기도 하며 말 그대로 **시간 축으로 이동**한다는 것입니다.    
 시간 지연(temporal delay)은 원래의 시간축에서 오른쪽 방향으로만 이동하게 됩니다.
 
-![Time shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/time_shift.png?raw=true)
+![Time shift](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/time_shift.png?raw=true)
 
 ~~~python
 import tensorflow as tf
@@ -80,7 +80,7 @@ def time_shift(signal, num_places_to_shift):
   return signal
 ~~~
 
-[tf.roll](#https://www.tensorflow.org/api_docs/python/tf/roll)은 축(axis)에 따라 signal의 num_places_to_shift에서부터 신호를 이동시킵니다.   
+[tf.roll](https://www.tensorflow.org/api_docs/python/tf/roll)은 축(axis)에 따라 signal의 num_places_to_shift에서부터 신호를 이동시킵니다.   
 num_places_to_shift가 음수일 경우 앞으로 양수일 경우 뒤로 이동하며, 지연된 신호를 원하신다면 양수를 넣으면 됩니다.
 
 ### DC shift
@@ -89,7 +89,7 @@ num_places_to_shift가 음수일 경우 앞으로 양수일 경우 뒤로 이동
 
 DC 이동(DC shift)는 신호에 상수를 더하여 **진폭(amplitude)을 이동**하는 방법입니다.
 
-![DC shift](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true)
+![DC shift](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/dc_shift.png?raw=true)
 
 ~~~python
 def dc_shift(signal, num_amplitude_to_shift):
@@ -103,7 +103,7 @@ def dc_shift(signal, num_amplitude_to_shift):
 
 Temporal cutout은 시계열 신호의 특정 구간을 0으로 만들어 zero-masking이라고도 합니다.
 
-![Temporal cutout](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/temporal_cutout.png?raw=true)
+![Temporal cutout](https://github.com/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/temporal_cutout.png?raw=true)
 
 ~~~python
 import numpy as np
@@ -132,7 +132,7 @@ tf.one_hot은 one-hot 인코딩하는 tensorflow 함수로 자세한 설명은 [
 
 기존 데이터에 가우시안 잡음(Gaussian noise)를 추가하여 데이터를 변형시킬 수 있습니다.
 
-![Gaussian noise](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/gaussian_noise.png?raw=true)
+![Gaussian noise](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/gaussian_noise.png?raw=true)
 
 ~~~python
 def gaussian_noise(signal, sigma):
@@ -148,7 +148,7 @@ def gaussian_noise(signal, sigma):
 
 Band-stop 필터는 다른 말로 notch filter 또는 band-reject filter라고 하며, **특정한 주파수 대역만을 차단**하는 역할을 합니다.
 
-이전 포스팅 [Signal Filtering in Python](https://hayoonsong.github.io/study/2022-05-31-filter/)에서 `scipy` 모듈을 활용하여 FFT 변환 과정을 살펴보고 Band-pass filter 및 Band-stop filter를 구현하였습니다.
+이전 포스팅 [Signal Filtering in Python](https://hayoonsong.github.io/study/2022-05-31-filter)에서 `scipy` 모듈을 활용하여 FFT 변환 과정을 살펴보고 Band-pass filter 및 Band-stop filter를 구현하였습니다.
 
 그러나, scipy를 사용하여 tensorflow의 tensor를 필터링하고자 할 때 tf.Tensor가 numpy로 계산되어 다음과 같은 에러가 났습니다.
 
@@ -168,16 +168,16 @@ This error may indicate that you're trying to pass a Tensor to a NumPy call, whi
 저는 tensorflow 내에서 band-stop filter가 반드시 필요하여 scipy와 최대한 비슷하게 나오도록 노력하였지만,
 scipy를 대체하지는 못했기에 하단의 코드를 추천하지 않습니다...
 
-![Band-stop filter all](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter_all.png?raw=true)
+![Band-stop filter all](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/bandstop_filter_all.png?raw=true)
 
 Original signal, scipy 기반 band-stop filtering, 제가 구현한 tensorflow 기반 band-stop filtering 결과를 비교해보면, tensorflow 기반 band-stop filter가 scipy와 일치하지 않은 것을 확인하실 수 있습니다.
 
-![Band-stop filter](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter.png?raw=true)
+![Band-stop filter](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/bandstop_filter.png?raw=true)
 상: scipy 기반 band-stop filtering 하: tensorflow로 구현한 band-stop filtering
 {:.figure}
 <br>
 
-![Band-stop filter FFT](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/bandstop_filter_fft.png?raw=true)
+![Band-stop filter FFT](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/bandstop_filter_fft.png?raw=true)
 위에서부터 첫 번째: Original signal의 FFT 적용 결과 <br>
 두 번째: scipy 기반 band-stop filter와 FFT 적용 결과 세 번째: tensorflow 기반 band-stop filter와 FFT 적용 결과
 {:.figure}
@@ -221,7 +221,7 @@ Crop and upsample은 데이터를 특정 부분 자르고 업샘플링(upsamplin
 원래는 잘라내는 시작점을 랜덤으로 정하지만, 시각화를 위하여 t0 = 0으로 설정하고 전체 4초 데이터 중에서 앞에 2초를 잘라내고 업샘플링하였습니다.
 Original signal의 0 ~ 2 초(500 samples)가 crop and upsampling을 통해 1000 samples로 늘어난 것을 확인하실 수 있습니다.
 
-![Crop and upsample compairson all](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample_comparison_all.png?raw=true)
+![Crop and upsample compairson all](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/crop_upsample_comparison_all.png?raw=true)
 상: Original signal 0 ~ 4s 중: Original signal 0 ~ 2s 하: Crop and upsample을 적용한 transformed signal 0 ~ 4s
 {:.figure}
 <br>
@@ -256,7 +256,7 @@ DELAY는 신호를 upsampling하는 과정에서 아티팩트를 제거하기 �
 
 신호 데이터의 업샘플링(upsampling) 또는 오버샘플링(oversampling)은 보간법(interpolation) 알고리즘을 통해 데이터 샘플의 개수를 늘리는 것입니다.
 
-![Interpolation](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/interpolation.png?raw=true)
+![Interpolation](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/interpolation.png?raw=true)
 출처: https://kr.mathworks.com/help/signal/ref/interp.html
 {:.figure}
 <br>
@@ -265,7 +265,7 @@ DELAY는 신호를 upsampling하는 과정에서 아티팩트를 제거하기 �
 
 여기에서 `tfio.audio.resample`의 중요한 특징 중 하나로는 **return 값이 지연된 신호**라는 점입니다. 또한, 신호를 resample하는 과정에서 **아티팩트가 발생**할 수 있으므로, **DELAY 만큼 신호를 더 많이 복원하고 아티팩트를 제거**해주어야 깨끗한 신호를 얻을 수 있습니다. DELAY를 추가하지 않을 경우 신호를 제대로 복원하지 못할 수 있습니다.
 
-![tfio.audio.resample](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/tfio_resample.png?raw=true)
+![tfio.audio.resample](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/tfio_resample.png?raw=true)
 <br>
 
 상단의 그림은 Raw signal을 `tfio.audio.resample`만을 사용하여 2배로 업샘플링한 결과를 시각화한 것입니다. 0 ~ 0.13초 정도까지는 0으로 반환된 것을 확인하실 수 있습니다. 이러한 아티팩트가 발생하는 이유는 resample이 신호 경계를 벗어난 지점의 신호를 0이라고 가정하기 때문입니다. 자세한 설명은 Matlab의 [끝점 영향 제거하기](https://kr.mathworks.com/help/signal/ug/resampling-nonuniformly-sampled-signals.html)를 참고해주시길 바랍니다.
@@ -274,7 +274,7 @@ DELAY는 신호를 upsampling하는 과정에서 아티팩트를 제거하기 �
 
 Upsampling 단계에서는 신호의 앞부분을 제대로 복원하지 못하는 것을 감안하여 DELAY만큼 더 많이 upsamling 합니다. 
 
-![Transformed](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/eeg/2022-06-01-augmentation/crop_upsample.png?raw=true)
+![Transformed](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/eeg/2022-06-01-augmentation/crop_upsample.png?raw=true)
 <br>
 
 이로써, Tensorflow를 사용하여 데이터를 증강하는 7가지의 기법에 대해 알아보았습니다.

@@ -155,3 +155,10 @@ $$
          None, \enspace otherwise,
   \end{cases}
 $$
+
+
+<br>
+
+***
+
+<center>오류나 틀린 부분이 있을 경우 언제든지 댓글 혹은 메일로 지적해주시면 감사하겠습니다.</center>
