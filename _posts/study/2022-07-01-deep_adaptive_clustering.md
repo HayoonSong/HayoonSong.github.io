@@ -25,7 +25,7 @@ last_modified_at: '2022-07-06'
 
 Image clustering 문제를 Binary pairwise-classification 프레임워크로 전환하여 접근 
 
-![The flowchart of DAC](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-01-DAC/DAC_flowchart.PNG?raw=true)   
+![The flowchart of DAC](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-01-DAC/DAC_flowchart.PNG?raw=true)   
 The flowchart of Deep Adaptive Clustering
 {:.figure}
 
@@ -63,7 +63,7 @@ During each iteration, pairwise images with the estimated similarities are first
 
 먼저, pairwise 이미지 간의 관계를 이진법(binary)으로 가정합니다. 즉, 각 쌍의 이미지는 같은 클러스터에 속하거나 다른 클러스터에 속합니다. 이 가정을 기반으로 image clustering task를 binary pairwise-classifiation 모델로 변환합니다. 
 
-![The flowchart of DAC](https://github.com/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-01-DAC/DAC_flowchart.PNG?raw=true)   
+![The flowchart of DAC](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/blob/main/study/paper_review/2022-07-01-DAC/DAC_flowchart.PNG?raw=true)   
 The flowchart of DAC
 {:.figure}
 
