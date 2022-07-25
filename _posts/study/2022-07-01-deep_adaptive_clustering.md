@@ -10,7 +10,7 @@ categories:
 tags:
     - self-supervised-learning
 comments: true
-published: false
+published: true
 last_modified_at: '2022-07-06'
 ---
 
@@ -31,9 +31,9 @@ The flowchart of Deep Adaptive Clustering
 
 
 * Framework:
-  - Step 1. Generate label features: Input인 unlabeled images를 **ConvNet을 통해 label features로 변환**(즉, 이미지를 representation vectors로 변환)
+  - Step 1. Generate label features: Input인 unlabeled images를 **ConvNet을 통해 label features로 변환** (즉, 이미지를 representation vectors로 변환)
   - Step 2. Cacluate cosine similarities: Cosine distance로 label features 간의 **유사성 추정**
-  - Step 3. Select labeled samples: Cosine similarity를 기반으로 유사성이 모호한 데이터들은 제외하고, 값이 1인 것은 similar한 이미지 쌍으로, 값이 0인 것은 dissimilar한 이미지 쌍으로 여기며 training samples 선택
+  - Step 3. Select labeled samples: Cosine similarity를 기반으로 유사성이 모호한 데이터(상단의 그림에서 빨간 상자)는 제외하고, 값이 1인 것은 similar한 이미지 쌍으로, 값이 0인 것은 dissimilar한 이미지 쌍으로 여기며 training samples 선택
   - Step 4. Train the ConvNet: 선정된 training samples로 ConvNet 학습
 
 * Model:
@@ -102,7 +102,7 @@ Section 3.2 및 3.3에서 두 가지 문제의 해결방법에 대한 설명을 
 **유사도 $$g(x_i, x_j ;w)$$는 두 label features 간의 cosine distance**로 정의되었습니다. 또한, 이미지 클러스터링에 유용한 feature representation을 학습하기 위해 **label features에 clustering constraint를 추가**하였습니다.
 
 $$
-  \forall \, i, \, \lVert l_i \rVert_2 = 1, and l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}
+  \forall \, i, \, \lVert l_i \rVert_2 = 1, and \, l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}
 $$
 
 * $$l_i$$: 이미지 $$x_i$$의 k-dimensional label feature
@@ -119,7 +119,7 @@ i 개의 모든 이미지 데이터에서 각 label features의 L2 norm은 1이�
 $$g(x_i,x_j;w) = f(x_i;w) \cdot f(x_j;w) = l_i \cdot l_j, \tag{4}$$
 
 * $$f_w$$: 입력 이미지를 label features로 매핑해주는 mapping function
-* 연산자 $$\cdot$$ \,: 내적
+* 연산자 $$\cdot \,$$: 내적
 
 즉, 두 이미지간의 유사도 $$g(x_i, x_j ;w)$$는 label features 간의 내적으로 정의할 수 있습니다. 
 
@@ -131,31 +131,50 @@ $$cosine \, similarity := cos(\theta) = \frac{A \cdot B}{\lVert A \rVert \lVert 
 따라서 DAC 모델은 다음과 같이 재구성할 수 있습니다.
 
 $$
-  \begin{align}
-  \min\limits_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j), \tag{5} \\
+  \begin{gather}
+  \min\limits_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j), \\
+  \tag{5} \\
   s.t.   \forall \, i, \, \lVert l_i \rVert_2 = 1, and l_{ih} \geq 0, \, h = 1,\dots,k.
-  \end{align}
+  \end{gather}
 $$
-
-
-상단의 식에서 clustering constraint는 데이터 클러스터링의 흥미로운 특징을 제공합니다. $$\Bbb{E}^k$$를 k-차원 유클리드 공간(Euclidean space)의 표준 기반이라고 하면 다음 정리를 따릅니다.
-
-THEOREM 1. If the optimal value of upper equation is attained, for $$\; \forall i, \; j, \; l_i \in \Bbb{E}^k, \; l_i \not = l_j$$
-
-
 
 ### Labeled Training Samples Selection
 
-**
+***
+
+$$\sum_{i,j} L(r_{ij},g(x_i,x_j;w))$$에서 $$x_i$$와 $$x_j$$가 같은 클러스터 일 때 $$r_{ij} = 1$$로 $$x_i$$와 $$x_j$$가 다른 클러스터 일 때 $$r_{ij} = 0$$으로 나타내기로 하였습니다. 그러나 실제로는 $$r_{ij}$$의 값을 알 수 없습니다. 따라서 labeled training smaples을 선택하는 전략이 필요합니다. 특히 ConvNets의 경우 두 가지 관찰 결과가 있습니다. 
+1. 사전에 학습된 ConvNets은 이미지의 high-level features를 생성할 수 있습니다.
+2. 랜덤으로 초기화된 ConvNets은 **랜덤으로 초기화된 필터가 edge detectors와 같은 역할**을 하기 때문에 이미지의 low-level features도 포착할 수 있습니다.   
+따라서 All-ConvNets을 사용하여 $$f_w$$을 구현하고 생성된 labeled features를 기반으로 labeled training samples을 선택합니다.
 
 $$
   r_{ij} := \begin{cases}
          1, \enspace \text{if } l_i \cdot l_j \geq u(\lambda), \\
-         0, \enspace \text{if } l_i \cdot l_j \lt l(\lambda), \quad i, \; j=1, \dots, n, \\
+         0, \enspace \text{if } l_i \cdot l_j \lt l(\lambda), \quad i, \; j=1, \dots, n, \tag{6} \\
          None, \enspace otherwise,
   \end{cases}
 $$
 
+* $$\lambda$$: Training samples의 선택을 제어하기 위한 adaptive parameter
+* $$u(\lambda)$$: Similar labeled samples을 선택하기 위한 thresholds
+* $$l(\lambda)$$ Disimilar labeled samples을 선택하기 위한 thresholds
+* $$None$$: Sample $$(x_i, x_j, r_{ij})$$이 학습에서 생략되었음을 의미
+
+클러스터링 과정에서 samples이 점점 더 많이 선택되도록 파라미터 $$\lambda, u(\lambda), l(\lambda)$$를 조절하였습니다. 먼저, 대략적인 클러스터의 패턴을 찾기 위해 가능성이 높은 "쉬운" 샘플을 training samples로 선택합니다. 다음으로 클러스터링이 진행되면서 학습된 ALL-ConvNets을 사용하여 더 효과적인 label features를 추출할 수 있으며, 더 정교한 클러스터의 패턴을 찾기 위해 더 많은 샘플이 점점 더 추가됩니다. 구체적으로 $$\lambda$$는 클러스터링 과정에서 점차 증가하며, $$u(\lambda) \varpropto -\lambda, \, l(\lambda) \varpropto \lambda, l(\lambda) \le u(\lambda)$$가 영구적으로 충족됩니다. $$u(\lambda) = l(\lambda)$$는 만약 모든 샘플이 학습에서 사용되는 경우에만 충족됩니다.
+
+점진적으로 **샘플의 수를 증가**시키기 위해, $$l_i \cdot l_j \geq u(\lambda)$$에서 threshold $$u(\lambda)$$는 낮아져야 하며 $$l_i \cdot l_j \lt l(\lambda)$$에서 threshold $$l(\lambda)$$은 높아져야 합니다. 따라서, $$u(\lambda)$$는 $$\lambda$$와 반비례 관계가 되고 $$l(\lambda)$$은 $$\lambda$$와 비례 관계가 되며 $$l(\lambda) \le u(\lambda)$$가 영구적으로 충족됩니다.
+{:.faded}
+
+![Select labeled samples](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/paper_review/2022-07-01-DAC/select_labeled_samples.png?raw=true)   
+Step 3. Select labeled samples
+{:.figure}
+
+상단의 그림은 DAC의 흐름도에서 Step3. Select labeled samples 부분을 나타냅니다. 왼쪽 그림은 계산된 cosine similariries로 녹색 박스를 보시면 옅은 회색 또는 진한 회색으로 0~1 사이의 값인 것을 알 수 있습니다. 그러나, Eq.(6)번을 통해 $$u(\lambda)$$ 보다 큰 것은 1로, $$l(\lambda)$$보다 작은 것은 것은 0으로 바뀐 것을 오른쪽 그림에서 확인하실 수 있습니다. 빨간색 박스의 샘플들은 "otherwise"에 속하여 labeled training samples에서 제외되었습니다.
+
+지금까지 Section 3.1에서 2가지 문제를 다루었습니다. DAC 모델은 다음과 같이 작성할 수 있습니다.
+
+$$
+$$
 
 <br>
 
