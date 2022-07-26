@@ -9,7 +9,8 @@ categories:
     - study
 tags:
     - self-supervised-learning
-related_posts: _posts/study/2022-06-09-deep_embedded_clustering.md
+related_posts: 
+    - _posts/study/2022-06-09-deep_embedded_clustering.md
 comments: true
 published: true
 last_modified_at: '2022-07-06'

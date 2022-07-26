@@ -9,6 +9,8 @@ categories:
     - study
 tags:
     - deep-learning
+related_posts: 
+    - _posts/study/2022-07-06-L1_L2.md
 comments: true
 published: true
 last_modified_at: '2022-07-04'
