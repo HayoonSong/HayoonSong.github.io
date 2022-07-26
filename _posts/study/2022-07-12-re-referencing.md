@@ -9,6 +9,8 @@ categories:
     - study
 tags:
     - eeg
+related_posts:
+    - _posts/study/2021-03-05-understanding_eeg.md
 comments: true
 published: true
 last_modified_at: '2021-07-12'
