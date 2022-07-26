@@ -9,7 +9,7 @@ categories:
     - study
 tags:
     - self-supervised-learning
-related_posts:
+related-posts:
     - _posts/study/2022-06-09-deep_embedded_clustering.md
 comments: true
 published: true
@@ -91,9 +91,10 @@ $$
   L(r_{ij},g(x_i,x_j;w)) = -r_{ij}log(g(x_i,x_j;w)) - (1-r_{ij})log(1-g(x_i,x_j;w)). \tag{2}
 $$
 
-Binary Cross Entropy Loss와 동일한 구조입니다. 그러나 상단의 수식에는 두 가지 문제가 있다고 합니다.   
+Binary Cross Entropy Loss와 동일한 구조입니다. 그러나 상단의 수식에는 두 가지 문제가 있습니다.   
 1. 추정된 유사도 $$g(x_i, x_j ;w)$$만을 가지고 $$x_i$$와 $$x_j$$의 클러스터를 알 수 없음
-2. 이미지 클러스터링 과정에서 y 즉 $$r_{ij}$$를 알 수 없음   
+2. 이미지 클러스터링 과정에서 y 즉 $$r_{ij}$$를 알 수 없음    
+
 Section 3.2 및 3.3에서 두 가지 문제의 해결방법에 대한 설명을 이어가겠습니다.
 
 ### Label Fetures under Clustering Constraint
@@ -104,16 +105,16 @@ Section 3.2 및 3.3에서 두 가지 문제의 해결방법에 대한 설명을 
 **유사도 $$g(x_i, x_j ;w)$$는 두 label features 간의 cosine distance**로 정의되었습니다. 또한, 이미지 클러스터링에 유용한 feature representation을 학습하기 위해 **label features에 clustering constraint를 추가**하였습니다.
 
 $$
-  \forall \, i, \, \lVert l_i \rVert_2 = 1, and \, l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}
+  \forall \, i, \, \lVert l_i \rVert_2 = 1, and \; l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}
 $$
 
 * $$l_i$$: 이미지 $$x_i$$의 k-dimensional label feature
 * $$\lVert \cdot \rVert_2$$: L2-norm
 * $$l_{ih}$$: Label feature $$l_i$$의 h번째 요소
 
-즉 i 개의 모든 이미지 데이터가 있을 때, 각 **label features의 L2 norm이 1**이 되도록 제약을 둔 것입니다.   
+즉 i 개의 모든 이미지 데이터에서 각 **label features의 L2 norm이 1**이 되도록 제약을 둔 것입니다.   
 
-벡터의 L2 norm을 1로 만들려면 L2 normalization을 하면 됩니다. 따라서, 저는 이 제약을 L2 normalizaion 했다는 것으로 해석하였습니다. L2 norm을 하게 되면 $$\lVert l_i \rVert_2 = 1$$ 이 되면서 본 연구에서 도입한 clustering constraint를 따르게 됩니다. L2 normalization에 대한  설명은 이전 포스팅 [L1 and L2 Norm / Normalization / Regularization](https://hayoonsong.github.io/study/2022-07-05-L1_L2/)을 참고하시길 바랍니다. 머신러닝의 전처리에서 정규화(normalization)를 하는 것과 같이 L2 normalization은 데이터의 값을 scaling 하여 원활한 학습에 도움을 줍니다. 또한, 데이터의 값을 0 ~ 1 사이의 값으로 만들어줌으로써 두 label features 간의 내적도 1 이하의 값이 되고 그래야 식 (2)의 $$log(1-g(x_i,x_j;w))$$ 값도 0 ~ 1 사이의 값이 될 수 있습니다.   
+벡터의 L2 norm을 1로 만들려면 L2 normalization을 하면 됩니다. 따라서, 저는 이 제약을 L2 normalizaion 했다는 것으로 해석하였습니다. L2 norm을 하게 되면 $$\lVert l_i \rVert_2 = 1$$ 이 되면서 본 연구에서 도입한 clustering constraint를 따르게 됩니다. L2 normalization에 대한  설명은 이전 포스팅 [L1 and L2 Norm / Normalization / Regularization](https://hayoonsong.github.io/study/2022-07-05-L1_L2/)을 참고하시길 바랍니다. 머신러닝의 전처리에서 정규화(normalization)를 하는 것과 같이, L2 normalization은 데이터의 값을 scaling 하여 원활한 학습에 도움을 줍니다. 또한, 데이터의 값을 0 ~ 1 사이의 값으로 만들어줌으로써 $$l_i \cdot l_j <= 1 $$이 되고 그래야 식 (2)의 $$log(1-g(x_i,x_j;w))$$ 값도 0 ~ 1 사이의 값이 될 수 있습니다.   
 {:.faded}
 
 i 개의 모든 이미지 데이터에서 각 label features의 L2 norm은 1이므로($$\forall i, \, \lVert l_i \rVert_2 = 1$$), cosine similarity $$g(x_i, x_j ;w)$$는 다음과 같이 계산할 수 있습니다.
