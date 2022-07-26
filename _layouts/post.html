@@ -33,6 +33,8 @@ layout: base
   {% when 'about' %}
      {% include_cached components/about.html author=page.author %}
     {% include body/comments.html %}
+  {% when 'related' %}
+    {% include components/related-posts.html post=post %}
   {% else %}
   {% endcase %}
 {% endfor %}

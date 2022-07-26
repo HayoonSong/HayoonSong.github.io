@@ -9,8 +9,7 @@ categories:
     - study
 tags:
     - self-supervised-learning
-related-posts:
-    - _posts/study/2022-06-09-deep_embedded_clustering.md
+related_posts: _posts/study/2022-06-09-deep_embedded_clustering.md
 comments: true
 published: true
 last_modified_at: '2022-07-06'
@@ -105,7 +104,7 @@ Section 3.2 및 3.3에서 두 가지 문제의 해결방법에 대한 설명을 
 **유사도 $$g(x_i, x_j ;w)$$는 두 label features 간의 cosine distance**로 정의되었습니다. 또한, 이미지 클러스터링에 유용한 feature representation을 학습하기 위해 **label features에 clustering constraint를 추가**하였습니다.
 
 $$
-  \forall \, i, \, \lVert l_i \rVert_2 = 1, and \; l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}
+  \forall \, i, \, \lVert l_i \rVert_2 = 1, \text{and} \, l_{ih} \geq 0, \, h = 1,\dots,k, \tag{3}
 $$
 
 * $$l_i$$: 이미지 $$x_i$$의 k-dimensional label feature
@@ -137,7 +136,7 @@ $$
   \begin{gather}
   \min\limits_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j), \\
   \tag{5} \\
-  s.t.   \forall \, i, \, \lVert l_i \rVert_2 = 1, and l_{ih} \geq 0, \, h = 1,\dots,k.
+  s.t.   \forall \, i, \, \lVert l_i \rVert_2 = 1, \text{and} \, l_{ih} \geq 0, \, h = 1,\dots,k.
   \end{gather}
 $$
 
