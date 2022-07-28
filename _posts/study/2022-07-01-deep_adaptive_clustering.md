@@ -78,7 +78,7 @@ The flowchart of DAC
 DAC의 목적 함수(objective function)은 다음과 같이 정의됩니다.
 
 $$
-  \min_w E(w) = \sum_{i,j} L(r_{ij},g(x_i,x_j;w)), \tag{1}
+  \min_\text{w} E(\text{w}) = \sum_{i,j} L(r_{ij},g(x_i,x_j;\text{w})), \tag{1}
 $$
 
 * $$g(x_i,x_j;w)$$: 추정된 유사도(estimated similarity), 즉 모델이 학습하여 추론한 $$x_i$$와 $$x_j$$의 유사도
@@ -88,7 +88,7 @@ $$
 따라서 Loss는 다음과 같이 정의됩니다.
 
 $$
-  L(r_{ij},g(x_i,x_j;w)) = -r_{ij}log(g(x_i,x_j;w)) - (1-r_{ij})log(1-g(x_i,x_j;w)). \tag{2}
+  L(r_{ij},g(x_i,x_j;\text{w})) = -r_{ij}log(g(x_i,x_j;\text{w})) - (1-r_{ij})log(1-g(x_i,x_j;\text{w})). \tag{2}
 $$
 
 Binary Cross Entropy Loss와 동일한 구조입니다. 그러나 상단의 수식에는 두 가지 문제가 있습니다.   
@@ -119,9 +119,9 @@ $$
 
 i 개의 모든 이미지 데이터에서 각 label features의 L2 norm은 1이므로($$\forall i, \, \lVert l_i \rVert_2 = 1$$), cosine similarity $$g(x_i, x_j ;w)$$는 다음과 같이 계산할 수 있습니다.
 
-$$g(x_i,x_j;w) = f(x_i;w) \cdot f(x_j;w) = l_i \cdot l_j, \tag{4}$$
+$$g(x_i,x_j;\text{w}) = f(x_i;\text{w}) \cdot f(x_j;\text{w}) = l_i \cdot l_j, \tag{4}$$
 
-* $$f_w$$: 입력 이미지를 label features로 매핑해주는 mapping function
+* $$f_\text{w}$$: 입력 이미지를 label features로 매핑해주는 mapping function
 * 연산자 $$\cdot \,$$: 내적
 
 즉, 두 이미지간의 유사도 $$g(x_i, x_j ;w)$$는 label features 간의 내적으로 정의할 수 있습니다. 
@@ -134,27 +134,27 @@ $$cosine \, similarity := cos(\theta) = \frac{A \cdot B}{\lVert A \rVert \lVert 
 따라서 DAC 모델은 다음과 같이 재구성할 수 있습니다.
 
 $$
-  \begin{gather}
-  \min\limits_w E(w) = \sum_{i,j} L(r_{ij},l_i \cdot l_j), \\
+  \begin{align}
+  & \min\limits_\text{w} E(\text{w}) = \sum_{i,j} L(r_{ij},l_i \cdot l_j), \\
   \tag{5} \\
-  s.t.   \forall \, i, \, \lVert l_i \rVert_2 = 1, \text{and} \, l_{ih} \geq 0, \, h = 1,\dots,k.
-  \end{gather}
+  \ & s.t.   \forall \, i, \, \lVert l_i \rVert_2 = 1, \text{and} \, l_{ih} \geq 0, \, h = 1,\dots,k.
+  \end{align}
 $$
 
 ### Labeled Training Samples Selection
 
 ***
 
-$$\sum_{i,j} L(r_{ij},g(x_i,x_j;w))$$에서 $$x_i$$와 $$x_j$$가 같은 클러스터 일 때 $$r_{ij} = 1$$로 $$x_i$$와 $$x_j$$가 다른 클러스터 일 때 $$r_{ij} = 0$$으로 나타내기로 하였습니다. 그러나 실제로는 $$r_{ij}$$의 값을 알 수 없습니다. 따라서 labeled training smaples을 선택하는 전략이 필요합니다. 특히 ConvNets의 경우 두 가지 관찰 결과가 있습니다. 
+$$\sum_{i,j} L(r_{ij},g(x_i,x_j;\text{w}))$$에서 $$x_i$$와 $$x_j$$가 같은 클러스터 일 때 $$r_{ij} = 1$$로 $$x_i$$와 $$x_j$$가 다른 클러스터 일 때 $$r_{ij} = 0$$으로 나타내기로 하였습니다. 그러나 실제로는 $$r_{ij}$$의 값을 알 수 없습니다. 따라서 labeled training smaples을 선택하는 전략이 필요합니다. 특히 ConvNets의 경우 두 가지 관찰 결과가 있습니다. 
 1. 사전에 학습된 ConvNets은 이미지의 high-level features를 생성할 수 있습니다.
 2. 랜덤으로 초기화된 ConvNets은 **랜덤으로 초기화된 필터가 edge detectors와 같은 역할**을 하기 때문에 이미지의 low-level features도 포착할 수 있습니다.   
 따라서 All-ConvNets을 사용하여 $$f_w$$을 구현하고 생성된 labeled features를 기반으로 labeled training samples을 선택합니다.
 
 $$
   r_{ij} := \begin{cases}
-         1, \enspace \text{if } l_i \cdot l_j \geq u(\lambda), \\
-         0, \enspace \text{if } l_i \cdot l_j \lt l(\lambda), \quad i, \; j=1, \dots, n, \tag{6} \\
-         None, \enspace otherwise,
+  \enspace 1, \enspace \text{if } l_i \cdot l_j \geq u(\lambda), \\
+  \enspace 0, \enspace \text{if } l_i \cdot l_j \lt l(\lambda), \quad i, \; j=1, \dots, n, \tag{6} \\
+  \enspace \text{None}, \enspace \text{otherwise},
   \end{cases}
 $$
 
@@ -177,6 +177,27 @@ Step 3. Select labeled samples
 지금까지 Section 3.1에서 2가지 문제를 다루었습니다. DAC 모델은 다음과 같이 작성할 수 있습니다.
 
 $$
+  \begin{align}
+  & \min_{\text{w}, \lambda}E(\text{w}, \lambda) = \sum_{i,j}v_{ij}L(r_{ij}, l_i \cdot l_j) + u(\lambda) - l(\lambda), \\
+  \ & s.t. \, l(\lambda) \le u(\lambda), \\
+  \ & \qquad v_{ij} \in \{0, 1\}, \: i, \, j = 1, \dots, n, \\
+  \tag{7} \\
+  \ & \qquad \forall \, i, \, \lVert \, l_i \, \rVert_2 = 1, \text{and} \, l_{ih} \geq 0, \: h = 1, \dots, k, \\
+  \ & \qquad r_{ij} := \begin{cases}   
+  \enspace   1, \enspace \text{if } l_i \cdot l_j \geq u(\lambda), \\
+  \enspace   0, \enspace \text{if } l_i \cdot l_j \lt l(\lambda), \quad i, \; j=1, \dots, n, \\
+  \enspace   \text{None}, \enspace \text{otherwise},
+  \end{cases}
+  \end{align}
+$$
+
+
+$$
+v_{ij} := \begin{cases}   
+  \enspace   1, \enspace \text{if } r_{ij} \in \{0, 1\}, \\
+  & i, \, j = 1, \dots, n, \tag{8} \\
+  \enspace   0, \enspace \text{otherwise }, \\
+  \end{cases}
 $$
 
 <br>
