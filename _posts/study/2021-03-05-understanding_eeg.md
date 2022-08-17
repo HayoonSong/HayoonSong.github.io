@@ -2,7 +2,7 @@
 layout: post
 title: '[EEG] 뇌파의 이해'
 subtitle: EEG
-date: '2021-01-05'
+date: '2020-10-26'
 categories:
     - study
 tags:
@@ -10,7 +10,7 @@ tags:
 comments: true
 published: true
 
-last_modified_at: '2022-06-05'
+last_modified_at: '2020-10-26'
 ---
 
 뇌파(Electroencephalogram, EEG)에 대해 알아보고자 합니다.
