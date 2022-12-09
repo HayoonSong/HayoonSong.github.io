@@ -25,7 +25,7 @@ MNE에서 Re-referencing하는 방법을 알아보고자 합니다.
 
 ***
 
-MNE뿐만 아니라 EEGLAB을 포함하여 EEG 신호를 다룰 때 reference electrode을 바꾸는 re-referencing을 쉽게 만날 수 있습니다. Acitve electrode, reference electrode, ground electorde 간의 관계에 대한 설명은 이전 포스팅 [뇌파의 이해](https://cdn.jsdelivr.net/gh/hayoonsong.github.io/study/2021-01-05-understanding_eeg/)를 참고해주시길 바랍니다.
+MNE뿐만 아니라 EEGLAB을 포함하여 EEG 신호를 다룰 때 reference electrode을 바꾸는 re-referencing을 쉽게 만날 수 있습니다. Acitve electrode, reference electrode, ground electorde 간의 관계에 대한 설명은 이전 포스팅 [뇌파의 이해](https://hayoonsong.github.io/study/2020-10-26-understanding_eeg/)를 참고해주시길 바랍니다.
 
 Re-referecning이란 **기준 전극(reference electrode)를 다른 전극으로 재설정**하는 것을 말합니다. 
 
