@@ -47,9 +47,12 @@ last_modified_at: '2020-10-26'
 *   측정 전극(active eletrode, A)
 : 실제로 신경 활성이 일어난다고 추측되는 곳 근처에 붙이는 전극입니다.
 *   기준 전극(reference eletrode, R)
-: 어떠한 뇌의 활동 시그널도 감지하지 않는 위치에 붙이는 전극입니다.
+: 일반적으로 어떠한 뇌의 활동 시그널도 감지하지 않는 위치(e.g., 귀)에 부착하는 참조용 전극이며, 준비 전위(readiness potential, RP)연구에서는 주로 Cz를 사용합니다.
 *   접지 전극(ground electrode, G)
 : 모든 전위에 대하여 기준이 되는 전압을 의미하여, 측정 전극과 기준 전극 간의 정확한 전위차를 구하기 위해 필요합니다.
+
+*준비 전위: 사람이 어떤 의도적인 행동을 할 때 두뇌에서 특이하게 나타나는 전기적 신호의 변화
+{:.faded}
 
 최종 출력은 **(A-G) – (R-G) = A - R** 이며, A 및 R에 공통적인 모든 노이즈가 제거됩니다. 일반적으로 전극은 국제적 10-20 뇌파 체계에 따라 배치해야 합니다.
 
@@ -82,12 +85,12 @@ last_modified_at: '2020-10-26'
 
 ***
 
-[1] 은헌정(2019). 정신건강의학과 의사를 위한 뇌파의 기초. Journal of Korean Neuropsychiatric Association, 58(2), 76-104. [[Paper]](#https://jknpa.org/DOIx.php?id=10.4306/jknpa.2019.58.2.76)   
+[1] 은헌정(2019). 정신건강의학과 의사를 위한 뇌파의 기초. Journal of Korean Neuropsychiatric Association, 58(2), 76-104. [[Paper]](https://jknpa.org/DOIx.php?id=10.4306/jknpa.2019.58.2.76)   
 [2] 김도원 & 김명선(2017). 뇌파의 이해와 응용. 학지사   
-[3] 김도영, 이재호, 박문호, 최윤호, & 박윤옥. (2017). 뇌파신호 및 응용 기술 동향. [ETRI] 전자통신동향분석, 32(2), 0-0. [[Online]](#https://www.koreascience.or.kr/article/JAKO201752055796148.pdf) [Accessed 16 Jan. 2022].   
-[4] 한국보건산업진흥원(2017), 뇌 기능 향상 기술. [[Online]](#https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=20&no1=790&linkId=218521&refMenuId=MENU01524&menuId=MENU01521&maxIndex=00002187499998&minIndex=00002093419998&schType=0&schText=&boardStyle=&categoryId=&continent=&country=) [Accessed 07 Jan. 2022].     
-[5] 한국콘텐츠진흥원(2011), BCI(Brain Computer Interface) 기술 동향. [[Online]](#https://www.kocca.kr/cop/bbs/view/B0000144/1313379.do?statisMenuNo=200900) [Accessed 09 Jan. 2022].   
-[6] 파낙토스 [[Online]](#https://www.panaxtos.com/m_page.php?ps_pname=pro_eeg) [Accessed 09 Jan. 2022].   
+[3] 김도영, 이재호, 박문호, 최윤호, & 박윤옥. (2017). 뇌파신호 및 응용 기술 동향. [ETRI] 전자통신동향분석, 32(2), 0-0. [[Online]](https://www.koreascience.or.kr/article/JAKO201752055796148.pdf) [Accessed 16 Jan. 2022].   
+[4] 한국보건산업진흥원(2017), 뇌 기능 향상 기술. [[Online]](https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=20&no1=790&linkId=218521&refMenuId=MENU01524&menuId=MENU01521&maxIndex=00002187499998&minIndex=00002093419998&schType=0&schText=&boardStyle=&categoryId=&continent=&country=) [Accessed 07 Jan. 2022].     
+[5] 한국콘텐츠진흥원(2011), BCI(Brain Computer Interface) 기술 동향. [[Online]](https://www.kocca.kr/cop/bbs/view/B0000144/1313379.do?statisMenuNo=200900) [Accessed 09 Jan. 2022].   
+[6] 파낙토스 [[Online]](https://www.panaxtos.com/m_page.php?ps_pname=pro_eeg) [Accessed 09 Jan. 2022].   
 
 <br>
 <br>
