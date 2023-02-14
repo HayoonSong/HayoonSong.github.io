@@ -10,8 +10,6 @@ hide_image: false
 cover: true
 ---
 
-# About
-
 <center>
 <span style=
 "font-size:170%;
@@ -19,10 +17,6 @@ font-weight:bold">
 송하윤 (Hayoon Song)
 </span>
 </center>
-
-<center>MAJOR : Brain & Cognitive Engineering</center>
-
-<center>Korean University</center>
 
 ## Education
 ---
