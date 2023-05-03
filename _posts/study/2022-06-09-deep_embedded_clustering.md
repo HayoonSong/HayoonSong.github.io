@@ -44,7 +44,7 @@ feature representations과 clustering을 동시에 학습하기 위해 Deep Embe
 
 ## Introduction
 
-***dd
+***
 
 클러스터링(clustering)은 데이터 분석 및 시각화(visualization)에서 핵심적인 기법이며, unsupervised machine learning의 알고리즘으로써 널리 연구되었습니다. 클러스터링 알고리즘은 feature space에서 데이터를 표현하기 위해 distance(또는 dissimilarity)를 사용합니다. 대표적으로 k-means 클러스터링 알고리즘은 Euclidean distance를 사용하여 feature space의 point들 간의 거리를 측정합니다. 이처럼 distance는 클러스터링 알고리즘에서 중요한 역할을 합니다. 그러나 **feature space**의 선택 또한 중요합니다. 이미지 데이터의 경우 여러 픽셀이 모여 하나의 이미지를 나타내기 때문에, feature space를 단순하게 raw pixels의 벡터로 두고 Euclidian distance를 사용하여 픽셀 간 거리를 비교하는 것은 비효율적입니다.
 
