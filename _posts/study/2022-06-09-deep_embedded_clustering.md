@@ -72,7 +72,7 @@ Deep embedded clustering은 두 단계로 이루어져 있습니다.
     * 보조 타겟 분포(auxiliary target distribution)를 계산하고 Kullback-Leibler divergence를 최소화하는 것을 반복하여 최적화합니다.
 
 논문의 다음 순서는 "Clustering with KL divergence"이지만, 원활한 설명을 위하여 "Parameter initialization" 먼저 작성하겠습니다.
-{:.faded}
+{:.faded}  
 
 ### Parameter initialization
 
