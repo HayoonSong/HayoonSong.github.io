@@ -11,10 +11,11 @@ tags:
     - self-supervised-learning
 comments: true
 published: true
-last_modified_at: '2022-07-01'
+last_modified_at: '2023-05-03'
 ---
 
-본 논문은 2016년 PMLR에 실렸으며 feature representations과 cluster assignment를 동시에 학습하는 Deep Embedded Clustering(DEC)을 제안하였습니다.
+본 논문은 2016년 PMLR에 실렸으며 이미지 및 텍스트 분류에서,
+feature representations과 clustering을 동시에 학습하기 위해 Deep Embedded Clustering(DEC)을 제안하였습니다.
 
 * this unordered seed list will be replaced by the toc
 {:toc}
@@ -45,15 +46,9 @@ last_modified_at: '2022-07-01'
 
 ***
 
-클러스터링(clustering)은 데이터 분석 및 시각화(visualization)에서 핵심적인 기법으로, 각기 다른 관점에서 unsupervised machine learning으로 널리 연구되어 왔습니다.
+클러스터링(clustering)은 데이터 분석 및 시각화(visualization)에서 핵심적인 기법이며, unsupervised machine learning의 알고리즘으로써 널리 연구되었습니다. 클러스터링 알고리즘은 feature space에서 데이터를 표현하기 위해 distance(또는 dissimilarity)를 사용합니다. 대표적으로 k-means 클러스터링 알고리즘은 Euclidean distance를 사용하여 feature space의 point들 간의 거리를 측정합니다. 이처럼 distance는 클러스터링 알고리즘에서 중요한 역할을 합니다. 그러나 **feature space**의 선택 또한 중요합니다. 이미지 데이터의 경우 여러 픽셀이 모여 하나의 이미지를 나타내기 때문에, feature space를 단순하게 raw pixels의 벡터로 두고 Euclidian distance를 사용하여 픽셀 간 거리를 비교하는 것은 비효율적입니다.
 
-클러스터링 알고리즘에서 distance(또는 dissimilarity)는 feature space에서 데이터를 표현하는데 중요한 역할을 합니다. 예를 들어, k-means 클러스터링 알고리즘에서는 Euclidean distance를 사용하여 feature space의 point들 간의 거리를 측정합니다.
-
-또한, feature space를 선택하는 것도 중요합니다. 가장 간단한 이미지 데이터셋을 제외하고는, raw pixels에서 Euclidian distance를 사용하는 것은 비효율적입니다.
-
-결국 저자들은 다음과 같은 의문에 도달하였습니다. "데이터 기반 접근 방식으로 feature space와 cluster memberships를 동시에 해결할 수는 없을까?"
-
-본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)을 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 **clustering 및 feautre representation을 개선**하였습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였습니다. 또한 DEC는 hyperparameters 선택에 있어서도 훨씬 덜 민감했습니다.
+결국 저자들은 다음과 같은 의문에 도달하였습니다. "feature space의 학습과 clustering을 동시에 해결할 수는 없을까?" 본 연구에서는 현재의 soft cluster assignment에서 도출된 보조 타겟 분포(auxiliary target distribution)를 사용하여 clusters를 재정의하는 방법을 제안하였습니다. 이를 통해 **clustering 및 feautre representation을 개선**하였습니다. 이 실험은 이미지와 텍스트 데이터셋에서 정확도와 running time 모두 최신의 클러스터링 기법들보다 향상된 성능을 보였습니다. 또한 DEC는 hyperparameters 선택에 있어서도 훨씬 덜 민감했습니다.
 
 
 ### Contributions
@@ -69,9 +64,9 @@ last_modified_at: '2022-07-01'
 
 ***
 
-Data space X에서 바로 클러스터링 하지 않고, 먼저 non-linear mapping $$f_\theta$$로 data space X에 있는 data를 latent space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 알고리즘 DEC는 feature space Z에서 cluter center {$$\mu _j \in Z$$}$$_{j=1}^k$$를 학습하고, data를 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서 동시에 데이터를 클러스터링 하였습니다.
+먼저 non-linear mapping $$f_\theta$$를 사용하여 data space X에 있는 data를 latent feature space Z로 변환하였습니다. Z의 차원은 "curse of dimensionality"를 피하기 위해 X 보다 작아야 했습니다. 본 연구에서 제안하는 DEC 알고리즘은 data를 X에서 Z로 mapping하는 DNN의 파라미터 θ를 학습하면서, 동시에 feature space Z의 cluter center {$$\mu _j \in Z$$}$$_{j=1}^k$$를 학습하여 데이터 클러스터링 하였습니다.
 
-Deep embedded clustering는 두 단계로 이루어져 있습니다.    
+Deep embedded clustering은 두 단계로 이루어져 있습니다.    
 1. Parameter initialization with a deep autoencoder   
 2. Parameter optimization (i.e., clustering)   
     * 보조 타겟 분포(auxiliary target distribution)를 계산하고 Kullback-Leibler divergence를 최소화하는 것을 반복하여 최적화합니다.
