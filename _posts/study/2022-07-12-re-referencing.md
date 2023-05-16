@@ -65,7 +65,8 @@ $$
   \text{v_t8}   &= 0 - \text{v_fz} \\
                 &= - \text{(efield_fz - efield_t8)} \\
                 &= \text{efield_t8 - efield_fz} \\[1em]
-  \text{v_fz}   &= \text{v_fz - v_fz} = 0
+  \text{v_fz}   &= \text{v_fz - v_fz} \\
+                &= 0
 \end{split}
 $$
 
