@@ -13,7 +13,7 @@ related_posts:
     - _posts/study/2021-03-05-understanding_eeg.md
 comments: true
 published: true
-last_modified_at: '2022-12-26'
+last_modified_at: '2023-05-16'
 ---
 
 MNE에서 Re-referencing하는 방법을 알아보고자 합니다.
@@ -37,44 +37,40 @@ $$\begin{align}
 \end{align}$$
 
 EEG 측정이 끝나고 offline으로 referece 채널을 변경해야 하는 경우가 생길 수 있습니다. 
-이를 re-referencing이라고 하며, 모든 채널의 전압에서 바꾸고 싶은 reference의 전압을 빼주면 됩니다. 그러면 새로운 reference 채널은 0이 되며, 기존의 reference 채널은 다른 eeg channels과 동일하게 reference 채널의 efield에서 새로운 reference 채널의 efield를 뺀 값과 동일합니다.   
+이를 re-referencing이라고 하며, 모든 채널의 전압에서 바꾸고 싶은 reference의 전압을 빼주면 됩니다. 이를 통해 새로운 reference 채널은 0이 됩니다. 또한 기존의 reference 채널은 다른 eeg channel과 동일하게 reference 채널의 efield에서 새로운 reference 채널의 efield를 뺀 값이 됩니다.   
 
-$$
-\begin{split}
-  \text{v_chan_newref} &= \text{v_chan - v_newref} \\
-                       &= \text{efield_chan - efield_ref - (efield_newref - efield_ref)} \\ 
-                       &= \text{efield_chan - efield_newref} \\[1em]   
+$$\begin{align}
   \text{v_ref}         &= 0 - \text{v_newref} \\
                        &= - \text{(efield_newref - efield_ref)} \\
                        &= \text{efield_ref - efield_newref}
-  \text{v_newref}      &= \text{v_newref - v_newref} = 0 \\[1em]  
-\end{split}
-$$
+\end{align}$$
 
 구체적으로, EEG 측정 시 online reference 채널로 T8을 사용하였고 Fz로 re-referencing 한다고 가정하면 다음과 같습니다. 
 
-**Online reference**
+**Online reference**   
+
 $$\begin{align}
   \text{v_chan} = \text{efield_chan - efield_t8} \\
-  \text{v_t8} = \text{efield_t8 - efield_t8} = 0
+  \text{v_t8} = \text{efield_t8 - efield_t8} = 0 \\
+  \text{v_fz} = \text{efield_fz - efield_t8}
 \end{align}$$
 
-**Re-reference**
+**Re-reference**   
+
 $$
 \begin{split}
-  \text{v_chan_newref} &= \text{v_chan - v_fz} \\
-                       &= \text{efield_chan - efield_t8 - (efield_fz - efield_t8)} \\ 
-                       &= \text{efield_chan - efield_fz} \\[1em]    
-  \text{v_t8}          &= 0 - \text{v_fz} \\
-                       &= - \text{(efield_fz - efield_t8)} \\
-                       &= \text{efield_t8 - efield_fz}
-  \text{v_fz}          &= \text{v_fz - v_fz} = 0 \\[1em] 
+  \text{v_chan} &= \text{v_chan - v_fz} \\
+                &= \text{efield_chan - efield_t8 - (efield_fz - efield_t8)} \\ 
+                &= \text{efield_chan - efield_fz} \\[1em]
+  \text{v_t8}   &= 0 - \text{v_fz} \\
+                &= - \text{(efield_fz - efield_t8)} \\
+                &= \text{efield_t8 - efield_fz} \\[1em]
+  \text{v_fz}   &= \text{v_fz - v_fz} = 0
 \end{split}
 $$
 
 
-기존의 EEG 전압인 v_chan과 re-refencing을 적용한 v_chan_newref를 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한, 기존에 reference로 사용한 채널도 다시 사용할 수 있습니다.
-따라서 re-ferencing을 통해 **기존 채널들의 전압은 새로운 reference를 뺀 값**이 되고, **새로운 reference 전압은 0**이 됩니다.
+Online reference의 v_chan과 Re-reference의 v_chan을 비교해보면, 단순히 reference 채널만 달라진 것을 확인하실 수 있습니다. 또한 기존의 reference 채널인 T8도 다시 사용할 수 있습니다. 따라서 re-ferencing을 통해 **기존 채널들의 전압은 새로운 reference를 뺀 값**이 되고, **새로운 reference 전압은 0**이 됩니다.
 
 ## Re-referencing in MNE-Python
 
@@ -82,7 +78,7 @@ $$
 
 MNE를 활용하여 쉽게 re-referencing할 수 있습니다.
 
-예제로 사용할 EEG 데이터는 online reference로 T8이 사용되었으며, 31개의 채널로 1시간 동안 측정되었습니다. Re-referecning을 통해 reference electrode를 T8에서 Fz로 바꿔 보겠습니다. Raw 데이터는 다음과 같으며 시각화를 위해 4개의 채널(e.g., Fz, Cz, C3, C4)를 100초만 plot하였습니다.
+예제로 사용할 EEG 데이터는 online reference로 T8이 사용되었으며, 31개의 채널로 1시간 동안 측정되었습니다. Re-referecning을 통해 reference electrode를 T8에서 Fz로 바꿔 보겠습니다. Raw 데이터는 다음과 같으며 시각화를 위해 4개의 채널(e.g., Fz, Cz, C3, C4)를 100초만 plotting하였습니다.
 
 ~~~python
 # Original EEG signal
@@ -120,7 +116,7 @@ print(raw_newref.plot(start=100.0))
 EEG new reference with restoring the signal at T8.
 {:.figure}
 
-Re-referencing은 EEG 측정에서 reference electrode를 재설정하는 것으로, 수식을 통해 **신호 측정 후에도 기존 EEG 신호의 손상 없이 단순히 reference 채널을 변경**할 수 있다는 것을 확인하였습니다. 또한, MNE-Python으로 re-referencing하는 방법과 reference 채널을 복구하는 방법까지 알아보았습니다.  
+Re-referencing은 EEG data에서 reference electrode를 재설정하는 것으로, 수식을 통해 **신호 측정 후에도 단순히 reference 채널을 변경**할 수 있다는 것을 확인하였습니다. 또한, MNE-Python으로 re-referencing하는 방법과 reference 채널을 복구하는 방법까지 알아보았습니다.  
 
 ## References
 
