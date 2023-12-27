@@ -13,20 +13,17 @@ redirect_from:
 <span style=
 "font-size:170%;
 font-weight:bold">
-송하윤 (Hayoon Song)
+송하윤 (Ha-Yoon Song)
 </span>
 </center>
 
-<center>MAJOR : Brain & Cognitive Engineering</center>
-
-<center>Korean University</center>
-
 ## Education
 ---
-* Mar 2021 ~ Present   
+* Mar 2021 ~ Feb 2023   
 Korea University   
 Dept of Brain and Cognitive Engineering   
-Brain Lab
+Brain Lab.
+M.S.
 
 * Mar 2016 ~ Feb 2020   
 Catholic University   
