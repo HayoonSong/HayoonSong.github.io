@@ -17,12 +17,16 @@ font-weight:bold">
 </span>
 </center>
 
+## Work Experience
+---
+
+   
 ## Education
 ---
 * Mar 2021 ~ Feb 2023   
 Korea University   
 Dept of Brain and Cognitive Engineering   
-Brain Lab.
+Brain Lab.   
 M.S.
 
 * Mar 2016 ~ Feb 2020   
