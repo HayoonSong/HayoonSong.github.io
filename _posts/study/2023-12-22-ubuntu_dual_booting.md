@@ -54,32 +54,36 @@ Ubuntu 22.04.02 사용
    
 디스크 관리 도구는 왼쪽 하단의 윈도우 로고를 우클릭한 다음 디스크 관리를 클릭하여 접근할 수 있습니다.
    
-![PC Disk Mangement Process](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-1_disk_management.png?raw=true)
+![PC Disk Mangement Process](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-1_disk_management.png?raw=true){: width="550px" height="578px"}{:.centered}   
 윈도우의 디스크 관리 실행 과정
 {:.figure}
 
-![PC Disk Mangement](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-2_disk_management.JPG?raw=true)
+![PC Disk Mangement](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-2_disk_management.JPG?raw=true){: width="800px" height="627px"}{:.centered}   
 디스크 관리 실행
 {:.figure}
 
 `디스크 관리`를 열고, 우분투 설치를 위한 공간을 확보하고자 하는 파티션을 우클릭한 후 `볼륨 축소`를 선택합니다. 이 과정에서 중요한 데이터의 손실을 방지하기 위해, 반드시 백업을 진행해두는 것이 좋습니다.
 
-![Free Up Disk Spcae Process](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-3_disk_management.JPG?raw=true)
+![Free Up Disk Spcae Process](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-3_disk_management.JPG?raw=true){: width="800px" height="636px"}{:.centered}   
 디스크 관리 축소 과정
 {:.figure}
 
 이후 나타나는 창에서 `축소할 공간 입력`란에 우분투 설치를 위해 확보하고자 하는 용량을 입력합니다. 우분투를 설치하는데 필요한 하드 드라이브 공간은 **최소 25 GB(25,000 MB)**입니다. 
 
-![Ubuntu docs](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-4_ubuntu_doc.png?raw=true)
+![Ubuntu docs](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-4_ubuntu_doc.png?raw=true){: width="600px" height="456px"}{:.centered}  
 우분투 설치 최소 용량(Source: [Ubuntu](https://ubuntu.com/tutorials/install-ubuntu-desktop#1-overview))
 {:.figure}
 
 
-화면에는 단위가 메가바이트(MB)로 되어있지만 윈도우에서는 MiB의 i를 생략하여 MB로 나타내므로, **메비바이트(MiB) 단위**로 작성합니다. 1 GB = 0.931323 GiB 이므로, 최소 용량 25 GiB를 할당한다고 할 때 **25600 MiB를 입력**하면 됩니다. 예시에서는 노트북 용량이 충분하여 노트북의 디폴트 세팅인 약 278GiB(285467MiB)를 우분투 설치를 위해 할당했습니다. 
+화면에는 단위가 메가바이트(MB)로 되어있지만 윈도우에서는 MiB의 i를 생략하여 MB로 나타내므로, **메비바이트(MiB) 단위**로 작성합니다. 1 GB = 0.931323 GiB 이므로, 최소 용량 25 GiB를 할당한다고 할 때 **25600 MiB를 입력**하면 됩니다. 예시에서는 노트북 용량이 충분하여 노트북의 디폴트 세팅인 약 278.78GiB(285467MiB)를 우분투 설치를 위해 할당했습니다. 
 
-![Free Up Disk Spcae Process](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-5_disk_management.JPG?raw=true)
+[GiB to MiB](https://www.dataunitconverter.com/gibibyte-to-mebibyte)에서 Input Gibibyte(GiB)에 원하는 용량(GB)을 입력하면 MiB로 변환해줍니다.
+
+![Free Up Disk Spcae Process](https://cdn.jsdelivr.net/gh/HayoonSong/Images-for-Github-Pages/study/research/2023-12-22-ubuntu_dual_booting/2_partition_hard_disk/1-5_disk_management.JPG?raw=true){: width="800px" height="625px"}{:.centered}   
 디스크 관리 축소
 {:.figure}
+
+우분투 설치를 위한 공간이 성공적으로 확보되었습니다. 축소된 파티션은 '비할당' 상태로 표시될 것입니다. 우분투 설치 과정에서 이 비할당 공간을 새로운 파티션으로 설정하여 사용할 수 있게 됩니다.
 
 ## 부팅 순서 변경하기
 
