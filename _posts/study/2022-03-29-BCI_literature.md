@@ -1,7 +1,8 @@
 ---
 layout: post
-title: '[EEG] Brain computer interface (BCI) performance'
+title: '[EEG] MI-BCIs의 한계'
 description: >
+   Brain computer interface (BCI) performance
 subtitle: EEG
 date: '2022-03-29'
 categories:
