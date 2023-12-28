@@ -5,6 +5,6 @@ title: EEG
 slug: eeg
 category: study
 sidebar: true
-description: >
-   Study of the EEG
+# description: >
+#    Study of the EEG
 ---
