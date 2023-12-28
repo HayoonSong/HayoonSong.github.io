@@ -1,6 +1,7 @@
 ---
 layout: post
 title: '[EEG] Brain computer interface (BCI) performance'
+description: >
 subtitle: EEG
 date: '2022-03-29'
 categories:
@@ -9,9 +10,11 @@ tags:
     - eeg
 comments: true
 published: true
-
 last_modified_at: '2022-03-29'
 ---
+
+* this unordered seed list will be replaced by the toc
+{:toc}
 
 ## MI-BCIs의 한계
 
