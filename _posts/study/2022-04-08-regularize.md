@@ -1,13 +1,13 @@
 ---
 layout: post
-title: '[Research] 윈도우 환경에서 우분투 22.04 듀얼부팅 세팅하기'
+title: '[Deep learning] Validation의 accuracy와 loss 동시 증가'
 description: >
 subtitle: dropout
 date: '2022-03-05'
 categories:
     - study
 tags:
-    - dropout
+    - deep-learning
 comments: true
 published: true
 last_modified_at: '2022-04-08'
