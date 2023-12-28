@@ -5,6 +5,6 @@ title: Self-supervised learning
 slug: self-supervised-learning
 category: study
 sidebar: true
-# description: >
-#    Study of self-supervised learning
+description: >
+   Study of self-supervised learning
 ---
