@@ -1,8 +1,8 @@
 ---
 layout: post
-title: '[Research] 윈도우 11에서 우분투 22.04 듀얼 부팅하기'
+title: '[Research] 우분투 22.04 듀얼 부팅하기'
 description: >
-  윈도우 환경에서 우분투 22.04를 듀얼 부팅으로 세팅하는 방법을 소개합니다.
+  우분투 22.04를 듀얼 부팅으로 세팅하는 방법을 소개합니다.
 subtitle: Dual Booting Ubuntu 22.04 with Windows 11
 date: '2023-12-22'
 categories:
@@ -100,8 +100,14 @@ Ubuntu 22.04.02 사용
 ***
 
 [1] DARK TORNADO, 디스크 파티션 분할하기. [[Online]](https://darktornado.github.io/blog/disk-partition/)   
-[1] 감성코딩, 윈도우10, 우분투 18.04 듀얼부팅 설정. [[Online]](https://tlo-developer.tistory.com/96)   
-
+[2] 감성코딩, 윈도우10, 우분투 18.04 듀얼부팅 설정. [[Online]](https://tlo-developer.tistory.com/96)   
+https://m.blog.naver.com/dt3141592/222942058862   
+https://velog.io/@whattsup_kim/Linux-%EC%9C%88%EB%8F%84%EC%9A%B0-%EB%A6%AC%EB%88%85%EC%8A%A4%EC%9A%B0%EB%B6%84%ED%88%AC-%EB%93%80%EC%96%BC%EB%B6%80%ED%8C%85-%EC%84%B8%ED%8C%85%ED%95%98%EA%B8%B0   
+https://blog.naver.com/zoo5252/120165940445   
+https://ufris.tistory.com/45    
+https://inpages.tistory.com/92   
+https://github.com/tensorflow/models/tree/master/official/projects/bigbird   
+https://engpro.tistory.com/430   
 
 <br>
 
